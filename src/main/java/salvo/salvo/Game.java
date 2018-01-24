@@ -16,37 +16,28 @@ public class Game {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
-    private String creationDate;
+    private Date creationDate;
 
+    public Game() {}
 
-
-
-    public Game(String date) {
+    public Game(Date date) {
         this.creationDate = date;
-
-    }
-
-    public void creationCurrentDate(){
-
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-    String date = sdf.format(new Date());
-
     }
 
     public long getId() {
         return id;
     }
 
-//    public StringBuffer getCreationDate() {
-//        return creationDate;
-//    }
-//
-//    public void setCreationDate(StringBuffer date) {
-//        this.creationDate = date;
-//    }
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date date) {
+        this.creationDate = date;
+    }
 
 //    public String toString() {
-//        return "" ;
+//        return "" + creationDate ;
 //    }
 
 }
