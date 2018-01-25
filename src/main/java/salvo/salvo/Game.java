@@ -1,13 +1,13 @@
 package salvo.salvo;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
@@ -15,8 +15,11 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long id;
+    private long game_id;
     private Date creationDate;
+
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
+    Set<GamePlayer> GamePlayers;
 
     public Game() {}
 
@@ -24,10 +27,11 @@ public class Game {
         this.creationDate = date;
     }
 
-    public long getId() {
-        return id;
-    }
 
+    public long getId() {
+        return game_id;
+    }
+    @JsonIgnore
     public Date getCreationDate() {
         return creationDate;
     }
@@ -35,6 +39,11 @@ public class Game {
     public void setCreationDate(Date date) {
         this.creationDate = date;
     }
+
+//    public void addGamePlayer(GamePlayer gamePlayer) {
+//        gamePlayer.setGames(this);
+//        GamePlayers.add(gamePlayer);
+//    }
 
 //    public String toString() {
 //        return "" + creationDate ;
