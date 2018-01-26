@@ -29,17 +29,21 @@ public class GamePlayer {
         this.player = player;
         this.game = game;
         this.joinDate = joinDate;
-
     }
+
+    public long getId() {
+        return id;
+    }
+
     public Player getPlayers() {
         return player;
     }
 
     public void setPlayers(Player player) {
-        this.player = player;
+        this.player= player;
     }
 
-//    @JsonIgnore
+    @JsonIgnore
     public Game getGames() {
         return game;
     }
@@ -47,6 +51,7 @@ public class GamePlayer {
         this.game = game;
     }
 
+    @JsonIgnore
     public Date getJoinDates() {
         return joinDate;
     }

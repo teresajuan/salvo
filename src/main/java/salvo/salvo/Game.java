@@ -27,11 +27,10 @@ public class Game {
         this.creationDate = date;
     }
 
-
     public long getId() {
         return game_id;
     }
-    @JsonIgnore
+//    @JsonIgnore
     public Date getCreationDate() {
         return creationDate;
     }
@@ -40,7 +39,11 @@ public class Game {
         this.creationDate = date;
     }
 
-//    public void addGamePlayer(GamePlayer gamePlayer) {
+    public Set<GamePlayer> getGamePlayers() {
+        return GamePlayers;
+    }
+
+    //    public void addGamePlayer(GamePlayer gamePlayer) {
 //        gamePlayer.setGames(this);
 //        GamePlayers.add(gamePlayer);
 //    }
