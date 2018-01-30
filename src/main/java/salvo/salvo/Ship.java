@@ -2,6 +2,7 @@ package salvo.salvo;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -23,10 +24,10 @@ public class Ship {
 
     public Ship(){}
 
-    public Ship (String shipType, GamePlayer gamePlayer) {
+    public Ship (String shipType, List<String> shipLoc) {
 
         this.shipType = shipType;
-        this.gamePlayer = gamePlayer;
+        this.shipLoc = shipLoc;
     }
 
     public long getId() {
@@ -49,4 +50,11 @@ public class Ship {
         this.gamePlayer = gamePlayer;
     }
 
+    public List<String> getShipLoc() {
+        return shipLoc;
+    }
+
+    public void setShipLoc(List<String> shipLoc) {
+        this.shipLoc = shipLoc;
+    }
 }

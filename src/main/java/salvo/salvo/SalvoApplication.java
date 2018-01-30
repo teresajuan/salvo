@@ -6,7 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootApplication
 public class SalvoApplication {
@@ -16,7 +19,7 @@ public class SalvoApplication {
 
 	}
 	@Bean
-	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository) {
+	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository) {
 		return (args) -> {
 			// save a couple of customers
 
@@ -82,6 +85,42 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gp12);
 			gamePlayerRepository.save(gp13);
 
+			List<String> shipLoc1 = new ArrayList<>();
+			shipLoc1.add(0, "H2");
+			shipLoc1.add(1, "H3");
+			shipLoc1.add(2, "H4");
+			List<String> shipLoc2 = new ArrayList<>();
+			shipLoc2.add(0, "E1");
+			shipLoc2.add(1, "F1");
+			shipLoc2.add(2, "G1");
+			List<String> shipLoc3 = new ArrayList<>();
+			shipLoc3.add(0, "B4");
+			shipLoc3.add(1, "B5");
+
+			Ship sh1 = new Ship("Destroyer", shipLoc1);
+			Ship sh2 = new Ship("Submarine", shipLoc2);
+			Ship sh3 = new Ship("Patrol Boat", shipLoc3);
+
+
+			shipRepository.save(sh1);
+			shipRepository.save(sh2);
+			shipRepository.save(sh3);
+
+			gp1.addShips(sh1);
+			gp1.addShips(sh2);
+			gp1.addShips(sh3);
+			gp2.addShips(sh1);
+			gp2.addShips(sh3);
+			gp3.addShips(sh1);
+			gp3.addShips(sh3);
+			gp4.addShips(sh2);
+			gp4.addShips(sh3);
+
+
+			gamePlayerRepository.save(gp1);
+			gamePlayerRepository.save(gp2);
+			gamePlayerRepository.save(gp3);
+			gamePlayerRepository.save(gp4);
 
 		};
 
