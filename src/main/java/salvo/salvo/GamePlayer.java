@@ -18,6 +18,7 @@ public class GamePlayer {
     @JoinColumn(name="player_id")
     private Player player;
 
+
     @ManyToOne
     @JoinColumn(name="game_id")
     private Game game;
@@ -43,7 +44,7 @@ public class GamePlayer {
         this.player= player;
     }
 
-    @JsonIgnore
+//    @JsonIgnore
     public Game getGames() {
         return game;
     }

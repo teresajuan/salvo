@@ -8,12 +8,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping
 public class SalvoController {
     @Autowired
     private GameRepository repoGames;
 
-    @RequestMapping("/games")
+    @RequestMapping("api/games")
     public ArrayList<Map<String, Object>> gamesList() {
 
         ArrayList<Map<String, Object>> gameList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class SalvoController {
         Map<String, Object> dto = new HashMap<>();
 
         dto.put("id", player.getId());
-        dto.put("username", player.getPlayer());
+        dto.put("email", player.getPlayer());
 
         return dto;
     }

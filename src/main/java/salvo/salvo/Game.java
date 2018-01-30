@@ -18,6 +18,7 @@ public class Game {
     private long game_id;
     private Date creationDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     Set<GamePlayer> GamePlayers;
 
@@ -30,7 +31,7 @@ public class Game {
     public long getId() {
         return game_id;
     }
-//    @JsonIgnore
+
     public Date getCreationDate() {
         return creationDate;
     }
