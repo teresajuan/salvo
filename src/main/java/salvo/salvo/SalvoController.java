@@ -1,6 +1,7 @@
 package salvo.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 public class SalvoController {
     @Autowired
     private GameRepository repoGames;
+
 
     @RequestMapping("api/games")
     public ArrayList<Map<String, Object>> gamesList() {
@@ -53,6 +55,30 @@ public class SalvoController {
         return dto;
     }
 
+    @Autowired
+    private GamePlayerRepository repoGamePlayer;
 
+    @RequestMapping("api/game_view/{player_Id}")
+    public List<Map <String, Object>> gameView (@PathVariable Long player_Id) {
+
+        ArrayList<Map<String, Object>> gameView = new ArrayList<Map<String, Object>>();
+        List<GamePlayer> listGamePlayers = repoGamePlayer.findAll();
+
+        for (int i = 0; i<listGamePlayers.size(); i++){
+            Map<String, Object> eachGameView = new HashMap<>();
+            if (listGamePlayers.get(i).getPlayers().getId() == player_Id) {
+
+                eachGameView.put("id", listGamePlayers.get(i).getGames().getId());
+                eachGameView.put("creation", listGamePlayers.get(i).getGames().getCreationDate());
+                eachGameView.put("gamePlayer", listGamePlayers.get(i).getGames().getGamePlayers().stream()
+                                                                                                .map(gamePlayer -> makeGamePlayerDTO(gamePlayer))
+                                                                                                .collect(Collectors.toList()));
+
+                gameView.add(eachGameView);
+            }
+        }
+
+        return gameView;
+    }
 
 }
