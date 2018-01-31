@@ -4,9 +4,7 @@ package salvo.salvo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class GamePlayer {
@@ -35,6 +33,7 @@ public class GamePlayer {
         this.player = player;
         this.game = game;
         this.joinDate = joinDate;
+
     }
 
     public long getId() {
@@ -49,7 +48,7 @@ public class GamePlayer {
         this.player= player;
     }
 
-//    @JsonIgnore
+    @JsonIgnore
     public Game getGames() {
         return game;
     }
@@ -70,7 +69,7 @@ public class GamePlayer {
         return ships;
     }
     public void addShips (Ship ship) {
-        this.ships.add(ship);
         ship.setGamePlayer(this);
+        ships.add(ship);
     }
 }

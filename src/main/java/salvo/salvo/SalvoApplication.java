@@ -100,21 +100,23 @@ public class SalvoApplication {
 			Ship sh1 = new Ship("Destroyer", shipLoc1);
 			Ship sh2 = new Ship("Submarine", shipLoc2);
 			Ship sh3 = new Ship("Patrol Boat", shipLoc3);
+			Ship sh4 = new Ship("Destroyer", shipLoc1);
+			Ship sh5 = new Ship("Submarine", shipLoc2);
+			Ship sh6 = new Ship("Patrol Boat", shipLoc3);
+			Ship sh7 = new Ship("Destroyer", shipLoc1);
+			Ship sh8 = new Ship("Patrol Boat", shipLoc3);
+			Ship sh9 = new Ship("Patrol Boat", shipLoc3);
 
-
-			shipRepository.save(sh1);
-			shipRepository.save(sh2);
-			shipRepository.save(sh3);
 
 			gp1.addShips(sh1);
 			gp1.addShips(sh2);
 			gp1.addShips(sh3);
-			gp2.addShips(sh1);
-			gp2.addShips(sh3);
-			gp3.addShips(sh1);
-			gp3.addShips(sh3);
-			gp4.addShips(sh2);
-			gp4.addShips(sh3);
+			gp2.addShips(sh4);
+			gp2.addShips(sh6);
+			gp3.addShips(sh7);
+			gp3.addShips(sh8);
+			gp4.addShips(sh5);
+			gp4.addShips(sh9);
 
 
 			gamePlayerRepository.save(gp1);
@@ -122,9 +124,19 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gp3);
 			gamePlayerRepository.save(gp4);
 
+
+			shipRepository.save(sh1);
+			shipRepository.save(sh2);
+			shipRepository.save(sh3);
+			shipRepository.save(sh4);
+			shipRepository.save(sh5);
+			shipRepository.save(sh6);
+			shipRepository.save(sh7);
+			shipRepository.save(sh8);
+			shipRepository.save(sh9);
+
 		};
 
 	}
-
 
 }

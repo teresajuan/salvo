@@ -58,27 +58,40 @@ public class SalvoController {
     @Autowired
     private GamePlayerRepository repoGamePlayer;
 
-    @RequestMapping("api/game_view/{player_Id}")
-    public List<Map <String, Object>> gameView (@PathVariable Long player_Id) {
+    @RequestMapping("api/game_view/{gamePlayer_Id}")
+    public Map <String, Object> gameView (@PathVariable Long gamePlayer_Id) {
 
-        ArrayList<Map<String, Object>> gameView = new ArrayList<Map<String, Object>>();
-        List<GamePlayer> listGamePlayers = repoGamePlayer.findAll();
+        GamePlayer listGamePlayers = repoGamePlayer.findOne(gamePlayer_Id);
 
-        for (int i = 0; i<listGamePlayers.size(); i++){
-            Map<String, Object> eachGameView = new HashMap<>();
-            if (listGamePlayers.get(i).getPlayers().getId() == player_Id) {
+        Map<String, Object> eachGameView = new HashMap<>();
 
-                eachGameView.put("id", listGamePlayers.get(i).getGames().getId());
-                eachGameView.put("creation", listGamePlayers.get(i).getGames().getCreationDate());
-                eachGameView.put("gamePlayer", listGamePlayers.get(i).getGames().getGamePlayers().stream()
-                                                                                                .map(gamePlayer -> makeGamePlayerDTO(gamePlayer))
-                                                                                                .collect(Collectors.toList()));
+        eachGameView.put("id", listGamePlayers.getGames().getId());
+        eachGameView.put("creation", listGamePlayers.getGames().getCreationDate());
+        eachGameView.put("gamePlayer", listGamePlayers.getGames().getGamePlayers().stream()
+                .map(gamePlayer -> makeGamePlayerDTO(gamePlayer))
+                .collect(Collectors.toList()));
+        eachGameView.put("ships", listGamePlayers.getShips().stream()
+                                                            .map(ship -> makeShipDTO(ship))
+                                                            .collect(Collectors.toList())
+        );
 
-                gameView.add(eachGameView);
-            }
-        }
-
-        return gameView;
+        return eachGameView;
     }
+
+    public Map<String, Object> makeShipDTO (Ship ship) {
+        Map<String, Object> dto = new HashMap<>();
+
+        dto.put("type", ship.getShipType());
+        dto.put("locations", ship.getShipLoc());
+        return dto;
+    }
+
+//    public Map<String, Object> makeShipLocDTO (Ship ship) {
+//        Map<String, Object> dto = new HashMap<>();
+//
+//        dto.put("locations", ship.getShipLoc());
+//
+//        return dto;
+//    }
 
 }

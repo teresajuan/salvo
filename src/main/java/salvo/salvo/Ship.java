@@ -57,4 +57,5 @@ public class Ship {
     public void setShipLoc(List<String> shipLoc) {
         this.shipLoc = shipLoc;
     }
+
 }
