@@ -107,7 +107,6 @@ public class SalvoApplication {
 			Ship sh8 = new Ship("Patrol Boat", shipLoc3);
 			Ship sh9 = new Ship("Patrol Boat", shipLoc3);
 
-
 			gp1.addShips(sh1);
 			gp1.addShips(sh2);
 			gp1.addShips(sh3);

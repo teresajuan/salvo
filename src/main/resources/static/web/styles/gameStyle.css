@@ -2,3 +2,37 @@
 .listStyle1 {
     list-style: lower-roman;
 }
+
+/*Estilo grid*/
+table {
+    width: 35rem;
+    height: 35rem;
+    border: solid 0.2rem gray;
+    border-collapse: collapse;
+}
+
+thead tr {
+    border-bottom: solid 0.2rem gray;
+
+}
+thead th {
+    border-left: solid 0.1rem lightgray;
+}
+
+td {
+     border-bottom: solid 0.1rem lightgray;
+}
+
+.letters {
+    border-right: solid 0.2rem gray;
+}
+.column {
+    border-right: solid 0.1rem lightgray;
+}
+
+th, td {
+    width: 3rem;
+    height: 3rem;
+    text-align: center;
+}
+
