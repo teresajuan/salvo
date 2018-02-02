@@ -3,6 +3,8 @@
 $.getJSON(relatedUrl("gp"), function(json) {
     var data = json;
     console.log(data);
+    printGrid();
+    printShips(data);
 
 });
 
@@ -17,10 +19,11 @@ function getParameterByName(name) {
 function relatedUrl (locationData) {
 
     return "http://localhost:8080/api/game_view/" + getParameterByName(locationData);
-
 }
 
 /*creacion del grid*/
+
+function printGrid(){
 
     var columnsTitle = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     var rowsTitle = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -46,32 +49,51 @@ function relatedUrl (locationData) {
 
             row += '<tr>' +
                 '<td class="letters">' + rowsTitle1 + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td class="column">' + emptyCell + '</td>' +
-                '<td>' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[1] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[2] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[3] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[4] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[5] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[6] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[7] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[8] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[9] + " " + 'class="column">' + emptyCell + '</td>' +
+                '<td id=' + rowsTitle1 + columnsTitle[10] + " " + 'class="column">' + emptyCell + '</td>' +
                 '</tr>';
         }
 
         $("#salvoTBody").html(row);
 
-
     }
 
     printGamePlayerGrid1.append(tableHead);
+}
+
+function printShips (data) {
+
+    var ships = data.ships;
+
+    for (var j = 0; j<ships.length; j++) {
+
+        var shipsLoc = ships[j].locations;
+
+        for (var i = 0; i<shipsLoc.length; i++) {
+
+            var shipsLocations = shipsLoc[i];
+
+            $('td').each(function(){
+                var cellId = $(this).attr('id');
+                if(cellId === shipsLocations){
+                    $(this).css('background-color', 'blue');
+                }
+            })
+
+        }
+
+    }
 
 
-
-
-
-
-
+}
 
 
 

@@ -35,4 +35,7 @@ th, td {
     height: 3rem;
     text-align: center;
 }
+.colorCell {
+    background-color: darkgoldenrod;
+}
 
