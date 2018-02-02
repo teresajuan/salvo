@@ -35,7 +35,21 @@ th, td {
     height: 3rem;
     text-align: center;
 }
-.colorCell {
-    background-color: darkgoldenrod;
+
+h1, h2 {
+    margin-bottom: 0;
+    margin-top: 0;
 }
+
+p {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-weight: normal;
+}
+
+.vs {
+    font-size: 3rem;
+}
+
 

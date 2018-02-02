@@ -5,7 +5,7 @@ $.getJSON(relatedUrl("gp"), function(json) {
     console.log(data);
     printGrid();
     printShips(data);
-
+    usersTitle(data);
 });
 
 /*funciones para devolver el api correspondiente en función del gp seleccionado*/
@@ -84,15 +84,29 @@ function printShips (data) {
             $('td').each(function(){
                 var cellId = $(this).attr('id');
                 if(cellId === shipsLocations){
-                    $(this).css('background-color', 'blue');
+                    $(this).css('background-color', 'darkgoldenrod');
                 }
             })
 
         }
 
     }
+}
 
+function usersTitle(data) {
 
+    for (var i = 0; i < data.gamePlayer.length; i++) {
+
+        var gpId = data.gamePlayer[i].id;
+        var emailUser = data.gamePlayer[i].player.email;
+        var gpIdUrl = getParameterByName('gp');
+
+        if (gpId == gpIdUrl) {
+            $('#userViewer').html(emailUser);
+        } else {
+            $('#userPlayer').html(emailUser);
+        }
+    }
 }
 
 
