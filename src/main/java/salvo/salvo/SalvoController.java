@@ -86,12 +86,4 @@ public class SalvoController {
         return dto;
     }
 
-//    public Map<String, Object> makeShipLocDTO (Ship ship) {
-//        Map<String, Object> dto = new HashMap<>();
-//
-//        dto.put("locations", ship.getShipLoc());
-//
-//        return dto;
-//    }
-
 }

@@ -84,7 +84,7 @@ function printShips (data) {
             $('td').each(function(){
                 var cellId = $(this).attr('id');
                 if(cellId === shipsLocations){
-                    $(this).css('background-color', 'darkgoldenrod');
+                    $(this).css('background-color', 'palegreen');
                 }
             })
 
