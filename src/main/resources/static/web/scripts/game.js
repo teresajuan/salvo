@@ -3,8 +3,10 @@
 $.getJSON(relatedUrl("gp"), function(json) {
     var data = json;
     console.log(data);
-    printGrid();
+    printGrid("salvoTHead1", "#salvoTBody1");
+    printGrid("salvoTHead2", "#salvoTBody2");
     printShips(data);
+    printSalvos(data);
     usersTitle(data);
 });
 
@@ -23,11 +25,11 @@ function relatedUrl (locationData) {
 
 /*creacion del grid*/
 
-function printGrid(){
+function printGrid(elementTHead, elementTBody){
 
     var columnsTitle = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     var rowsTitle = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-    var printGamePlayerGrid1 = document.getElementById('salvoTHead');
+    var printGamePlayerGrid1 = document.getElementById(elementTHead);
 
     var tableHead = document.createElement('tr');
 
@@ -43,25 +45,30 @@ function printGrid(){
         tableHead.append(rowTitle2);
 
         var row = "";
+
         for(var j = 0; j<rowsTitle.length; j++) {
             var rowsTitle1 = rowsTitle[j];
             var emptyCell = "";
 
+            row += "<tr>" + '<td class="letters">' + rowsTitle1 + '</td>';
 
-            row += '<tr>' + '<td class="letters">' + rowsTitle1 + '</td>' +
-                for(var k=1; k<rowsTitle.length; k++){
-                var emptyRow = "";
+            for (var k = 0; k < rowsTitle.length; k++) {
+                var idCells = rowsTitle[j] + columnsTitle[k+1];
 
-                emptyRow += '<td id=' + rowsTitle1[k] + " " + 'class="column">' + emptyCell + '</td>'
-                } + '</tr>';
+                row += '<td id=' + idCells + " " + 'class="column">' + emptyCell + '</td>';
+            }
+            row += "</tr>";
         }
 
-        $("#salvoTBody").html(row);
+
+        $(elementTBody).html(row);
 
     }
 
     printGamePlayerGrid1.append(tableHead);
 }
+
+//función para printar los barcos
 
 function printShips (data) {
 
@@ -75,7 +82,7 @@ function printShips (data) {
 
             var shipsLocations = shipsLoc[i];
 
-            $('td').each(function(){
+            $(".table1 td").each(function(){
                 var cellId = $(this).attr('id');
                 if(cellId === shipsLocations){
                     $(this).css('background-color', 'palegreen');
@@ -84,6 +91,49 @@ function printShips (data) {
 
         }
 
+    }
+}
+
+//Función para printar los salvos
+
+function printSalvos (data) {
+    for (var i = 0; i < data.gamePlayer.length; i++) {
+
+        var gpId = data.gamePlayer[i].id;
+        var idUser = data.gamePlayer[i].player.id;
+        var gpIdUrl = getParameterByName('gp');
+        var salvos = data.salvoes[i];
+        var salvosPlayers = Object.keys(salvos);
+
+        if (gpId == gpIdUrl) {
+
+            if (idUser == salvosPlayers) {
+
+                var turn = salvos[salvosPlayers];
+
+                for (var j = 0; j<turn.length; j++){
+
+                    var turns = turn[j];
+                    var turnsNumber = Object.keys(turns);
+                    var valueTurn = turns[turnsNumber];
+
+                    for (var k=0; k<valueTurn.length; k++) {
+                        var valueTurnPosition = valueTurn[k];
+
+                        $(".table2 td").each(function(){
+                            var cellId = $(this).attr('id');
+                            if(cellId === valueTurnPosition){
+                                $(this).css('background-color', 'mediumturquoise');
+                                $(this).html(turnsNumber);
+
+                            }
+                        })
+                    }
+
+                }
+
+            }
+        }
     }
 }
 

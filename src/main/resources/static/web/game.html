@@ -8,17 +8,28 @@
 </head>
 <body>
     <div id="container">
-        <h1>Ship locations</h1>
+        <h1>Your game info</h1>
         <h2>
             <p id="userViewer"></p>
             <p class="vs"> vs </p>
             <p id="userPlayer"></p>
         </h2>
-        <table>
-            <thead id="salvoTHead"></thead>
-            <tbody id="salvoTBody"></tbody>
-
-        </table>
+        <div class="tables">
+            <div class="table1">
+                <h3>Ship locations</h3>
+                <table id="shipsTable">
+                    <thead id="salvoTHead1"></thead>
+                    <tbody id="salvoTBody1"></tbody>
+                </table>
+            </div>
+            <div class="table2">
+                <h3 class=""titleTable2>Salvo locations</h3>
+                <table id="salvosTable">
+                    <thead id="salvoTHead2"></thead>
+                    <tbody id="salvoTBody2"></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
