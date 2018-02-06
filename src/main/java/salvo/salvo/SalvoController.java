@@ -73,8 +73,8 @@ public class SalvoController {
                                                             .map(ship -> makeShipDTO(ship))
                                                             .collect(Collectors.toList())
         );
-        eachGameView.put("salvoes", listGamePlayers.getSalvoes().stream()
-                                                                .map(salvo -> makeSalvoPlayerDTO(salvo))
+        eachGameView.put("salvoes", listGamePlayers.getGames().getGamePlayers().stream()
+                                                                .map(gp-> makeSalvoPlayerDTO(gp))
                                                                 .collect(Collectors.toList()));
 
         return eachGameView;
@@ -88,22 +88,20 @@ public class SalvoController {
         return dto;
     }
 
-    public Map<Long, Object> makeSalvoPlayerDTO (Salvo salvo) {
+    public Map<Long, Object> makeSalvoPlayerDTO (GamePlayer gamePlayer) {
         Map<Long, Object> dto = new HashMap<>();
 
-        dto.put(salvo.getGamePlayer().getPlayers().getId(), makeSalvoDTO(salvo));
+        dto.put(gamePlayer.getPlayers().getId(), gamePlayer.getSalvoes().stream().map(salvo -> makeSalvoDTO(salvo)).collect(Collectors.toList()));
 
         return dto;
     }
-    public Map<Integer, Object> makeSalvoDTO (Salvo salvo) {
-
-        Map<Integer, Object> dto = new HashMap<>();
+    
+    public Map<Object, Object> makeSalvoDTO (Salvo salvo) {
+        Map<Object, Object> dto = new HashMap<>();
 
         dto.put(salvo.getTurn(), salvo.getSalvoLocation());
 
         return dto;
     }
-
-
 
 }
