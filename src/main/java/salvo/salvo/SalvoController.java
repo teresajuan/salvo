@@ -14,7 +14,6 @@ public class SalvoController {
     @Autowired
     private GameRepository repoGames;
 
-
     @RequestMapping("api/games")
     public ArrayList<Map<String, Object>> gamesList() {
 
@@ -74,6 +73,9 @@ public class SalvoController {
                                                             .map(ship -> makeShipDTO(ship))
                                                             .collect(Collectors.toList())
         );
+        eachGameView.put("salvoes", listGamePlayers.getSalvoes().stream()
+                                                                .map(salvo -> makeSalvoPlayerDTO(salvo))
+                                                                .collect(Collectors.toList()));
 
         return eachGameView;
     }
@@ -85,5 +87,23 @@ public class SalvoController {
         dto.put("locations", ship.getShipLoc());
         return dto;
     }
+
+    public Map<Long, Object> makeSalvoPlayerDTO (Salvo salvo) {
+        Map<Long, Object> dto = new HashMap<>();
+
+        dto.put(salvo.getGamePlayer().getPlayers().getId(), makeSalvoDTO(salvo));
+
+        return dto;
+    }
+    public Map<Integer, Object> makeSalvoDTO (Salvo salvo) {
+
+        Map<Integer, Object> dto = new HashMap<>();
+
+        dto.put(salvo.getTurn(), salvo.getSalvoLocation());
+
+        return dto;
+    }
+
+
 
 }

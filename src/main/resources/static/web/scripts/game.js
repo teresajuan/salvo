@@ -47,19 +47,13 @@ function printGrid(){
             var rowsTitle1 = rowsTitle[j];
             var emptyCell = "";
 
-            row += '<tr>' +
-                '<td class="letters">' + rowsTitle1 + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[1] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[2] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[3] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[4] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[5] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[6] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[7] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[8] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[9] + " " + 'class="column">' + emptyCell + '</td>' +
-                '<td id=' + rowsTitle1 + columnsTitle[10] + " " + 'class="column">' + emptyCell + '</td>' +
-                '</tr>';
+
+            row += '<tr>' + '<td class="letters">' + rowsTitle1 + '</td>' +
+                for(var k=1; k<rowsTitle.length; k++){
+                var emptyRow = "";
+
+                emptyRow += '<td id=' + rowsTitle1[k] + " " + 'class="column">' + emptyCell + '</td>'
+                } + '</tr>';
         }
 
         $("#salvoTBody").html(row);

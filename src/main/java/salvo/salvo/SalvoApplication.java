@@ -113,19 +113,19 @@ public class SalvoApplication {
 			shipLoc3.add(0, "B4");
 			shipLoc3.add(1, "B5");
 			List<String> shipLoc4 = new ArrayList<>();
-			shipLoc2.add(0, "B5");
-			shipLoc2.add(1, "C5");
-			shipLoc2.add(2, "D5");
+			shipLoc4.add(0, "B5");
+			shipLoc4.add(1, "C5");
+			shipLoc4.add(2, "D5");
 			List<String> shipLoc5 = new ArrayList<>();
-			shipLoc3.add(0, "C6");
-			shipLoc3.add(1, "C7");
+			shipLoc5.add(0, "C6");
+			shipLoc5.add(1, "C7");
 			List<String> shipLoc6 = new ArrayList<>();
-			shipLoc2.add(0, "A2");
-			shipLoc2.add(1, "A3");
-			shipLoc2.add(2, "A4");
+			shipLoc6.add(0, "A2");
+			shipLoc6.add(1, "A3");
+			shipLoc6.add(2, "A4");
 			List<String> shipLoc7 = new ArrayList<>();
-			shipLoc3.add(0, "G6");
-			shipLoc3.add(1, "H6");
+			shipLoc7.add(0, "G6");
+			shipLoc7.add(1, "H6");
 			List<String> shipLoc8 = new ArrayList<>(Arrays.asList("B4", "B5", "B6"));
 
 
@@ -176,7 +176,7 @@ public class SalvoApplication {
 			salvoLoc1.add(1, "C5");
 			salvoLoc1.add(2, "F1");
 			List<String> salvoLoc2 = new ArrayList<>(Arrays.asList("B4", "B5", "B6"));
-			List<String> salvoLoc3 = new ArrayList<>(Arrays.asList("F5", "D5"));
+			List<String> salvoLoc3 = new ArrayList<>(Arrays.asList("F2", "D5"));
 			List<String> salvoLoc4 = new ArrayList<>(Arrays.asList("E1", "H3", "A2"));
 			List<String> salvoLoc5 = new ArrayList<>(Arrays.asList("A2", "A4", "G6"));
 			List<String> salvoLoc6 = new ArrayList<>(Arrays.asList("B5", "D5", "C7"));
@@ -275,6 +275,24 @@ public class SalvoApplication {
 			salvoRepository.save(s14);
 			salvoRepository.save(s15);
 			salvoRepository.save(s16);
+
+//			List<Game> games;
+//
+//			System.out.println("\n\nGet information about all Games by a specific id\n");
+//			games = gameRepository.findAll();
+//			for(Game game : games)
+//			{
+//				System.out.println(game.getId());
+//			}
+//
+//			List<Player> players;
+//
+//			System.out.println("\n\nGet information about all Players by a specific userName\n");
+//			players = playerRepository.findByUserName("j.bauer@ctu.gov");
+//			for(Player player : players)
+//			{
+//				System.out.println(player.getPlayer());
+//			}
 
 		};
 
