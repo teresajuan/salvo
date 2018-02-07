@@ -127,6 +127,7 @@ public class SalvoApplication {
 			shipLoc7.add(0, "G6");
 			shipLoc7.add(1, "H6");
 			List<String> shipLoc8 = new ArrayList<>(Arrays.asList("B4", "B5", "B6"));
+			List<String> shipLoc9 = new ArrayList<>(Arrays.asList("F1", "F2"));
 
 
 			//create ships
@@ -134,12 +135,12 @@ public class SalvoApplication {
 			Ship sh1 = new Ship("Destroyer", shipLoc1);
 			Ship sh2 = new Ship("Submarine", shipLoc2);
 			Ship sh3 = new Ship("Patrol Boat", shipLoc3);
-			Ship sh4 = new Ship("Destroyer", shipLoc1);
-			Ship sh5 = new Ship("Submarine", shipLoc2);
-			Ship sh6 = new Ship("Patrol Boat", shipLoc3);
-			Ship sh7 = new Ship("Destroyer", shipLoc1);
-			Ship sh8 = new Ship("Patrol Boat", shipLoc3);
-			Ship sh9 = new Ship("Patrol Boat", shipLoc3);
+			Ship sh4 = new Ship("Destroyer", shipLoc4);
+			Ship sh5 = new Ship("Submarine", shipLoc6);
+			Ship sh6 = new Ship("Patrol Boat", shipLoc9);
+			Ship sh7 = new Ship("Destroyer", shipLoc4);
+			Ship sh8 = new Ship("Patrol Boat", shipLoc5);
+			Ship sh9 = new Ship("Patrol Boat", shipLoc7);
 			Ship sh10 = new Ship("Destroyer", shipLoc4);
 			Ship sh11 = new Ship("Patrol Boat", shipLoc5);
 			Ship sh12 = new Ship("Submarine", shipLoc6);

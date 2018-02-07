@@ -70,29 +70,27 @@ function printGrid(elementTHead, elementTBody){
 
 //función para printar los barcos
 
-function printShips (data) {
-
-    var ships = data.ships;
-
-    for (var j = 0; j<ships.length; j++) {
-
-        var shipsLoc = ships[j].locations;
-
-        for (var i = 0; i<shipsLoc.length; i++) {
-
-            var shipsLocations = shipsLoc[i];
-
-            $(".table1 td").each(function(){
-                var cellId = $(this).attr('id');
-                if(cellId === shipsLocations){
-                    $(this).css('background-color', 'palegreen');
-                }
-            })
-
-        }
-
-    }
-}
+// function printShips (data) {
+//
+//     var ships = data.ships;
+//
+//     for (var j = 0; j<ships.length; j++) {
+//
+//         var shipsLoc = ships[j].locations;
+//
+//         for (var i = 0; i<shipsLoc.length; i++) {
+//
+//             var shipsLocations = shipsLoc[i];
+//
+//             $(".table1 td").each(function(){
+//                 var cellId = $(this).attr('id');
+//                 if(cellId === shipsLocations){
+//                     $(this).css('background-color', 'palegreen');
+//                 }
+//             })
+//         }
+//     }
+// }
 
 //Función para printar los salvos
 
@@ -107,7 +105,7 @@ function printSalvos (data) {
 
         if (gpId == gpIdUrl) {
 
-            if (idUser == salvosPlayers) {
+            // if (idUser == salvosPlayers) {
 
                 var turn = salvos[salvosPlayers];
 
@@ -125,17 +123,81 @@ function printSalvos (data) {
                             if(cellId === valueTurnPosition){
                                 $(this).css('background-color', 'mediumturquoise');
                                 $(this).html(turnsNumber);
-
                             }
                         })
                     }
-
                 }
-
-            }
+            // }
         }
     }
 }
+
+function printShips (data) {
+    var ships = data.ships;
+
+    for (var i = 0; i<ships.length; i++) {
+
+        var shipsLoc = ships[i].locations;
+
+        for (var j = 0; j<shipsLoc.length; j++) {
+
+            var shipsLocations = shipsLoc[j];
+
+            $(".table1 td").each(function(){
+                var cellId = $(this).attr('id');
+                if(cellId === shipsLocations){
+                    $(this).css('background-color', 'palegreen');
+
+                }
+            })
+        }
+    }
+
+    for (var m = 0; m < data.gamePlayer.length; m++) {
+
+        var gpId = data.gamePlayer[m].id;
+        var idUser = data.gamePlayer[m].player.id;
+        var gpIdUrl = getParameterByName('gp');
+        var salvos = data.salvoes[m];
+        var salvosPlayers = Object.keys(salvos);
+
+        if (gpId != gpIdUrl) {
+
+            // if (salvosPlayers == idUser) {
+
+                var turn = salvos[salvosPlayers];
+
+                for (var l = 0; l<turn.length; l++){
+
+                    var turns = turn[l];
+                    var turnsNumber = Object.keys(turns);
+                    var valueTurn = turns[turnsNumber];
+
+                    for (var m=0; m<valueTurn.length; m++) {
+                        var valueTurnPosition = valueTurn[m];
+
+                        $(".table1 td").filter(function(){
+                            return $(this).attr('style');
+                        })
+                            .each(function(){
+                            var cellId = $(this).attr('id');
+
+                            if(cellId === valueTurnPosition) {
+
+                                $(this).css('background-color', 'mediumturquoise');
+                                $(this).html(turnsNumber);
+
+                            }
+                        })
+
+                    }
+                }
+            // }
+        }
+    }
+}
+
+//Función para printar el usuario vs el oponente
 
 function usersTitle(data) {
 

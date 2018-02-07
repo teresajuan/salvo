@@ -96,8 +96,8 @@ public class SalvoController {
         return dto;
     }
 
-    public Map<Object, Object> makeSalvoDTO (Salvo salvo) {
-        Map<Object, Object> dto = new HashMap<>();
+    public Map<Integer, Object> makeSalvoDTO (Salvo salvo) {
+        Map<Integer, Object> dto = new HashMap<>();
 
         dto.put(salvo.getTurn(), salvo.getSalvoLocation());
 
