@@ -105,7 +105,7 @@ function printSalvos (data) {
 
         if (gpId == gpIdUrl) {
 
-            // if (idUser == salvosPlayers) {
+            if (idUser == salvosPlayers) {
 
                 var turn = salvos[salvosPlayers];
 
@@ -127,7 +127,7 @@ function printSalvos (data) {
                         })
                     }
                 }
-            // }
+            }
         }
     }
 }
@@ -163,7 +163,7 @@ function printShips (data) {
 
         if (gpId != gpIdUrl) {
 
-            // if (salvosPlayers == idUser) {
+            if (salvosPlayers == idUser) {
 
                 var turn = salvos[salvosPlayers];
 
@@ -192,7 +192,7 @@ function printShips (data) {
 
                     }
                 }
-            // }
+            }
         }
     }
 }
