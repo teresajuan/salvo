@@ -19,7 +19,7 @@ public class SalvoApplication {
 
 	}
 	@Bean
-	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository, SalvoRepository salvoRepository) {
+	public CommandLineRunner initData(PlayerRepository playerRepository, GameRepository gameRepository, GamePlayerRepository gamePlayerRepository, ShipRepository shipRepository, SalvoRepository salvoRepository, ScoreRepository scoreRepository) {
 		return (args) -> {
 			//create players
 
@@ -211,7 +211,7 @@ public class SalvoApplication {
 			Salvo s15 = new Salvo(2, salvoLoc15);
 			Salvo s16 = new Salvo(2, salvoLoc16);
 
-			//add salvoes to gamePlayers
+			//add salvos to gamePlayers
 
 			gp1.addSalvoes(s1);
 			gp1.addSalvoes(s3);
@@ -229,6 +229,44 @@ public class SalvoApplication {
 			gp7.addSalvoes(s15);
 			gp8.addSalvoes(s14);
 			gp8.addSalvoes(s16);
+
+			//create finishDate
+
+			Date fd1 = new Date();
+
+			//create scores
+
+			Score sc1 = new Score(1.0, fd1);
+			Score sc2 = new Score(0.0, fd1);
+			Score sc3 = new Score(0.5, fd1);
+			Score sc4 = new Score(0.5, fd1);
+			Score sc5 = new Score(1.0, fd1);
+			Score sc6 = new Score(0.0, fd1);
+			Score sc7 = new Score(0.5, fd1);
+			Score sc8 = new Score(0.5, fd1);
+
+			//adding scores to players
+
+			p1.addScores(sc1);
+			p1.addScores(sc3);
+			p1.addScores(sc8);
+			p2.addScores(sc2);
+			p2.addScores(sc4);
+			p2.addScores(sc5);
+			p2.addScores(sc7);
+			p4.addScores(sc6);
+
+			// adding scores to games
+
+			g1.addScores(sc1);
+			g1.addScores(sc2);
+			g2.addScores(sc3);
+			g2.addScores(sc4);
+			g3.addScores(sc5);
+			g3.addScores(sc6);
+			g4.addScores(sc7);
+			g4.addScores(sc8);
+
 
 			//save gamePlayers
 
@@ -276,6 +314,32 @@ public class SalvoApplication {
 			salvoRepository.save(s14);
 			salvoRepository.save(s15);
 			salvoRepository.save(s16);
+
+			//save players with scores
+			playerRepository.save(p1);
+			playerRepository.save(p2);
+			playerRepository.save(p4);
+
+			//save games with scores
+
+			gameRepository.save(g1);
+			gameRepository.save(g2);
+			gameRepository.save(g3);
+			gameRepository.save(g4);
+
+
+			//save scores
+
+			scoreRepository.save(sc1);
+			scoreRepository.save(sc2);
+			scoreRepository.save(sc3);
+			scoreRepository.save(sc4);
+			scoreRepository.save(sc5);
+			scoreRepository.save(sc6);
+			scoreRepository.save(sc7);
+			scoreRepository.save(sc8);
+
+
 
 //			List<Game> games;
 //

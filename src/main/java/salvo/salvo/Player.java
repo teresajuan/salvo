@@ -1,6 +1,7 @@
 package salvo.salvo;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,10 @@ public class Player {
 
     @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
     Set<GamePlayer> GamePlayers;
+
+    @OneToMany(mappedBy="player", fetch=FetchType.EAGER)
+    Set<Score> scores = new HashSet<>();
+
 
     public Player(){}
 
@@ -33,6 +38,13 @@ public class Player {
 //        gamePlayers.add(gamePlayer);
 //    }
 
+    public Set<Score> getScores() {
+        return scores;
+    }
+    public void addScores(Score score) {
+        score.setPlayers(this);
+        scores.add(score);
+    }
     public String toString() {
         return player_id + " " + "refers to " + userName;
     }

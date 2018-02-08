@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -21,6 +22,9 @@ public class Game {
     @JsonIgnore
     @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
     Set<GamePlayer> GamePlayers;
+
+    @OneToMany(mappedBy="game", fetch=FetchType.EAGER)
+    Set<Score> scores = new HashSet<>();
 
     public Game() {}
 
@@ -42,6 +46,11 @@ public class Game {
 
     public Set<GamePlayer> getGamePlayers() {
         return GamePlayers;
+    }
+
+    public void addScores(Score score) {
+        score.setGames(this);
+        scores.add(score);
     }
 
     //    public void addGamePlayer(GamePlayer gamePlayer) {

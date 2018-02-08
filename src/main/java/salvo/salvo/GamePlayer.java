@@ -70,6 +70,7 @@ public class GamePlayer {
     public Set<Ship> getShips() {
         return ships;
     }
+
     public void addShips (Ship ship) {
         ship.setGamePlayer(this);
         ships.add(ship);
@@ -83,4 +84,5 @@ public class GamePlayer {
         salvo.setGamePlayer(this);
         salvoes.add(salvo);
     }
+
 }

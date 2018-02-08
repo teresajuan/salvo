@@ -67,32 +67,7 @@ function printGrid(elementTHead, elementTBody){
 
     printGamePlayerGrid1.append(tableHead);
 }
-
-//función para printar los barcos
-
-// function printShips (data) {
-//
-//     var ships = data.ships;
-//
-//     for (var j = 0; j<ships.length; j++) {
-//
-//         var shipsLoc = ships[j].locations;
-//
-//         for (var i = 0; i<shipsLoc.length; i++) {
-//
-//             var shipsLocations = shipsLoc[i];
-//
-//             $(".table1 td").each(function(){
-//                 var cellId = $(this).attr('id');
-//                 if(cellId === shipsLocations){
-//                     $(this).css('background-color', 'palegreen');
-//                 }
-//             })
-//         }
-//     }
-// }
-
-//Función para printar los salvos
+//Función para printar los salvos del player
 
 function printSalvos (data) {
     for (var i = 0; i < data.gamePlayer.length; i++) {
@@ -132,6 +107,8 @@ function printSalvos (data) {
     }
 }
 
+//función para printar los barcos y los salvo hits del oponente
+
 function printShips (data) {
     var ships = data.ships;
 
@@ -147,7 +124,6 @@ function printShips (data) {
                 var cellId = $(this).attr('id');
                 if(cellId === shipsLocations){
                     $(this).css('background-color', 'palegreen');
-
                 }
             })
         }
