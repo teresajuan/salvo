@@ -70,7 +70,7 @@ function printGrid(elementTHead, elementTBody){
 //Función para printar los salvos del player
 
 function printSalvos (data) {
-    for (var i = 0; i < data.gamePlayer.length; i++) {
+    for (var i = 0; i < data.gamePlayer.length, i<data.salvoes.length; i++) {
 
         var gpId = data.gamePlayer[i].id;
         var idUser = data.gamePlayer[i].player.id;
@@ -80,27 +80,24 @@ function printSalvos (data) {
 
         if (gpId == gpIdUrl) {
 
-            if (idUser == salvosPlayers) {
+            var turn = salvos[salvosPlayers];
 
-                var turn = salvos[salvosPlayers];
+            for (var j = 0; j<turn.length; j++){
 
-                for (var j = 0; j<turn.length; j++){
+                var turns = turn[j];
+                var turnsNumber = Object.keys(turns);
+                var valueTurn = turns[turnsNumber];
 
-                    var turns = turn[j];
-                    var turnsNumber = Object.keys(turns);
-                    var valueTurn = turns[turnsNumber];
+                for (var k=0; k<valueTurn.length; k++) {
+                    var valueTurnPosition = valueTurn[k];
 
-                    for (var k=0; k<valueTurn.length; k++) {
-                        var valueTurnPosition = valueTurn[k];
-
-                        $(".table2 td").each(function(){
-                            var cellId = $(this).attr('id');
-                            if(cellId === valueTurnPosition){
-                                $(this).css('background-color', 'mediumturquoise');
-                                $(this).html(turnsNumber);
-                            }
-                        })
-                    }
+                    $(".table2 td").each(function(){
+                        var cellId = $(this).attr('id');
+                        if(cellId === valueTurnPosition){
+                            $(this).css('background-color', 'mediumturquoise');
+                            $(this).html(turnsNumber);
+                        }
+                    })
                 }
             }
         }
@@ -119,6 +116,7 @@ function printShips (data) {
         for (var j = 0; j<shipsLoc.length; j++) {
 
             var shipsLocations = shipsLoc[j];
+            // $('#'+ shipsLocations).html('gggggg').addClass('cellWithShip');
 
             $(".table1 td").each(function(){
                 var cellId = $(this).attr('id');
@@ -129,7 +127,7 @@ function printShips (data) {
         }
     }
 
-    for (var m = 0; m < data.gamePlayer.length; m++) {
+    for (var m = 0; m < data.gamePlayer.length, m<data.salvoes.length; m++) {
 
         var gpId = data.gamePlayer[m].id;
         var idUser = data.gamePlayer[m].player.id;
@@ -139,34 +137,31 @@ function printShips (data) {
 
         if (gpId != gpIdUrl) {
 
-            if (salvosPlayers == idUser) {
+            var turn = salvos[salvosPlayers];
 
-                var turn = salvos[salvosPlayers];
+            for (var l = 0; l<turn.length; l++){
 
-                for (var l = 0; l<turn.length; l++){
+                var turns = turn[l];
+                var turnsNumber = Object.keys(turns);
+                var valueTurn = turns[turnsNumber];
 
-                    var turns = turn[l];
-                    var turnsNumber = Object.keys(turns);
-                    var valueTurn = turns[turnsNumber];
+                for (var m=0; m<valueTurn.length; m++) {
+                    var valueTurnPosition = valueTurn[m];
 
-                    for (var m=0; m<valueTurn.length; m++) {
-                        var valueTurnPosition = valueTurn[m];
+                    $(".table1 td").filter(function(){
+                        return $(this).attr('style');
+                    })
+                        .each(function(){
+                        var cellId = $(this).attr('id');
 
-                        $(".table1 td").filter(function(){
-                            return $(this).attr('style');
-                        })
-                            .each(function(){
-                            var cellId = $(this).attr('id');
+                        if(cellId === valueTurnPosition) {
 
-                            if(cellId === valueTurnPosition) {
+                            $(this).css('background-color', 'red');
+                            $(this).html(turnsNumber);
 
-                                $(this).css('background-color', 'mediumturquoise');
-                                $(this).html(turnsNumber);
+                        }
+                    })
 
-                            }
-                        })
-
-                    }
                 }
             }
         }

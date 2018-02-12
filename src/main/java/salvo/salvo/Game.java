@@ -3,9 +3,6 @@ package salvo.salvo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.swing.*;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,7 +13,7 @@ public class Game {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long game_id;
+    private long gameId;
     private Date creationDate;
 
     @JsonIgnore
@@ -33,7 +30,7 @@ public class Game {
     }
 
     public long getId() {
-        return game_id;
+        return gameId;
     }
 
     public Date getCreationDate() {
@@ -49,12 +46,20 @@ public class Game {
     }
 
     public void addScores(Score score) {
-        score.setGames(this);
+        score.setGame(this);
         scores.add(score);
     }
 
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
+    }
+
     //    public void addGamePlayer(GamePlayer gamePlayer) {
-//        gamePlayer.setGames(this);
+//        gamePlayer.setGame(this);
 //        GamePlayers.add(gamePlayer);
 //    }
 

@@ -3,6 +3,8 @@ package salvo.salvo;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
 
 @Entity
 public class Player {
@@ -27,24 +29,35 @@ public class Player {
     public long getId() {
         return player_id;
     }
-    public String getPlayer() {
+    public String getUserName() {
         return userName;
     }
-    public void setPlayer(String userName) {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 //    public void addGamePlayer(GamePlayer gamePlayer) {
-//        gamePlayer.setPlayers(this);
+//        gamePlayer.setUserName(this);
 //        gamePlayers.add(gamePlayer);
 //    }
 
     public Set<Score> getScores() {
         return scores;
     }
-    public void addScores(Score score) {
+
+    public void addScore(Score score) {
         score.setPlayers(this);
         scores.add(score);
     }
+
+    public Score getScore(Game game) {
+
+        return scores.stream()
+                        .filter(score -> score.getGame().getId() == game.getId())
+                        .findFirst()
+                        .orElse(null);
+
+    }
+
     public String toString() {
         return player_id + " " + "refers to " + userName;
     }

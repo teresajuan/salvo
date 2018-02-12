@@ -15,11 +15,11 @@ public class GamePlayer {
     private Date joinDate;
 
     @ManyToOne
-    @JoinColumn(name="player_id")
+    @JoinColumn(name="playerId")
     private Player player;
 
     @ManyToOne
-    @JoinColumn(name="game_id")
+    @JoinColumn(name="gameId")
     private Game game;
 
     @OneToMany(mappedBy="gamePlayer", fetch=FetchType.EAGER)
@@ -42,28 +42,28 @@ public class GamePlayer {
         return id;
     }
 
-    public Player getPlayers() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayers(Player player) {
+    public void setPlayer(Player player) {
         this.player= player;
     }
 
     @JsonIgnore
-    public Game getGames() {
+    public Game getGame() {
         return game;
     }
-    public void setGames(Game game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 
     @JsonIgnore
-    public Date getJoinDates() {
+    public Date getJoinDate() {
         return joinDate;
     }
 
-    public void setJoinDates(Date joinDate) {
+    public void setJoinDate(Date joinDate) {
         this.joinDate = joinDate;
     }
 
@@ -71,7 +71,7 @@ public class GamePlayer {
         return ships;
     }
 
-    public void addShips (Ship ship) {
+    public void addShip(Ship ship) {
         ship.setGamePlayer(this);
         ships.add(ship);
     }
@@ -80,9 +80,13 @@ public class GamePlayer {
         return salvoes;
     }
 
-    public void addSalvoes (Salvo salvo) {
+    public void addSalvo(Salvo salvo) {
         salvo.setGamePlayer(this);
         salvoes.add(salvo);
+    }
+
+    public Score getScore(){
+        return player.getScore(game);
     }
 
 }

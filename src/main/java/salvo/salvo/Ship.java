@@ -15,7 +15,7 @@ public class Ship {
     private String shipType;
 
     @ManyToOne
-    @JoinColumn(name="gamePlayer_id")
+    @JoinColumn(name="gamePlayerId")
     private GamePlayer gamePlayer;
 
     @ElementCollection

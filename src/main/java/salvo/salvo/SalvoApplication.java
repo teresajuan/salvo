@@ -5,7 +5,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -152,23 +151,23 @@ public class SalvoApplication {
 
 			//add ships to gameplayers
 
-			gp1.addShips(sh1);
-			gp1.addShips(sh2);
-			gp1.addShips(sh3);
-			gp2.addShips(sh4);
-			gp2.addShips(sh6);
-			gp3.addShips(sh7);
-			gp3.addShips(sh8);
-			gp4.addShips(sh5);
-			gp4.addShips(sh9);
-			gp5.addShips(sh10);
-			gp5.addShips(sh11);
-			gp6.addShips(sh12);
-			gp6.addShips(sh13);
-			gp7.addShips(sh14);
-			gp7.addShips(sh15);
-			gp8.addShips(sh16);
-			gp8.addShips(sh17);
+			gp1.addShip(sh1);
+			gp1.addShip(sh2);
+			gp1.addShip(sh3);
+			gp2.addShip(sh4);
+			gp2.addShip(sh6);
+			gp3.addShip(sh7);
+			gp3.addShip(sh8);
+			gp4.addShip(sh5);
+			gp4.addShip(sh9);
+			gp5.addShip(sh10);
+			gp5.addShip(sh11);
+			gp6.addShip(sh12);
+			gp6.addShip(sh13);
+			gp7.addShip(sh14);
+			gp7.addShip(sh15);
+			gp8.addShip(sh16);
+			gp8.addShip(sh17);
 
 			//create salvoLocations
 
@@ -213,22 +212,22 @@ public class SalvoApplication {
 
 			//add salvos to gamePlayers
 
-			gp1.addSalvoes(s1);
-			gp1.addSalvoes(s3);
-			gp2.addSalvoes(s2);
-			gp2.addSalvoes(s4);
-			gp3.addSalvoes(s5);
-			gp3.addSalvoes(s7);
-			gp4.addSalvoes(s6);
-			gp4.addSalvoes(s8);
-			gp5.addSalvoes(s9);
-			gp5.addSalvoes(s11);
-			gp6.addSalvoes(s10);
-			gp6.addSalvoes(s12);
-			gp7.addSalvoes(s13);
-			gp7.addSalvoes(s15);
-			gp8.addSalvoes(s14);
-			gp8.addSalvoes(s16);
+			gp1.addSalvo(s1);
+			gp1.addSalvo(s3);
+			gp2.addSalvo(s2);
+			gp2.addSalvo(s4);
+			gp3.addSalvo(s5);
+			gp3.addSalvo(s7);
+			gp4.addSalvo(s6);
+			gp4.addSalvo(s8);
+			gp5.addSalvo(s9);
+			gp5.addSalvo(s11);
+			gp6.addSalvo(s10);
+			gp6.addSalvo(s12);
+			gp7.addSalvo(s13);
+			gp7.addSalvo(s15);
+			gp8.addSalvo(s14);
+			gp8.addSalvo(s16);
 
 			//create finishDate
 
@@ -247,14 +246,14 @@ public class SalvoApplication {
 
 			//adding scores to players
 
-			p1.addScores(sc1);
-			p1.addScores(sc3);
-			p1.addScores(sc8);
-			p2.addScores(sc2);
-			p2.addScores(sc4);
-			p2.addScores(sc5);
-			p2.addScores(sc7);
-			p4.addScores(sc6);
+			p1.addScore(sc1);
+			p1.addScore(sc3);
+			p1.addScore(sc8);
+			p2.addScore(sc2);
+			p2.addScore(sc4);
+			p2.addScore(sc5);
+			p2.addScore(sc7);
+			p4.addScore(sc6);
 
 			// adding scores to games
 
@@ -356,7 +355,7 @@ public class SalvoApplication {
 //			players = playerRepository.findByUserName("j.bauer@ctu.gov");
 //			for(Player player : players)
 //			{
-//				System.out.println(player.getPlayer());
+//				System.out.println(player.getUserName());
 //			}
 
 		};
