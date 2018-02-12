@@ -3,8 +3,6 @@ package salvo.salvo;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Supplier;
-import java.util.stream.Collector;
 
 @Entity
 public class Player {
@@ -45,7 +43,7 @@ public class Player {
     }
 
     public void addScore(Score score) {
-        score.setPlayers(this);
+        score.setPlayer(this);
         scores.add(score);
     }
 

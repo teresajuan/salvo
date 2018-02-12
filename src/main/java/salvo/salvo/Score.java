@@ -44,11 +44,11 @@ public class Score {
         this.finishDate = finishDate;
     }
 
-    public Player getPlayers() {
+    public Player getPlayer() {
         return player;
     }
 
-    public void setPlayers(Player player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 

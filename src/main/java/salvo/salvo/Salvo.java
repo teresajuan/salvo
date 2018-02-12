@@ -14,7 +14,7 @@ public class Salvo {
     private int turn;
 
     @ManyToOne
-    @JoinColumn(name="gamePlayer_id")
+    @JoinColumn(name="gamePlayerId")
     private GamePlayer gamePlayer;
 
     @ElementCollection

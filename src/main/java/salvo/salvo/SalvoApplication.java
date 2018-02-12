@@ -81,6 +81,7 @@ public class SalvoApplication {
 			GamePlayer gp11 = new GamePlayer(p4, g7, jd1);
 			GamePlayer gp12 = new GamePlayer(p3, g8, jd1);
 			GamePlayer gp13 = new GamePlayer(p4, g8, jd1);
+			GamePlayer gp14 = new GamePlayer(p1, g5, jd1);
 
 			//save gameplayers
 
@@ -97,6 +98,7 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gp11);
 			gamePlayerRepository.save(gp12);
 			gamePlayerRepository.save(gp13);
+			gamePlayerRepository.save(gp14);
 
 			//create shipLocations
 
@@ -148,6 +150,10 @@ public class SalvoApplication {
 			Ship sh15 = new Ship("Patrol Boat", shipLoc5);
 			Ship sh16 = new Ship("Submarine", shipLoc6);
 			Ship sh17 = new Ship("Patrol Boat", shipLoc7);
+			Ship sh18 = new Ship("Destroyer", shipLoc4);
+			Ship sh19 = new Ship("Patrol Boat", shipLoc5);
+			Ship sh20 = new Ship("Submarine", shipLoc6);
+			Ship sh21 = new Ship("Patrol Boat", shipLoc7);
 
 			//add ships to gameplayers
 
@@ -168,6 +174,10 @@ public class SalvoApplication {
 			gp7.addShip(sh15);
 			gp8.addShip(sh16);
 			gp8.addShip(sh17);
+			gp9.addShip(sh18);
+			gp9.addShip(sh19);
+			gp14.addShip(sh20);
+			gp14.addShip(sh21);
 
 			//create salvoLocations
 
@@ -190,8 +200,13 @@ public class SalvoApplication {
 			List<String> salvoLoc14 = new ArrayList<>(Arrays.asList("B5", "C6", "H1"));
 			List<String> salvoLoc15 = new ArrayList<>(Arrays.asList("A2", "G6", "H6"));
 			List<String> salvoLoc16 = new ArrayList<>(Arrays.asList("C5", "C7", "D5"));
+			List<String> salvoLoc17 = new ArrayList<>(Arrays.asList("A1", "A2", "A3"));
+			List<String> salvoLoc18 = new ArrayList<>(Arrays.asList("B5", "B6", "C7"));
+			List<String> salvoLoc19 = new ArrayList<>(Arrays.asList("G6", "G7", "G8"));
+			List<String> salvoLoc20 = new ArrayList<>(Arrays.asList("C6", "D6", "E6"));
+			List<String> salvoLoc21 = new ArrayList<>(Arrays.asList("H1", "H8"));
 
-			//create salvoes
+			//create salvos
 
 			Salvo s1 = new Salvo(1, salvoLoc1);
 			Salvo s2 = new Salvo(1, salvoLoc2);
@@ -209,6 +224,11 @@ public class SalvoApplication {
 			Salvo s14 = new Salvo(1, salvoLoc14);
 			Salvo s15 = new Salvo(2, salvoLoc15);
 			Salvo s16 = new Salvo(2, salvoLoc16);
+			Salvo s17 = new Salvo(1, salvoLoc17);
+			Salvo s18 = new Salvo(1, salvoLoc18);
+			Salvo s19 = new Salvo(2, salvoLoc19);
+			Salvo s20 = new Salvo(2, salvoLoc20);
+			Salvo s21 = new Salvo(3, salvoLoc21);
 
 			//add salvos to gamePlayers
 
@@ -228,6 +248,11 @@ public class SalvoApplication {
 			gp7.addSalvo(s15);
 			gp8.addSalvo(s14);
 			gp8.addSalvo(s16);
+			gp9.addSalvo(s17);
+			gp9.addSalvo(s19);
+			gp14.addSalvo(s18);
+			gp14.addSalvo(s20);
+			gp14.addSalvo(s21);
 
 			//create finishDate
 
@@ -277,6 +302,8 @@ public class SalvoApplication {
 			gamePlayerRepository.save(gp6);
 			gamePlayerRepository.save(gp7);
 			gamePlayerRepository.save(gp8);
+			gamePlayerRepository.save(gp9);
+			gamePlayerRepository.save(gp14);
 
 
 			//save ships
@@ -294,8 +321,16 @@ public class SalvoApplication {
 			shipRepository.save(sh11);
 			shipRepository.save(sh12);
 			shipRepository.save(sh13);
+			shipRepository.save(sh14);
+			shipRepository.save(sh15);
+			shipRepository.save(sh16);
+			shipRepository.save(sh17);
+			shipRepository.save(sh18);
+			shipRepository.save(sh19);
+			shipRepository.save(sh20);
+			shipRepository.save(sh21);
 
-			//save salvoes
+			//save salvos
 
 			salvoRepository.save(s1);
 			salvoRepository.save(s2);
@@ -313,6 +348,11 @@ public class SalvoApplication {
 			salvoRepository.save(s14);
 			salvoRepository.save(s15);
 			salvoRepository.save(s16);
+			salvoRepository.save(s17);
+			salvoRepository.save(s18);
+			salvoRepository.save(s19);
+			salvoRepository.save(s20);
+			salvoRepository.save(s21);
 
 			//save players with scores
 			playerRepository.save(p1);

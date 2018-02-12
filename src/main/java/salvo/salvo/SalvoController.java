@@ -109,7 +109,7 @@ public class SalvoController {
     public Map<Long, Object> makeSalvoPlayerDTO(GamePlayer gamePlayer) {
         Map<Long, Object> dto = new HashMap<>();
 
-        dto.put(gamePlayer.getPlayer().getId(), gamePlayer.getSalvoes().stream().map(salvo -> makeSalvoDTO(salvo)).collect(Collectors.toList()));
+        dto.put(gamePlayer.getPlayer().getId(), gamePlayer.getSalvos().stream().map(salvo -> makeSalvoDTO(salvo)).collect(Collectors.toList()));
 
         return dto;
     }

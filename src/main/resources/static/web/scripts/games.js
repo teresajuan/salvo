@@ -3,7 +3,8 @@
 $.getJSON("http://localhost:8080/api/games", function(json) {
     var data = json;
     console.log(data);
-    createGamesList(data);
+    // createGamesList(data);
+    playersUserName(data);
 });
 
 function createGamesList(data) {
@@ -56,4 +57,37 @@ function createGamesList(data) {
     }
 
 }
+
+//conseguir un array con los userNames de los players
+
+function playersUserName (data){
+    var totalUserNames = [];
+    for (var i = 0; i<data.length; i++) {
+         var gamePlayers = data[i].gamePlayers;
+
+         for (var j=0; j<gamePlayers.length; j++){
+             var userNames = gamePlayers[j].player.email;
+             totalUserNames.push(userNames);
+         }
+    }
+    console.log(totalUserNames);
+
+    //para eliminar los repetidos (2 formas diferentes)
+
+    var userNamesWithOutRepeted = [];
+
+    var userNamesWithOutRepeted = totalUserNames.filter(function(elem, pos) {
+        return totalUserNames.indexOf(elem) == pos;
+    });
+    console.log(userNamesWithOutRepeted);
+
+
+    // Array.prototype.unique=function(a){
+    //     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+    // });
+    //
+    // console.log(totalUserNames.unique());
+}
+
+
 
