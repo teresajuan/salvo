@@ -4,7 +4,19 @@ $.getJSON("http://localhost:8080/api/games", function(json) {
     var data = json;
     console.log(data);
     // createGamesList(data);
-    playersUserName(data);
+    createTableLeaderBoard(data);
+    playersScoreInfo(data);
+    // playerScores(data, 1);
+    // playerScores(data, 2);
+    // playerScores(data, 3);
+    // playerScores(data, 4);
+    sumaScores(data, 1);
+    sumaScores(data, 2);
+    sumaScores(data, 3);
+    sumaScores(data, 4);
+
+
+
 });
 
 function createGamesList(data) {
@@ -49,45 +61,171 @@ function createGamesList(data) {
             element5.append(element6);
             element5.append(element7);
             element3.append(element5);
-
         }
-
         printListGames.append(element1);
-
     }
-
 }
 
-//conseguir un array con los userNames de los players
+// Crear la tabla leaderboard
 
-function playersUserName (data){
-    var totalUserNames = [];
+function createTableLeaderBoard(data) {
+    var printTableLeader = document.getElementById('tableLeader');
+
+    var tableData = ordenMayorAMenor(playersScoreInfo(data), "totalScore", "lost");
+
+    console.log(tableData);
+
+    var tableLeader = "";
+
+    for(var i=0; i<tableData.length; i++){
+
+        var tableNames = tableData[i].name;
+        var total = tableData[i].totalScore;
+        var won = tableData[i].won;
+        var lost = tableData[i].lost;
+        var tied = tableData[i].tied;
+
+        tableLeader += '<tr>' +
+            '<td>' + tableNames + '</td>' +
+            '<td>' + total + '</td>' +
+            '<td>' + won + '</td>' +
+            '<td>' + lost + '</td>' +
+            '<td>' + tied + '</td>' +
+            '</tr>';
+    }
+    $(printTableLeader).html(tableLeader);
+}
+
+//conseguir la información para los scores  de los players
+
+function playersScoreInfo (data){
+
+    var totalPlayersInfo = [];
     for (var i = 0; i<data.length; i++) {
-         var gamePlayers = data[i].gamePlayers;
+        var gamePlayers = data[i].gamePlayers;
 
-         for (var j=0; j<gamePlayers.length; j++){
-             var userNames = gamePlayers[j].player.email;
-             totalUserNames.push(userNames);
-         }
+
+        for (var j=0; j<gamePlayers.length; j++){
+             var players = {};
+             var playerScore = gamePlayers[j].player.score;
+             players.name = gamePlayers[j].player.email;
+             players.totalScore = 0;
+             players.won = 0;
+             players.lost = 0;
+             players.tied = 0;
+
+             if (totalPlayersInfo.length === 0) {
+                 totalPlayersInfo.push(players);
+             }
+
+             for (var k = 0; k < totalPlayersInfo.length; k++) {
+
+                 if (players.name === totalPlayersInfo[k].name) {
+                     if(playerScore === 1.0){
+                         totalPlayersInfo[k].won++;
+                     } else if (playerScore === 0.5) {
+                         totalPlayersInfo[k].tied++;
+                     } else if (playerScore === "null"){
+                         totalPlayersInfo[k].won += 0;
+                         totalPlayersInfo[k].tied += 0;
+                         totalPlayersInfo[k].lost += 0;
+                     }
+                     else {
+                         totalPlayersInfo[k].lost++;
+                     }
+                     totalPlayersInfo[k].totalScore = sumaScores(data, gamePlayers[j].player.id);
+                     break;
+                 } else {
+                     if (k == (totalPlayersInfo.length - 1)) {
+                         totalPlayersInfo.push(players);
+                     }
+                 }
+             }
+        }
     }
-    console.log(totalUserNames);
 
-    //para eliminar los repetidos (2 formas diferentes)
-
-    var userNamesWithOutRepeted = [];
-
-    var userNamesWithOutRepeted = totalUserNames.filter(function(elem, pos) {
-        return totalUserNames.indexOf(elem) == pos;
-    });
-    console.log(userNamesWithOutRepeted);
-
-
-    // Array.prototype.unique=function(a){
-    //     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
-    // });
-    //
-    // console.log(totalUserNames.unique());
+console.log(totalPlayersInfo);
+    return totalPlayersInfo;
 }
+
+//Crear un array con todos los scores para cada player
+
+function playerScores(data, idPlayer) {
+
+    var totalPlayerScores = [];
+    for (var i = 0; i<data.length; i++) {
+        var gamePlayers = data[i].gamePlayers;
+
+        for (var j=0; j<gamePlayers.length; j++){
+            var playerId = gamePlayers[j].player.id;
+            var playerScore = gamePlayers[j].player.score;
+
+            if(playerId == idPlayer){
+                totalPlayerScores.push(playerScore);
+            }
+        }
+    }
+    return totalPlayerScores;
+}
+
+function sumaScores(data, idPlayer){
+
+    var totalPlayerScores = playerScores(data, idPlayer);
+    var sumaScores = 0;
+    var playerScoresWithoutNulls = [];
+
+    for (var i = 0; i<totalPlayerScores.length; i++) {
+
+        if(totalPlayerScores[i] != "null"){
+            playerScoresWithoutNulls.push(totalPlayerScores[i]);
+        }
+    }
+    for (var i = 0; i<playerScoresWithoutNulls.length; i++) {
+
+        sumaScores += playerScoresWithoutNulls[i];
+    }
+    return fijarDecimales(sumaScores, 1);
+
+}
+
+function fijarDecimales (number, decimals) {
+    return number.toFixed(decimals);
+}
+
+function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
+
+    var arrayOrdenado = arrayAOrdenar.sort (function(a, b) {
+        if (a[paramToOrder] < b[paramToOrder]) {
+            return 1;
+        }
+        if (a[paramToOrder] > b[paramToOrder]) {
+            return -1;
+        }
+        if (a[paramToOrder] === b[paramToOrder]) {
+
+            var x = a[paramToOrder2];
+            var y = b[paramToOrder2];
+
+            return x < y ? -1 : x > y ? 1 : 0;
+
+            }
+    });
+    return arrayOrdenado;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

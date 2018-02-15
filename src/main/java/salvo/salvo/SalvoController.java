@@ -55,21 +55,21 @@ public class SalvoController {
         Score score = gp.getPlayer().getScore(gp.getGame());
 
         if (score != null) {
-            dto.put("score", gp.getPlayer().getScore(gp.getGame()).getPoints());
+            dto.put("score", score.getPoints());
         }else {
             dto.put("score", "null");
         }
         return dto;
     }
 
-    public Map<String, Object> makePlayerScoreDTO(Player player, Game game) {
-        Map<String, Object> dto = new HashMap<>();
-
-        dto.put("id", player.getId());
-        dto.put("score", player.getScore(game));
-
-        return dto;
-    }
+//    public Map<String, Object> makePlayerScoreDTO(Player player, Game game) {
+//        Map<String, Object> dto = new HashMap<>();
+//
+//        dto.put("id", player.getId());
+//        dto.put("score", player.getScore(game));
+//
+//        return dto;
+//    }
 
 
     @Autowired
