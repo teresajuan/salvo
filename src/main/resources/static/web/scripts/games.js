@@ -202,12 +202,10 @@ function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
             return -1;
         }
         if (a[paramToOrder] === b[paramToOrder]) {
-
             var x = a[paramToOrder2];
             var y = b[paramToOrder2];
 
             return x < y ? -1 : x > y ? 1 : 0;
-
             }
     });
     return arrayOrdenado;

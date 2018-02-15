@@ -78,9 +78,40 @@ p {
 h3 {
     text-align: center;
 }
-.cellWithShip {
-    background-color: palegreen;
+/*.cellWithShip {*/
+    /*background-color: palegreen;*/
+/*}*/
+
+/* estilo tabla leaderBoard*/
+
+#leaderBoard th {
+    width: 5rem;
+    border-left: 0;
+    border-right: 0;
 }
+#tableLeader td {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    border-radius: 0;
+}
+#leaderBoard thead {
+    background-color:  #395870;
+    color: white;
+    border-color:  #395870;
+
+}
+#leaderBoard thead tr {
+    border-bottom-color: #395870;
+}
+
+#leaderBoard {
+    border-color:  #395870;
+
+}
+#tableLeader tr:nth-child(even) {
+    background: #f0f0f2;
+}
+
 
 
 
