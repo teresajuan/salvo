@@ -22,10 +22,10 @@ public class SalvoApplication {
 		return (args) -> {
 			//create players
 
-			Player p1 = new Player("j.bauer@ctu.gov");
-			Player p2 = new Player("c.obrian@ctu.gov");
-			Player p3 = new Player("kim_bauer@gmail.com");
-			Player p4 = new Player("t.almeida@ctu.gov");
+			Player p1 = new Player("j.bauer@ctu.gov", "24");
+			Player p2 = new Player("c.obrian@ctu.gov", "42");
+			Player p3 = new Player("kim_bauer@gmail.com", "kb");
+			Player p4 = new Player("t.almeida@ctu.gov", "mole");
 
 			// save players
 
@@ -131,52 +131,49 @@ public class SalvoApplication {
 			List<String> shipLoc9 = new ArrayList<>(Arrays.asList("F1", "F2"));
 
 
-			//create ships
+			//create ships and add to gameplayer
 
 			Ship sh1 = new Ship("Destroyer", shipLoc1);
-			Ship sh2 = new Ship("Submarine", shipLoc2);
-			Ship sh3 = new Ship("Patrol Boat", shipLoc3);
-			Ship sh4 = new Ship("Destroyer", shipLoc4);
-			Ship sh5 = new Ship("Submarine", shipLoc6);
-			Ship sh6 = new Ship("Patrol Boat", shipLoc9);
-			Ship sh7 = new Ship("Destroyer", shipLoc4);
-			Ship sh8 = new Ship("Patrol Boat", shipLoc5);
-			Ship sh9 = new Ship("Patrol Boat", shipLoc7);
-			Ship sh10 = new Ship("Destroyer", shipLoc4);
-			Ship sh11 = new Ship("Patrol Boat", shipLoc5);
-			Ship sh12 = new Ship("Submarine", shipLoc6);
-			Ship sh13 = new Ship("Patrol Boat", shipLoc7);
-			Ship sh14 = new Ship("Destroyer", shipLoc4);
-			Ship sh15 = new Ship("Patrol Boat", shipLoc5);
-			Ship sh16 = new Ship("Submarine", shipLoc6);
-			Ship sh17 = new Ship("Patrol Boat", shipLoc7);
-			Ship sh18 = new Ship("Destroyer", shipLoc4);
-			Ship sh19 = new Ship("Patrol Boat", shipLoc5);
-			Ship sh20 = new Ship("Submarine", shipLoc6);
-			Ship sh21 = new Ship("Patrol Boat", shipLoc7);
-
-			//add ships to gameplayers
-
 			gp1.addShip(sh1);
+			Ship sh2 = new Ship("Submarine", shipLoc2);
 			gp1.addShip(sh2);
+			Ship sh3 = new Ship("Patrol Boat", shipLoc3);
 			gp1.addShip(sh3);
+			Ship sh4 = new Ship("Destroyer", shipLoc4);
 			gp2.addShip(sh4);
-			gp2.addShip(sh6);
-			gp3.addShip(sh7);
-			gp3.addShip(sh8);
+			Ship sh5 = new Ship("Submarine", shipLoc6);
 			gp4.addShip(sh5);
+			Ship sh6 = new Ship("Patrol Boat", shipLoc9);
+			gp2.addShip(sh6);
+			Ship sh7 = new Ship("Destroyer", shipLoc4);
+			gp3.addShip(sh7);
+			Ship sh8 = new Ship("Patrol Boat", shipLoc5);
+			gp3.addShip(sh8);
+			Ship sh9 = new Ship("Patrol Boat", shipLoc7);
 			gp4.addShip(sh9);
+			Ship sh10 = new Ship("Destroyer", shipLoc4);
 			gp5.addShip(sh10);
+			Ship sh11 = new Ship("Patrol Boat", shipLoc5);
 			gp5.addShip(sh11);
+			Ship sh12 = new Ship("Submarine", shipLoc6);
 			gp6.addShip(sh12);
+			Ship sh13 = new Ship("Patrol Boat", shipLoc7);
 			gp6.addShip(sh13);
+			Ship sh14 = new Ship("Destroyer", shipLoc4);
 			gp7.addShip(sh14);
+			Ship sh15 = new Ship("Patrol Boat", shipLoc5);
 			gp7.addShip(sh15);
+			Ship sh16 = new Ship("Submarine", shipLoc6);
 			gp8.addShip(sh16);
+			Ship sh17 = new Ship("Patrol Boat", shipLoc7);
 			gp8.addShip(sh17);
+			Ship sh18 = new Ship("Destroyer", shipLoc4);
 			gp9.addShip(sh18);
+			Ship sh19 = new Ship("Patrol Boat", shipLoc5);
 			gp9.addShip(sh19);
+			Ship sh20 = new Ship("Submarine", shipLoc6);
 			gp14.addShip(sh20);
+			Ship sh21 = new Ship("Patrol Boat", shipLoc7);
 			gp14.addShip(sh21);
 
 			//create salvoLocations
@@ -206,91 +203,81 @@ public class SalvoApplication {
 			List<String> salvoLoc20 = new ArrayList<>(Arrays.asList("C6", "D6", "E6"));
 			List<String> salvoLoc21 = new ArrayList<>(Arrays.asList("H1", "H8"));
 
-			//create salvos
+			//create salvos and add to gameplayer
 
 			Salvo s1 = new Salvo(1, salvoLoc1);
-			Salvo s2 = new Salvo(1, salvoLoc2);
-			Salvo s3 = new Salvo(2, salvoLoc3);
-			Salvo s4 = new Salvo(2, salvoLoc4);
-			Salvo s5 = new Salvo(1, salvoLoc5);
-			Salvo s6 = new Salvo(1, salvoLoc6);
-			Salvo s7 = new Salvo(2, salvoLoc7);
-			Salvo s8 = new Salvo(2, salvoLoc8);
-			Salvo s9 = new Salvo(1, salvoLoc9);
-			Salvo s10 = new Salvo(1, salvoLoc10);
-			Salvo s11 = new Salvo(2, salvoLoc11);
-			Salvo s12 = new Salvo(2, salvoLoc12);
-			Salvo s13 = new Salvo(1, salvoLoc13);
-			Salvo s14 = new Salvo(1, salvoLoc14);
-			Salvo s15 = new Salvo(2, salvoLoc15);
-			Salvo s16 = new Salvo(2, salvoLoc16);
-			Salvo s17 = new Salvo(1, salvoLoc17);
-			Salvo s18 = new Salvo(1, salvoLoc18);
-			Salvo s19 = new Salvo(2, salvoLoc19);
-			Salvo s20 = new Salvo(2, salvoLoc20);
-			Salvo s21 = new Salvo(3, salvoLoc21);
-
-			//add salvos to gamePlayers
-
 			gp1.addSalvo(s1);
-			gp1.addSalvo(s3);
+			Salvo s2 = new Salvo(1, salvoLoc2);
 			gp2.addSalvo(s2);
+			Salvo s3 = new Salvo(2, salvoLoc3);
+			gp1.addSalvo(s3);
+			Salvo s4 = new Salvo(2, salvoLoc4);
 			gp2.addSalvo(s4);
+			Salvo s5 = new Salvo(1, salvoLoc5);
 			gp3.addSalvo(s5);
-			gp3.addSalvo(s7);
+			Salvo s6 = new Salvo(1, salvoLoc6);
 			gp4.addSalvo(s6);
+			Salvo s7 = new Salvo(2, salvoLoc7);
+			gp3.addSalvo(s7);
+			Salvo s8 = new Salvo(2, salvoLoc8);
 			gp4.addSalvo(s8);
+			Salvo s9 = new Salvo(1, salvoLoc9);
 			gp5.addSalvo(s9);
-			gp5.addSalvo(s11);
+			Salvo s10 = new Salvo(1, salvoLoc10);
 			gp6.addSalvo(s10);
+			Salvo s11 = new Salvo(2, salvoLoc11);
+			gp5.addSalvo(s11);
+			Salvo s12 = new Salvo(2, salvoLoc12);
 			gp6.addSalvo(s12);
+			Salvo s13 = new Salvo(1, salvoLoc13);
 			gp7.addSalvo(s13);
-			gp7.addSalvo(s15);
+			Salvo s14 = new Salvo(1, salvoLoc14);
 			gp8.addSalvo(s14);
+			Salvo s15 = new Salvo(2, salvoLoc15);
+			gp7.addSalvo(s15);
+			Salvo s16 = new Salvo(2, salvoLoc16);
 			gp8.addSalvo(s16);
+			Salvo s17 = new Salvo(1, salvoLoc17);
 			gp9.addSalvo(s17);
-			gp9.addSalvo(s19);
+			Salvo s18 = new Salvo(1, salvoLoc18);
 			gp14.addSalvo(s18);
+			Salvo s19 = new Salvo(2, salvoLoc19);
+			gp9.addSalvo(s19);
+			Salvo s20 = new Salvo(2, salvoLoc20);
 			gp14.addSalvo(s20);
+			Salvo s21 = new Salvo(3, salvoLoc21);
 			gp14.addSalvo(s21);
 
 			//create finishDate
 
 			Date fd1 = new Date();
 
-			//create scores
+			//create scores and add to players and games
 
 			Score sc1 = new Score(1.0, fd1);
-			Score sc2 = new Score(0.0, fd1);
-			Score sc3 = new Score(0.5, fd1);
-			Score sc4 = new Score(0.5, fd1);
-			Score sc5 = new Score(1.0, fd1);
-			Score sc6 = new Score(0.0, fd1);
-			Score sc7 = new Score(0.5, fd1);
-			Score sc8 = new Score(0.5, fd1);
-
-			//adding scores to players
-
 			p1.addScore(sc1);
-			p1.addScore(sc3);
-			p1.addScore(sc8);
-			p2.addScore(sc2);
-			p2.addScore(sc4);
-			p2.addScore(sc5);
-			p2.addScore(sc7);
-			p4.addScore(sc6);
-
-			// adding scores to games
-
 			g1.addScores(sc1);
+			Score sc2 = new Score(0.0, fd1);
+			p2.addScore(sc2);
 			g1.addScores(sc2);
+			Score sc3 = new Score(0.5, fd1);
+			p1.addScore(sc3);
 			g2.addScores(sc3);
+			Score sc4 = new Score(0.5, fd1);
+			p2.addScore(sc4);
 			g2.addScores(sc4);
+			Score sc5 = new Score(1.0, fd1);
+			p2.addScore(sc5);
 			g3.addScores(sc5);
+			Score sc6 = new Score(0.0, fd1);
+			p4.addScore(sc6);
 			g3.addScores(sc6);
+			Score sc7 = new Score(0.5, fd1);
+			p2.addScore(sc7);
 			g4.addScores(sc7);
+			Score sc8 = new Score(0.5, fd1);
+			p1.addScore(sc8);
 			g4.addScores(sc8);
-
 
 			//save gamePlayers
 

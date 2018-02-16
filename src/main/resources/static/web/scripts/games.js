@@ -1,6 +1,6 @@
 
 
-$.getJSON("http://localhost:8080/api/games", function(json) {
+$.getJSON("http://localhost:8080/api/games").done(function(json) {
     var data = json;
     console.log(data);
     // createGamesList(data);
