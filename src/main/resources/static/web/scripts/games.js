@@ -1,21 +1,16 @@
 
 
+
 $.getJSON("http://localhost:8080/api/games").done(function(json) {
     var data = json;
     console.log(data);
-    // createGamesList(data);
+    createGamesList(data);
     createTableLeaderBoard(data);
     playersScoreInfo(data);
-    // playerScores(data, 1);
-    // playerScores(data, 2);
-    // playerScores(data, 3);
-    // playerScores(data, 4);
     sumaScores(data, 1);
     sumaScores(data, 2);
     sumaScores(data, 3);
     sumaScores(data, 4);
-
-
 
 });
 
@@ -209,6 +204,23 @@ function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
             }
     });
     return arrayOrdenado;
+}
+
+function login(evt) {
+    evt.preventDefault();
+    var form = evt.target.form;
+    $.post("/login",
+        { name: form["userName"].value,
+            pwd: form["password"].value })
+        .done()
+        .fail();
+}
+
+function logout(evt) {
+    evt.preventDefault();
+    $.post("/logout")
+        .done()
+        .fail();
 }
 
 

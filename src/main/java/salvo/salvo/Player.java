@@ -2,6 +2,7 @@ package salvo.salvo;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
