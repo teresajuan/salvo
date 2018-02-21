@@ -51,7 +51,7 @@ public class SalvoController {
 
         return dto;
     }
-    
+
     private boolean isGuest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }

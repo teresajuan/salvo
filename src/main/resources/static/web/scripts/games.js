@@ -18,9 +18,9 @@ function createGamesList(data) {
 
     var printListGames = document.getElementById('gamesList');
 
-    for(var i = 0; i < data.length; i++){
+    for(var i = 0; i < data.games.length; i++){
 
-        var eachGame = data[i];
+        var eachGame = data.games[i];
         var date = new Date(eachGame.created);
         var formatCreationDate = date.toLocaleString();
         var idEachGame = eachGame.id;
@@ -96,8 +96,8 @@ function createTableLeaderBoard(data) {
 function playersScoreInfo (data){
 
     var totalPlayersInfo = [];
-    for (var i = 0; i<data.length; i++) {
-        var gamePlayers = data[i].gamePlayers;
+    for (var i = 0; i<data.games.length; i++) {
+        var gamePlayers = data.games[i].gamePlayers;
 
 
         for (var j=0; j<gamePlayers.length; j++){
@@ -148,8 +148,8 @@ console.log(totalPlayersInfo);
 function playerScores(data, idPlayer) {
 
     var totalPlayerScores = [];
-    for (var i = 0; i<data.length; i++) {
-        var gamePlayers = data[i].gamePlayers;
+    for (var i = 0; i < data.games.length; i++) {
+        var gamePlayers = data.games[i].gamePlayers;
 
         for (var j=0; j<gamePlayers.length; j++){
             var playerId = gamePlayers[j].player.id;
@@ -162,6 +162,8 @@ function playerScores(data, idPlayer) {
     }
     return totalPlayerScores;
 }
+
+// Función para sumar los scores de cada player
 
 function sumaScores(data, idPlayer){
 
@@ -206,22 +208,22 @@ function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
     return arrayOrdenado;
 }
 
-function login(evt) {
-    evt.preventDefault();
-    var form = evt.target.form;
-    $.post("/login",
-        { name: form["userName"].value,
-            pwd: form["password"].value })
-        .done()
-        .fail();
-}
-
-function logout(evt) {
-    evt.preventDefault();
-    $.post("/logout")
-        .done()
-        .fail();
-}
+// function login(evt) {
+//     evt.preventDefault();
+//     var form = evt.target.form;
+//     $.post("/login",
+//         { name: form["userName"].value,
+//             pwd: form["password"].value })
+//         .done()
+//         .fail();
+// }
+//
+// function logout(evt) {
+//     evt.preventDefault();
+//     $.post("/logout")
+//         .done()
+//         .fail();
+// }
 
 
 
