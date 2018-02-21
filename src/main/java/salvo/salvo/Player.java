@@ -2,7 +2,6 @@ package salvo.salvo;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -10,7 +9,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    private long player_id;
+    private long playerId;
     private String userName;
     private String password;
 
@@ -29,7 +28,7 @@ public class Player {
     }
 
     public long getId() {
-        return player_id;
+        return playerId;
     }
     public String getUserName() {
         return userName;
@@ -70,6 +69,6 @@ public class Player {
     }
 
     public String toString() {
-        return player_id + " " + "refers to " + userName;
+        return playerId + " " + "refers to " + userName;
     }
 }

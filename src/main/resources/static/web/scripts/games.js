@@ -4,7 +4,7 @@
 $.getJSON("http://localhost:8080/api/games").done(function(json) {
     var data = json;
     console.log(data);
-    createGamesList(data);
+    // createGamesList(data);
     createTableLeaderBoard(data);
     playersScoreInfo(data);
     sumaScores(data, 1);

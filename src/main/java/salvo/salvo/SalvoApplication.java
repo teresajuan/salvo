@@ -463,7 +463,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/web/games.html", "/web/styles/gameStyle.css", "/web/scripts/games.js", "/api/games").permitAll()
-                .antMatchers("/rest/**").hasAuthority("USER")
+                .antMatchers("/web/**").hasAuthority("USER")
+                .antMatchers("/rest/**").denyAll()
                 .anyRequest().fullyAuthenticated();
 
         http.formLogin()
@@ -472,7 +473,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/api/login");
 
 
-        http.logout().logoutUrl("/api/logout");
+        http.logout()
+                .logoutUrl("/api/logout");
 
         // turn off checking for CSRF tokens
         http.csrf().disable();

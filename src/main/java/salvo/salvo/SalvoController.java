@@ -1,21 +1,62 @@
 package salvo.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping
 public class SalvoController {
     @Autowired
     private GameRepository repoGames;
+    @Autowired
+    private PlayerRepository repoPlayers;
 
     @RequestMapping("api/games")
-    public ArrayList<Map<String, Object>> gamesList() {
+    public Map<String, Object> playerLogged() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        List<Player> playerLog = repoPlayers.findByUserName(name);
+
+        Map<String, Object> playerLogged = new HashMap<>();
+
+        if (isGuest(auth) == true){
+            playerLogged.put("player", "null");
+            playerLogged.put("games", gameList());
+        } else {
+
+            playerLogged.put("player", playerLog.stream()
+                                                .map(player -> makeAuthenticationDTO(player))
+                                                .collect(Collectors.toList()));
+            playerLogged.put("games", gameList());
+        }
+
+        return playerLogged;
+
+    }
+
+    public Map<String, Object> makeAuthenticationDTO(Player player) {
+        Map<String, Object> dto = new HashMap<>();
+
+        dto.put("id", player.getId());
+        dto.put("name", player.getUserName());
+
+        return dto;
+    }
+    
+    private boolean isGuest(Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
+    }
+
+    public ArrayList<Map<String, Object>> gameList() {
 
         ArrayList<Map<String, Object>> gameList = new ArrayList<>();
         List<Game> listGames = repoGames.findAll();
@@ -62,14 +103,11 @@ public class SalvoController {
         return dto;
     }
 
-//    public Map<String, Object> makePlayerScoreDTO(Player player, Game game) {
-//        Map<String, Object> dto = new HashMap<>();
-//
-//        dto.put("id", player.getId());
-//        dto.put("score", player.getScore(game));
-//
-//        return dto;
-//    }
+
+
+
+
+
 
 
     @Autowired
