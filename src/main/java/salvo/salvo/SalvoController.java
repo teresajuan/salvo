@@ -1,30 +1,28 @@
 package salvo.salvo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 public class SalvoController {
+
     @Autowired
     private GameRepository repoGames;
     @Autowired
     private PlayerRepository repoPlayers;
 
-    @RequestMapping("api/games")
-    public Map<String, Object> playerLogged() {
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String name = auth.getName();
-        List<Player> playerLog = repoPlayers.findByUserName(name);
+    @RequestMapping("/api/games")
+    public Map<String, Object> playerLogged(Authentication auth) {
 
         Map<String, Object> playerLogged = new HashMap<>();
 
@@ -32,15 +30,13 @@ public class SalvoController {
             playerLogged.put("player", "null");
             playerLogged.put("games", gameList());
         } else {
+            String name = auth.getName();
+            Player playerLog = repoPlayers.findOneByUserName(name);
 
-            playerLogged.put("player", playerLog.stream()
-                                                .map(player -> makeAuthenticationDTO(player))
-                                                .collect(Collectors.toList()));
+            playerLogged.put("player", makeAuthenticationDTO(playerLog));
             playerLogged.put("games", gameList());
         }
-
         return playerLogged;
-
     }
 
     public Map<String, Object> makeAuthenticationDTO(Player player) {
@@ -103,17 +99,10 @@ public class SalvoController {
         return dto;
     }
 
-
-
-
-
-
-
-
     @Autowired
     private GamePlayerRepository repoGamePlayer;
 
-    @RequestMapping("api/game_view/{gamePlayer_Id}")
+    @RequestMapping("/api/game_view/{gamePlayer_Id}")
     public Map<String, Object> gameView(@PathVariable Long gamePlayer_Id) {
 
         GamePlayer listGamePlayers = repoGamePlayer.findOne(gamePlayer_Id);
@@ -158,6 +147,26 @@ public class SalvoController {
         dto.put(salvo.getTurn(), salvo.getSalvoLocation());
 
         return dto;
+    }
+
+    @RequestMapping(path = "/api/players", method = RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createUser(@RequestParam String username, @RequestParam String password) {
+        if (username.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
+        }
+        Player player = repoPlayers.findOneByUserName(username);
+        if (player != null) {
+            return new ResponseEntity<>(makeMap("error", "Name in use"), HttpStatus.FORBIDDEN);
+        }
+        player = repoPlayers.save(new Player(username, password));
+        return new ResponseEntity<>(makeMap("id", player.getId()), HttpStatus.CREATED);
+
+    }
+
+    private Map<String, Object> makeMap(String key, Object value) {
+        Map<String, Object> map = new HashMap<>();
+        map.put(key, value);
+        return map;
     }
 
 }

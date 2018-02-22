@@ -1,7 +1,8 @@
 
 
 
-$.getJSON("http://localhost:8080/api/games").done(function(json) {
+$.getJSON("http://localhost:8080/api/games")
+    .done(function(json) {
     var data = json;
     console.log(data);
     // createGamesList(data);
@@ -67,8 +68,6 @@ function createTableLeaderBoard(data) {
     var printTableLeader = document.getElementById('tableLeader');
 
     var tableData = ordenMayorAMenor(playersScoreInfo(data), "totalScore", "lost");
-
-    console.log(tableData);
 
     var tableLeader = "";
 
@@ -139,7 +138,6 @@ function playersScoreInfo (data){
         }
     }
 
-console.log(totalPlayersInfo);
     return totalPlayersInfo;
 }
 
