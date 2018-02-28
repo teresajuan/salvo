@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Salvo!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js" integrity="sha256-XDU6Po3hKjdQXJHRrKrWlIF/E6y6BBgV5eiqZSYePpo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/gameStyle.css">
 
 </head>
 <body>
+
+    <div>
+        <p id="currentUser"></p>
+        <label id="labelUsername">Name: <input id="username" type="email" name="username" placeholder="username@domain.com"></label>
+        <label id="labelPassword">Password: <input id="password" type="password" name="password"></label>
+        <button id="login" type="button">Log in</button>
+        <button id="logout" type="button">Log out</button>
+        <button id="signin" type="button">Sign in</button>
+
+    </div>
+
     <h1>Leaderboard</h1>
-
-
-    <!--<form id="login-form" onsubmit="return false" action="login" method='POST'>-->
-        <!--<label>Name: <input type="text" name="username"></label>-->
-        <!--<label>Password: <input type="text" name="password"></label>-->
-        <!--<button>Log in</button>-->
-    <!--</form>-->
-
-    <!--<form id="logout-form" onsubmit="return false">-->
-        <!--<button>Log out</button>-->
-    <!--</form>-->
 
     <table id="leaderBoard">
         <thead>
@@ -31,7 +35,19 @@
             </tr>
         </thead>
         <tbody id="tableLeader"></tbody>
+    </table>
 
+    <h1>Games</h1>
+    <table id="tableGames">
+        <thead>
+        <tr>
+            <th>Game</th>
+            <th>Created Date</th>
+            <th>Player1</th>
+            <th>Player2</th>
+        </tr>
+        </thead>
+        <tbody id="bodyTableGames"></tbody>
     </table>
 
     <ol id="gamesList">
@@ -40,7 +56,12 @@
 
 
 
-    <script src="https://code.jquery.com/jquery-2.2.0.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js" integrity="sha256-XDU6Po3hKjdQXJHRrKrWlIF/E6y6BBgV5eiqZSYePpo=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
     <!--<script src="scripts/data.js"></script>-->
     <script src="scripts/games.js"></script>
 

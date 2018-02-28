@@ -26,7 +26,7 @@ public class SalvoController {
 
         Map<String, Object> playerLogged = new HashMap<>();
 
-        if (isGuest(auth) == true){
+        if (isGuest(auth) == true) {
             playerLogged.put("player", "null");
             playerLogged.put("games", gameList());
         } else {
@@ -93,7 +93,7 @@ public class SalvoController {
 
         if (score != null) {
             dto.put("score", score.getPoints());
-        }else {
+        } else {
             dto.put("score", "null");
         }
         return dto;
@@ -103,7 +103,21 @@ public class SalvoController {
     private GamePlayerRepository repoGamePlayer;
 
     @RequestMapping("/api/game_view/{gamePlayer_Id}")
-    public Map<String, Object> gameView(@PathVariable Long gamePlayer_Id) {
+    public ResponseEntity<Map<String, Object>> gpGame(@PathVariable Long gamePlayer_Id,
+                                                      Authentication auth) {
+
+        String name = auth.getName();
+        Player playerLog = repoPlayers.findOneByUserName(name);
+        GamePlayer listGamePlayers = repoGamePlayer.findOne(gamePlayer_Id);
+
+        if(playerLog.getUserName() != listGamePlayers.getPlayer().getUserName()) {
+            return new ResponseEntity<>(makeMap("error", "this is not your game"), HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(gameView(gamePlayer_Id), HttpStatus.OK);
+    }
+
+//    @RequestMapping(path="/api/game_view/{gamePlayer_Id}", method = RequestMethod.GET)
+    public Map<String, Object> gameView(Long gamePlayer_Id) {
 
         GamePlayer listGamePlayers = repoGamePlayer.findOne(gamePlayer_Id);
 
@@ -123,6 +137,7 @@ public class SalvoController {
                 .collect(Collectors.toList()));
 
         return eachGameView;
+
     }
 
     public Map<String, Object> makeShipDTO(Ship ship) {
@@ -151,8 +166,8 @@ public class SalvoController {
 
     @RequestMapping(path = "/api/players", method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> createUser(@RequestParam String username, @RequestParam String password) {
-        if (username.isEmpty()) {
-            return new ResponseEntity<>(makeMap("error", "No name"), HttpStatus.FORBIDDEN);
+        if (username.isEmpty() || password.isEmpty()) {
+            return new ResponseEntity<>(makeMap("error", "empty field"), HttpStatus.FORBIDDEN);
         }
         Player player = repoPlayers.findOneByUserName(username);
         if (player != null) {

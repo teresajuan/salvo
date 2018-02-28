@@ -3,17 +3,47 @@
 
 $.getJSON("http://localhost:8080/api/games")
     .done(function(json) {
-    var data = json;
-    console.log(data);
-    // createGamesList(data);
-    createTableLeaderBoard(data);
-    playersScoreInfo(data);
-    sumaScores(data, 1);
-    sumaScores(data, 2);
-    sumaScores(data, 3);
-    sumaScores(data, 4);
+        var data = json;
+        console.log(data);
+        // createGamesList(data);
+        createGamesTable(data);
+        createTableLeaderBoard(data);
 
-});
+        clickButtons();
+
+        $('document').ready(function(){
+            var player = data.player;
+            var playerName = player.name;
+
+            if (player != "null") {
+                loginInterface(playerName);
+            } else{
+                logoutInterface();
+            }
+        })
+
+    });
+
+//Funcion clicar
+
+function clickButtons() {
+    $('#login').click(function(){
+        var username = document.getElementById("username");
+        var password = document.getElementById("password");
+
+        if(username.value && password.value) {
+            return login();
+        }
+        $.post("/api/players", { username: username.value, password: password.value }).fail(function(response){
+            alert(response.responseJSON.error);
+            cleanInputs();
+        })
+
+    });
+    $('#logout').click(logout);
+    $('#signin').click(signin);
+
+}
 
 function createGamesList(data) {
 
@@ -62,6 +92,80 @@ function createGamesList(data) {
     }
 }
 
+//Crear tabla de games
+
+function createGamesTable(data) {
+
+    var printTableGames = document.getElementById('bodyTableGames');
+
+    for (var i = 0; i < data.games.length; i++) {
+
+        var eachGame = data.games[i];
+        var idEachGame = eachGame.id;
+        var date = new Date(eachGame.created);
+        var formatCreationDate = date.toLocaleString();
+        var gpEachGame = eachGame.gamePlayers;
+
+        var row1 = document.createElement('tr');
+
+        var cell1 = document.createElement('td');
+        var cell2 = document.createElement('td');
+        var cell3 = document.createElement('td');
+        var cell4 = document.createElement('td');
+
+        var goToGame = document.createElement('a');
+
+        goToGame.setAttribute('class', 'btn btn-primary');
+        goToGame.setAttribute('id', 'gpButton');
+
+        cell1.append(idEachGame);
+        cell2.append(formatCreationDate);
+
+        if (gpEachGame[0] && gpEachGame[1]) {
+            var player1 = eachGame.gamePlayers[0].player.email;
+            var player2 = eachGame.gamePlayers[1].player.email;
+            var gpId1 = eachGame.gamePlayers[0].id;
+            var gpId2 = eachGame.gamePlayers[1].id;
+
+            cell3.append(player1);
+            cell4.append(player2);
+
+            var userLogged = data.player.name;
+
+            if (userLogged == player1) {
+                goToGame.append('Go to your game');
+                cell3.append(goToGame);
+                goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId1 + '');
+
+            }else if(userLogged == player2) {
+                goToGame.append('Go to your game');
+                cell4.append(goToGame);
+                goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId2 + '');
+            }
+
+        } else {
+            var player1 = eachGame.gamePlayers[0].player.email;
+            var gpId1 = eachGame.gamePlayers[0].id;
+            cell3.append(player1);
+
+            var userLogged = data.player.name;
+
+            if (userLogged == player1) {
+                goToGame.append('Go to your game');
+                cell3.append(goToGame);
+                goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId1 + '');
+            }
+        }
+
+        row1.append(cell1);
+        row1.append(cell2);
+        row1.append(cell3);
+        row1.append(cell4);
+        printTableGames.append(row1);
+    }
+}
+
+
 // Crear la tabla leaderboard
 
 function createTableLeaderBoard(data) {
@@ -97,7 +201,6 @@ function playersScoreInfo (data){
     var totalPlayersInfo = [];
     for (var i = 0; i<data.games.length; i++) {
         var gamePlayers = data.games[i].gamePlayers;
-
 
         for (var j=0; j<gamePlayers.length; j++){
              var players = {};
@@ -206,22 +309,86 @@ function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
     return arrayOrdenado;
 }
 
-// function login(evt) {
-//     evt.preventDefault();
-//     var form = evt.target.form;
-//     $.post("/login",
-//         { name: form["userName"].value,
-//             pwd: form["password"].value })
-//         .done()
-//         .fail();
-// }
-//
-// function logout(evt) {
-//     evt.preventDefault();
-//     $.post("/logout")
-//         .done()
-//         .fail();
-// }
+//Función para logearse
+
+function loginInterface(name){
+    //Para mostrar y ocultar botones y demás contenidos
+    $('#logout').show();
+    $('#login, #signin, #labelUsername, #username, #labelPassword, #password').hide();
+
+    var username = document.getElementById("username");
+    var user = $("#currentUser").html("Welcome, " + JSON.stringify(name));
+
+    user.css('display', 'inline-block');
+
+}
+//Función para limpiar campos
+
+function cleanInputs(){
+    $('input[type="email"]').val('');
+    $('input[type="password"]').val('');
+}
+
+//Función para loguearse
+
+function login(){
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+
+    $.post("/api/login", { username: username.value, password: password.value }).done(function(){
+        loginInterface();
+        cleanInputs;
+        location.reload();
+        console.log("estás login");
+    }).fail(function(response){
+        alert("login incorrecto" + "Recuerda!! Debes estar registrado para poder accdeder al login");
+        cleanInputs();
+    })
+}
+
+//Funciónn para logoutarse
+
+function logoutInterface(){
+    $('#logout, #currentUser').hide();
+    $('#login, #signin, #labelUsername, #username, #labelPassword, #password').show();
+}
+
+function logout(){
+    $.post("/api/logout").done(function() {
+        logoutInterface();
+        location.reload();
+        console.log("Estás logged out"); })
+}
+
+//Funcion para registrarse
+
+function signin(){
+    var username = document.getElementById("username");
+    var password = document.getElementById("password");
+
+    $.post("/api/players", { username: username.value, password: password.value }).done(function(){
+        alert("Enhorabuena!! Te has registrado con éxito");
+        login();
+    }).fail(function(response){
+        alert(response.responseJSON.error);
+        cleanInputs();
+    })
+}
+
+//Funcion para proteger los gameplayers (solo ver los gameplayers del jugador loggeado
+
+function gpView(gpId){
+
+
+
+
+}
+
+
+
+
+
+
 
 
 

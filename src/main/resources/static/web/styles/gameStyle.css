@@ -112,7 +112,11 @@ h3 {
     background: #f0f0f2;
 }
 
+/* Estilo login */
 
+#currentUser{
+    display: none;
+}
 
 
 
