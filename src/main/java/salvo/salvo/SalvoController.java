@@ -21,7 +21,8 @@ public class SalvoController {
     @Autowired
     private PlayerRepository repoPlayers;
 
-    @RequestMapping("/api/games")
+
+    @RequestMapping(path="/api/games")
     public Map<String, Object> playerLogged(Authentication auth) {
 
         Map<String, Object> playerLogged = new HashMap<>();
@@ -97,6 +98,24 @@ public class SalvoController {
             dto.put("score", "null");
         }
         return dto;
+    }
+
+    //Función para crear nuevo juego
+
+    @RequestMapping(path= "/api/games", method= RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> createNewGame (Authentication auth){
+
+        if (isGuest(auth) == true) {
+            return new ResponseEntity<>(makeMap("error", "You can't create games if you're not logged"), HttpStatus.UNAUTHORIZED);
+        }
+
+        String name = auth.getName();
+        Player playerLog = repoPlayers.findOneByUserName(name);
+        Game newGame = repoGames.save(new Game(new Date()));
+        GamePlayer newGp = repoGamePlayer.save(new GamePlayer(playerLog, newGame, new Date()));
+
+        return new ResponseEntity<>(makeMap("gpId", newGp.getId()), HttpStatus.CREATED);
+
     }
 
     @Autowired
