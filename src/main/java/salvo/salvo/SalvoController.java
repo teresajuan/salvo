@@ -29,7 +29,7 @@ public class SalvoController {
 
         Map<String, Object> playerLogged = new HashMap<>();
 
-        if (isGuest(auth) == true) {
+        if (isGuest(auth)) {
             playerLogged.put("player", "null");
             playerLogged.put("games", gameList());
         } else {
@@ -107,7 +107,7 @@ public class SalvoController {
     @RequestMapping(path= "/api/games", method= RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> createNewGame (Authentication auth){
 
-        if (isGuest(auth) == true) {
+        if (isGuest(auth)) {
             return new ResponseEntity<>(makeMap("error", "You can't create games if you're not logged"), HttpStatus.UNAUTHORIZED);
         }
 
@@ -141,6 +141,11 @@ public class SalvoController {
 
         String name = auth.getName();
         Player playerLog = repoPlayers.findOneByUserName(name);
+        GamePlayer gpExists = repoGamePlayer.findGamePlayerByGame(gameToJoin);
+
+        if(gpExists.getPlayer().getUserName() == playerLog.getUserName()) {
+            return new ResponseEntity<>(makeMap("error", "You're just in this game"), HttpStatus.UNAUTHORIZED);
+        }
 
         GamePlayer gpToJoin = repoGamePlayer.save(new GamePlayer(playerLog, gameToJoin, new Date()));
 
