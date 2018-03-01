@@ -19,6 +19,7 @@ $.getJSON("http://localhost:8080/api/games")
                 loginInterface(playerName);
             } else{
                 logoutInterface();
+
             }
         })
 
@@ -337,7 +338,7 @@ function login(){
 //Funciónn para logoutarse
 
 function logoutInterface(){
-    $('#logout, #currentUser').hide();
+    $('#logout, #currentUser, [data-id]').hide();
     $('#login, #signin, #labelUsername, #username, #labelPassword, #password').show();
 }
 
