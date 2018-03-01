@@ -93,8 +93,11 @@ function createGamesTable(data) {
         var cell4 = document.createElement('td');
 
         var goToGame = document.createElement('a');
+        var joinToGame = document.createElement('a');
 
         goToGame.setAttribute('class', 'btn btn-primary');
+        joinToGame.setAttribute('class', 'btn btn-secondary eachGame');
+        joinToGame.setAttribute('data-id', idEachGame);
 
         cell1.append(idEachGame);
         cell2.append(formatCreationDate);
@@ -115,16 +118,20 @@ function createGamesTable(data) {
                 cell3.append(goToGame);
                 goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId1 + '');
 
+
             }else if(userLogged == player2) {
                 goToGame.append('Go to your game');
                 cell4.append(goToGame);
                 goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId2 + '');
+
             }
+
 
         } else {
             var player1 = eachGame.gamePlayers[0].player.email;
             var gpId1 = eachGame.gamePlayers[0].id;
             cell3.append(player1);
+
 
             var userLogged = data.player.name;
 
@@ -132,6 +139,9 @@ function createGamesTable(data) {
                 goToGame.append('Go to your game');
                 cell3.append(goToGame);
                 goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId1 + '');
+            } else {
+                joinToGame.append('Join to the game');
+                cell4.append(joinToGame);
             }
         }
 
@@ -359,7 +369,7 @@ function createNewGame() {
 
     $.post("/api/games").done(function(response){
 
-        window.location.replace('/web/game.html?gp=' + response.gpId + '');
+        window.location.assign('/web/game.html?gp=' + response.gpId + '');
 
     }).fail(function(response){
         alert(response.responseJSON.error);
@@ -385,6 +395,16 @@ function clickButtons() {
     $('#logout').click(logout);
     $('#signin').click(signin);
     $('#newGame').click(createNewGame);
+    $('[data-id]').click(function(){
+        var gpId = $(this).data('id');
+        $.post('/api/game/' + gpId + '/players').done(function(response){
+
+            window.location.assign('/web/game.html?gp=' + response.gpId + '');
+
+        }).fail(function(response){
+            alert(response.responseJSON.error);
+        })
+    });
 
 }
 

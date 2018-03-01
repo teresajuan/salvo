@@ -131,11 +131,11 @@ public class SalvoController {
 
         Game gameToJoin = repoGames.findOne(gameId);
 
-        if(gameToJoin == null){
+        if (gameToJoin == null){
             return new ResponseEntity<>(makeMap("error", "This game doesn't exists"), HttpStatus.FORBIDDEN);
         }
 
-        if(gameToJoin.getGamePlayers().size()>1){
+        if (gameToJoin.getGamePlayers().size()>1){
             return new ResponseEntity<>(makeMap("error", "Game is full"), HttpStatus.FORBIDDEN);
         }
 
@@ -143,7 +143,7 @@ public class SalvoController {
         Player playerLog = repoPlayers.findOneByUserName(name);
         GamePlayer gpExists = repoGamePlayer.findGamePlayerByGame(gameToJoin);
 
-        if(gpExists.getPlayer().getUserName() == playerLog.getUserName()) {
+        if (gpExists.getPlayer().getUserName() == playerLog.getUserName()) {
             return new ResponseEntity<>(makeMap("error", "You're just in this game"), HttpStatus.UNAUTHORIZED);
         }
 
