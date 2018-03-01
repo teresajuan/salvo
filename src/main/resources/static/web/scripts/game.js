@@ -179,11 +179,18 @@ function usersTitle(data) {
         var gpIdUrl = getParameterByName('gp');
 
         if (gpId == gpIdUrl) {
-            $('#userViewer').html(emailUser);
-        } else {
             $('#userPlayer').html(emailUser);
+        } else {
+            $('#userOpponent').html(emailUser);
         }
+
     }
+
+    if (data.gamePlayer.length === 1) {
+
+        $('#userOpponent').html("WAITING FOR OPPONENT ").css('color', 'red');
+    }
+
 }
 
 

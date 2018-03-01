@@ -24,27 +24,6 @@ $.getJSON("http://localhost:8080/api/games")
 
     });
 
-//Funcion clicar
-
-function clickButtons() {
-    $('#login').click(function(){
-        var username = document.getElementById("username");
-        var password = document.getElementById("password");
-
-        if(username.value && password.value) {
-            return login();
-        }
-        $.post("/api/players", { username: username.value, password: password.value }).fail(function(response){
-            alert(response.responseJSON.error);
-            cleanInputs();
-        })
-
-    });
-    $('#logout').click(logout);
-    $('#signin').click(signin);
-
-}
-
 function createGamesList(data) {
 
     var printListGames = document.getElementById('gamesList');
@@ -116,7 +95,6 @@ function createGamesTable(data) {
         var goToGame = document.createElement('a');
 
         goToGame.setAttribute('class', 'btn btn-primary');
-        goToGame.setAttribute('id', 'gpButton');
 
         cell1.append(idEachGame);
         cell2.append(formatCreationDate);
@@ -375,12 +353,38 @@ function signin(){
     })
 }
 
-//Funcion para proteger los gameplayers (solo ver los gameplayers del jugador loggeado
+//Funcion para crear nuevos games
 
-function gpView(gpId){
+function createNewGame() {
 
+    $.post("/api/games").done(function(response){
 
+        window.location.replace('/web/game.html?gp=' + response.gpId + '');
 
+    }).fail(function(response){
+        alert(response.responseJSON.error);
+    })
+}
+
+//Funcion clicar
+
+function clickButtons() {
+    $('#login').click(function(){
+        var username = document.getElementById("username");
+        var password = document.getElementById("password");
+
+        if(username.value && password.value) {
+            return login();
+        }
+        $.post("/api/players", { username: username.value, password: password.value }).fail(function(response){
+            alert(response.responseJSON.error);
+            cleanInputs();
+        })
+
+    });
+    $('#logout').click(logout);
+    $('#signin').click(signin);
+    $('#newGame').click(createNewGame);
 
 }
 

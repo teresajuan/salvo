@@ -17,9 +17,11 @@ import java.util.stream.Collectors;
 public class SalvoController {
 
     @Autowired
-    private GameRepository repoGames;
+    private  GameRepository repoGames;
     @Autowired
     private PlayerRepository repoPlayers;
+    @Autowired
+    private GamePlayerRepository repoGamePlayer;
 
 
     @RequestMapping(path="/api/games")
@@ -100,7 +102,7 @@ public class SalvoController {
         return dto;
     }
 
-    //Función para crear nuevo juego
+//    Función para crear nuevo juego
 
     @RequestMapping(path= "/api/games", method= RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> createNewGame (Authentication auth){
@@ -118,8 +120,33 @@ public class SalvoController {
 
     }
 
-    @Autowired
-    private GamePlayerRepository repoGamePlayer;
+    //Función para que un jugador pueda unirse a un juego ya creado
+
+    @RequestMapping(path="/api/game/{gameId}/players", method=RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> joinGame(Authentication auth, @PathVariable Long gameId) {
+
+        if (isGuest(auth)) {
+            return new ResponseEntity<>(makeMap("error", "You can't join to games if you're not logged"), HttpStatus.UNAUTHORIZED);
+        }
+
+        Game gameToJoin = repoGames.findOne(gameId);
+
+        if(gameToJoin == null){
+            return new ResponseEntity<>(makeMap("error", "This game doesn't exists"), HttpStatus.FORBIDDEN);
+        }
+
+        if(gameToJoin.getGamePlayers().size()>1){
+            return new ResponseEntity<>(makeMap("error", "Game is full"), HttpStatus.FORBIDDEN);
+        }
+
+        String name = auth.getName();
+        Player playerLog = repoPlayers.findOneByUserName(name);
+
+        GamePlayer gpToJoin = repoGamePlayer.save(new GamePlayer(playerLog, gameToJoin, new Date()));
+
+        return new ResponseEntity<>(makeMap("gpId", gpToJoin.getId()), HttpStatus.CREATED);
+
+    }
 
     @RequestMapping("/api/game_view/{gamePlayer_Id}")
     public ResponseEntity<Map<String, Object>> gpGame(@PathVariable Long gamePlayer_Id,
