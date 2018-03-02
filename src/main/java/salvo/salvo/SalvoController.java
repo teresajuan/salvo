@@ -235,4 +235,73 @@ public class SalvoController {
         return map;
     }
 
+    @Autowired
+    private ShipRepository repoShips;
+
+//    @RequestMapping(path="/games/players/{gamePlayerId}/ships", method=RequestMethod.POST)
+//    public ResponseEntity<Map<String, Object>> playerShips(@PathVariable Long gamePlayerId, @RequestBody Ship ship, Authentication auth){
+//        if (isGuest(auth)) {
+//            return new ResponseEntity<>(makeMap("error", "You must be logged"), HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        GamePlayer gpExists = repoGamePlayer.findOne(gamePlayerId);
+//
+//        if(gpExists == null) {
+//            return new ResponseEntity<>(makeMap("error", "This game player doesn't exists"), HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        String name = auth.getName();
+//        Player playerLogged = repoPlayers.findOneByUserName(name);
+//
+//        if(gpExists.getPlayer().getUserName() != playerLogged.getUserName()){
+//            return new ResponseEntity<>(makeMap("error", "This game player isn't yours"), HttpStatus.UNAUTHORIZED);
+//        }
+//
+//        if(gpExists.getShips().size()>0) {
+//            return new ResponseEntity<>(makeMap("error", "You already have ships placed"), HttpStatus.FORBIDDEN);
+//        }
+//
+//        gpExists.addShip(ship);
+//        repoGamePlayer.save(gpExists);
+//        repoShips.save(ship);
+//
+//        return new ResponseEntity<>(makeMap("ship", ship.getShipLoc()), HttpStatus.CREATED);
+//
+//    }
+
+    @RequestMapping(path="/games/players/{gamePlayerId}/ships", method=RequestMethod.POST)
+    public ResponseEntity<Map<String, Object>> playerShips(@PathVariable Long gamePlayerId, @RequestBody Set<Ship> ships, Authentication auth) {
+        if (isGuest(auth)) {
+            return new ResponseEntity<>(makeMap("error", "You must be logged"), HttpStatus.UNAUTHORIZED);
+        }
+
+        GamePlayer gpExists = repoGamePlayer.findOne(gamePlayerId);
+
+        if (gpExists == null) {
+            return new ResponseEntity<>(makeMap("error", "This game player doesn't exists"), HttpStatus.UNAUTHORIZED);
+        }
+
+        String name = auth.getName();
+        Player playerLogged = repoPlayers.findOneByUserName(name);
+
+        if (gpExists.getPlayer().getUserName() != playerLogged.getUserName()) {
+            return new ResponseEntity<>(makeMap("error", "This game player isn't yours"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (gpExists.getShips().size() > 0) {
+            return new ResponseEntity<>(makeMap("error", "You already have ships placed"), HttpStatus.FORBIDDEN);
+        }
+
+        for (Ship ship : ships) {
+
+            gpExists.addShip(ship);
+            repoGamePlayer.save(gpExists);
+            repoShips.save(ship);
+
+        }
+
+        return new ResponseEntity<>(makeMap("ship", "ships created"), HttpStatus.CREATED);
+
+    }
+
 }
