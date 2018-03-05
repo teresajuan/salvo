@@ -117,13 +117,13 @@ function createGamesTable(data) {
             if (userLogged == player1) {
                 goToGame.append('Go to your game');
                 cell3.append(goToGame);
-                goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId1 + '');
+                goToGame.setAttribute('href', '/web/game.html?gp=' + gpId1 + '');
 
 
             }else if(userLogged == player2) {
                 goToGame.append('Go to your game');
                 cell4.append(goToGame);
-                goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId2 + '');
+                goToGame.setAttribute('href', '/web/game.html?gp=' + gpId2 + '');
 
             }
 
@@ -139,7 +139,7 @@ function createGamesTable(data) {
             if (userLogged == player1) {
                 goToGame.append('Go to your game');
                 cell3.append(goToGame);
-                goToGame.setAttribute('href', 'http://localhost:8080/web/game.html?gp=' + gpId1 + '');
+                goToGame.setAttribute('href', '/web/game.html?gp=' + gpId1 + '');
             } else {
                 joinToGame.append('Join to the game');
                 cell4.append(joinToGame);

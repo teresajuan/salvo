@@ -288,11 +288,25 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("error", "This game player isn't yours"), HttpStatus.UNAUTHORIZED);
         }
 
-        if (gpExists.getShips().size() > 0) {
+        if (gpExists.getShips().size() == 5) {
             return new ResponseEntity<>(makeMap("error", "You already have ships placed"), HttpStatus.FORBIDDEN);
         }
 
         for (Ship ship : ships) {
+
+            List<Ship> shipWithSameType = repoShips.findShipByGamePlayer(gpExists);
+
+            for(Ship ship2 : shipWithSameType) {
+                if (ship.getShipType().equals(ship2.getShipType())) {
+                    return new ResponseEntity<>(makeMap("error", "You already have this ship type"), HttpStatus.FORBIDDEN);
+                }
+            }
+
+//            List<Ship> shipWithSameLoc = repoShips.findShipByShipLoc((ship.getShipLoc()));
+//
+//            if(shipWithSameLoc.size() > 0) {
+//                return new ResponseEntity<>(makeMap("error", "You already have this ship location"), HttpStatus.FORBIDDEN);
+//            }
 
             gpExists.addShip(ship);
             repoGamePlayer.save(gpExists);
