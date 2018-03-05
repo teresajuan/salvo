@@ -294,19 +294,26 @@ public class SalvoController {
 
         for (Ship ship : ships) {
 
-            List<Ship> shipWithSameType = repoShips.findShipByGamePlayer(gpExists);
+            List<Ship> shipsForOneGp = repoShips.findShipByGamePlayer(gpExists);
 
-            for(Ship ship2 : shipWithSameType) {
+            for(Ship ship2 : shipsForOneGp) {
                 if (ship.getShipType().equals(ship2.getShipType())) {
                     return new ResponseEntity<>(makeMap("error", "You already have this ship type"), HttpStatus.FORBIDDEN);
                 }
-            }
 
-//            List<Ship> shipWithSameLoc = repoShips.findShipByShipLoc((ship.getShipLoc()));
-//
-//            if(shipWithSameLoc.size() > 0) {
-//                return new ResponseEntity<>(makeMap("error", "You already have this ship location"), HttpStatus.FORBIDDEN);
-//            }
+                if(ship.getShipLoc().equals(ship2.getShipLoc())){
+                    return new ResponseEntity<>(makeMap("error", "You already have this ship location"), HttpStatus.FORBIDDEN);
+                }
+
+                for(String key:ship.getShipLoc()) {
+                    for(String key2:ship2.getShipLoc()) {
+                        if(key.equals(key2)){
+                            return new ResponseEntity<>(makeMap("error", "You already have this cell in ship location"), HttpStatus.FORBIDDEN);
+                        }
+                    }
+                }
+
+            }
 
             gpExists.addShip(ship);
             repoGamePlayer.save(gpExists);
