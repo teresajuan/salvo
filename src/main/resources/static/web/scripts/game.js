@@ -114,43 +114,92 @@ function drop(e) {
 
     var shipLocLetterAsci = shipLocLetter.charCodeAt(0);
 
-
     for (var i=0; i<infoShips.length; i++) {
 
         if (data === infoShips[i].shipType) {
 
             if (dataClass == 'battleship') {
 
-                infoShips[i].shipLoc = [(shipLocLetter+(shipLocNumberInt+0)),
-                                        (shipLocLetter+(shipLocNumberInt+1)),
-                                        (shipLocLetter+(shipLocNumberInt+2)),
-                                        (shipLocLetter+(shipLocNumberInt+3))];
+                createHorizontalShipLocArray(4, infoShips[i].shipLoc, e.target.id);
             }
 
             if (dataClass == 'destroyer' || dataClass == 'submarine') {
 
-                infoShips[i].shipLoc = [(shipLocLetter+(shipLocNumberInt+0)),
-                                        (shipLocLetter+(shipLocNumberInt+1)),
-                                        (shipLocLetter+(shipLocNumberInt+2))];
+                createHorizontalShipLocArray(3, infoShips[i].shipLoc, e.target.id);
+
             }
 
             if (dataClass == 'verticalBattleship') {
 
-                infoShips[i].shipLoc = [(String.fromCharCode(shipLocLetterAsci)+shipLocNumber),
-                                        (String.fromCharCode(shipLocLetterAsci+1)+shipLocNumber),
-                                        (String.fromCharCode(shipLocLetterAsci+2)+shipLocNumber),
-                                        (String.fromCharCode(shipLocLetterAsci+3)+shipLocNumber)];
+                createVerticalShipLocArray(4, infoShips[i].shipLoc, e.target.id);
             }
 
             if (dataClass == 'verticalDestroyer' || dataClass == 'verticalSubmarine') {
 
-                infoShips[i].shipLoc = [(String.fromCharCode(shipLocLetterAsci)+shipLocNumber),
-                                        (String.fromCharCode(shipLocLetterAsci+1)+shipLocNumber),
-                                        (String.fromCharCode(shipLocLetterAsci+2)+shipLocNumber)];
+                createVerticalShipLocArray(3, infoShips[i].shipLoc, e.target.id);
             }
         }
     }
     console.log(infoShips);
+}
+
+function createHorizontalShipLocArray(numberOfRepetitions, shipLocArray, firstCell) {
+
+    var shipLoc = firstCell;
+    var shipLocLetter = shipLoc.substring(0, 1);
+    var shipLocNumber = shipLoc.substring(1);
+    var shipLocNumberInt = parseInt(shipLocNumber);
+
+    if (shipLocArray.length === 0) {
+
+        for (var i=0; i<numberOfRepetitions; i++) {
+
+            shipLocArray.push(shipLocLetter+(shipLocNumberInt+i));
+        }
+
+        return shipLocArray;
+
+    }else {
+
+        shipLocArray.length = 0;
+
+        for (var i=0; i<numberOfRepetitions; i++) {
+
+            shipLocArray.push(shipLocLetter+(shipLocNumberInt+i));
+        }
+
+        return shipLocArray;
+    }
+
+}
+
+function createVerticalShipLocArray(numberOfRepetitions, shipLocArray, firstCell) {
+
+    var shipLoc = firstCell;
+    var shipLocLetter = shipLoc.substring(0, 1);
+    var shipLocLetterAsci = shipLocLetter.charCodeAt(0);
+    var shipLocNumber = shipLoc.substring(1);
+
+    if (shipLocArray.length === 0) {
+
+        for (var i=0; i<numberOfRepetitions; i++) {
+
+            shipLocArray.push((String.fromCharCode(shipLocLetterAsci+i)+shipLocNumber));
+        }
+
+        return shipLocArray;
+
+    }else {
+
+        shipLocArray.length = 0;
+
+        for (var i=0; i<numberOfRepetitions; i++) {
+
+            shipLocArray.push((String.fromCharCode(shipLocLetterAsci+i)+shipLocNumber));
+        }
+
+        return shipLocArray;
+    }
 }
 
 function changeShipPosition (idShip, cssClassHorizontal, cssClassVertical) {
