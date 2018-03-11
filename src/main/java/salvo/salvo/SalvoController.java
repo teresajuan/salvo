@@ -238,36 +238,6 @@ public class SalvoController {
     @Autowired
     private ShipRepository repoShips;
 
-//    @RequestMapping(path="/games/players/{gamePlayerId}/ships", method=RequestMethod.POST)
-//    public ResponseEntity<Map<String, Object>> playerShips(@PathVariable Long gamePlayerId, @RequestBody Ship ship, Authentication auth){
-//        if (isGuest(auth)) {
-//            return new ResponseEntity<>(makeMap("error", "You must be logged"), HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        GamePlayer gpExists = repoGamePlayer.findOne(gamePlayerId);
-//
-//        if(gpExists == null) {
-//            return new ResponseEntity<>(makeMap("error", "This game player doesn't exists"), HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        String name = auth.getName();
-//        Player playerLogged = repoPlayers.findOneByUserName(name);
-//
-//        if(gpExists.getPlayer().getUserName() != playerLogged.getUserName()){
-//            return new ResponseEntity<>(makeMap("error", "This game player isn't yours"), HttpStatus.UNAUTHORIZED);
-//        }
-//
-//        if(gpExists.getShips().size()>0) {
-//            return new ResponseEntity<>(makeMap("error", "You already have ships placed"), HttpStatus.FORBIDDEN);
-//        }
-//
-//        gpExists.addShip(ship);
-//        repoGamePlayer.save(gpExists);
-//        repoShips.save(ship);
-//
-//        return new ResponseEntity<>(makeMap("ship", ship.getShipLoc()), HttpStatus.CREATED);
-//
-//    }
 
     @RequestMapping(path="/games/players/{gamePlayerId}/ships", method=RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> playerShips(@PathVariable Long gamePlayerId, @RequestBody Set<Ship> ships, Authentication auth) {
@@ -288,32 +258,36 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("error", "This game player isn't yours"), HttpStatus.UNAUTHORIZED);
         }
 
-        if (gpExists.getShips().size() == 5) {
+        if (gpExists.getShips().size() > 0) {
             return new ResponseEntity<>(makeMap("error", "You already have ships placed"), HttpStatus.FORBIDDEN);
         }
 
         for (Ship ship : ships) {
 
-            List<Ship> shipsForOneGp = repoShips.findShipByGamePlayer(gpExists);
-
-            for(Ship ship2 : shipsForOneGp) {
-                if (ship.getShipType().equals(ship2.getShipType())) {
-                    return new ResponseEntity<>(makeMap("error", "You already have this ship type"), HttpStatus.FORBIDDEN);
-                }
-
-                if(ship.getShipLoc().equals(ship2.getShipLoc())){
-                    return new ResponseEntity<>(makeMap("error", "You already have this ship location"), HttpStatus.FORBIDDEN);
-                }
-
-                for(String key:ship.getShipLoc()) {
-                    for(String key2:ship2.getShipLoc()) {
-                        if(key.equals(key2)){
-                            return new ResponseEntity<>(makeMap("error", "You already have this cell in ship location"), HttpStatus.FORBIDDEN);
-                        }
-                    }
-                }
-
-            }
+//            List<Ship> shipsForOneGp = repoShips.findShipByGamePlayer(gpExists);
+//
+//            for(Ship ship2 : shipsForOneGp) {
+//                if (ship.getShipType().equals(ship2.getShipType())) {
+//                    return new ResponseEntity<>(makeMap("error", "You already have this ship type"), HttpStatus.FORBIDDEN);
+//                }
+//
+//                if(ship.getShipLoc().equals(ship2.getShipLoc())){
+//                    return new ResponseEntity<>(makeMap("error", "You already have this ship location"), HttpStatus.FORBIDDEN);
+//                }
+//
+//                for(String key:ship.getShipLoc()) {
+//                    for(String key2:ship2.getShipLoc()) {
+//                        if(key.equals(key2)){
+//                            return new ResponseEntity<>(makeMap("error", "You already have this cell in ship location"), HttpStatus.FORBIDDEN);
+//                        }
+//                    }
+//                    if(key.charAt(1)>){
+//                        return new ResponseEntity<>(makeMap("error", "A cell in ship location is out of grid"), HttpStatus.FORBIDDEN);
+//                    }
+//
+//                }
+//
+//            }
 
             gpExists.addShip(ship);
             repoGamePlayer.save(gpExists);

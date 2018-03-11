@@ -14,21 +14,32 @@
             <p class="vs"> vs </p>
             <p id="userOpponent"></p>
         </h2>
+
+        <button id="createShips" type="button">Create Ships</button>
+
         <div class="tables">
             <div class="table1">
                 <h3>Ship locations</h3>
                 <table id="shipsTable">
-                    <thead id="salvoTHead1"></thead>
-                    <tbody id="salvoTBody1"></tbody>
+                    <thead id="shipTHead1"></thead>
+                    <tbody id="shipTBody1"></tbody>
                 </table>
             </div>
-            <div class="table2">
-                <h3 class=""titleTable2>Salvo locations</h3>
-                <table id="salvosTable">
-                    <thead id="salvoTHead2"></thead>
-                    <tbody id="salvoTBody2"></tbody>
-                </table>
+
+            <div id="ships">
+
+                <div id="battleship" class="battleship" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><header>BATTLESHIP</header></div>
+                <div id="destroyer" class="destroyer" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><header>DESTROYER</header></div>
+                <div id="submarine" class="submarine" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><header>SUBMARINE</header></div>
+
             </div>
+            <!--<div class="table2">-->
+                <!--<h3 class=""titleTable2>Salvo locations</h3>-->
+                <!--<table id="salvosTable">-->
+                    <!--<thead id="salvoTHead2"></thead>-->
+                    <!--<tbody id="salvoTBody2"></tbody>-->
+                <!--</table>-->
+            <!--</div>-->
         </div>
     </div>
 
