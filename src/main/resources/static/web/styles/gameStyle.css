@@ -37,7 +37,7 @@ td {
 
 th, td {
     width: 3rem;
-    height: 2.8rem;
+    height: 3rem;
     text-align: center;
 }
 
@@ -120,9 +120,17 @@ h3 {
 
 /*Estilo drag and drop*/
 
+#aircraft {
+    width: 15rem;
+    height: 3rem;
+    background-color: forestgreen;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
 #battleship {
     width: 12rem;
-    height: 2.8rem;
+    height: 3rem;
     background-color: grey;
     border: 2px solid black;
     border-radius: 10px;
@@ -130,7 +138,7 @@ h3 {
 
 #destroyer {
     width: 9rem;
-    height: 2.8rem;
+    height: 3rem;
     background-color: darkgoldenrod;
     border: 2px solid black;
     border-radius: 10px;
@@ -138,8 +146,16 @@ h3 {
 
 #submarine {
     width: 9rem;
-    height: 2.8rem;
+    height: 3rem;
     background-color: coral;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+#patrolboat {
+    width: 6rem;
+    height: 3rem;
+    background-color: crimson;
     border: 2px solid black;
     border-radius: 10px;
 }
@@ -148,7 +164,7 @@ h3 {
     user-select: none;
 }
 
-#battleship:hover, #destroyer:hover, #submarine:hover {
+#aircraft:hover, #battleship:hover, #destroyer:hover, #submarine:hover, #patrolboat:hover {
     border: none;
     border-radius: 10px;
     box-shadow: inset 0 0 3px #000;
@@ -163,25 +179,37 @@ h3 {
     flex-direction: column;
 }
 
-.battleship {
+.aircraft, .battleship, .destroyer, .submarine, .patrolboat {
     margin-top: 50px;
 }
 
-.destroyer, .submarine {
-    margin-top: 50px;
+.verticalAircraft {
+    transform: rotate(90deg);
+    transform-origin: 15% 25%;
+    margin-bottom: 75px;
+    margin-top: 75px;
 }
+
 
 .verticalBattleship {
     transform: rotate(90deg);
+    transform-origin: 20% 20%;
     margin-bottom: 50px;
-    margin-top: 100px;
+    margin-top: 75px;
 }
 
 .verticalDestroyer, .verticalSubmarine {
     transform: rotate(90deg);
+    transform-origin: 25% 25%;
     margin-bottom: 25px;
     margin-top: 75px;
+}
 
+.verticalPatrolboat {
+    transform: rotate(90deg);
+    transform-origin: 33% 33%;
+    margin-bottom: 0px;
+    margin-top: 65px;
 }
 
 

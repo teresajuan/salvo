@@ -30,21 +30,55 @@ function createShips(shipsCreated){
 }
 
 $('#createShips').click(function(){
-    if(infoShips.length === 3){
-        createShips(infoShips);
-    } else{
-        alert("error in number of ships");
+
+    var totalLocations = warningOverlapShip(infoShips);
+    var shipsInGrid = detectOutGrid(infoShips);
+
+    var allLocations = [];
+
+    for (var i=0; i<infoShips.length; i++) {
+
+        for (var j=0; j<infoShips[i].shipLoc.length; j++) {
+
+            allLocations.push(infoShips[i].shipLoc[j]);
+
+        }
+
     }
+    console.log(allLocations);
+
+    if (allLocations.length < 17){
+
+        alert("Error in number of ships");
+
+    } else if (totalLocations === true) {
+
+        alert("There are ships overlap");
+
+    } else if (shipsInGrid === true) {
+
+        alert("There are ships out grid");
+    } else {
+        createShips(infoShips);
+    }
+
 });
 
 //Funcion inicial del drag and drop
 
 var infoShips = [{"shipType": "destroyer", "shipLoc": []},
     {"shipType": "submarine", "shipLoc": []},
-    {"shipType": "battleship", "shipLoc": []}];
+    {"shipType": "battleship", "shipLoc": []},
+    {"shipType": "aircraft", "shipLoc": []},
+    {"shipType": "patrolboat", "shipLoc": []}];
 
+var dragged;
 function dragStart(e) {
+
+    dragged = e.target;
+
     e.dataTransfer.setData("Data", e.target.id);
+    e.dataTransfer.effectAllowed = 'move';
     e.target.style.opacity = '0.4';
     e.target.style.backgroundColor = '';
 
@@ -52,7 +86,9 @@ function dragStart(e) {
 }
 
 function dragOver(e) {
+
     e.preventDefault();
+
 }
 
 function dragEnter(e) {
@@ -73,70 +109,157 @@ function drop(e) {
     if (e.stopPropagation) {
         e.stopPropagation(); // stops the browser from redirecting.
     }
+
     e.preventDefault();
 
     var data = e.dataTransfer.getData("Data");
     e.target.appendChild(document.getElementById(data));
 
     // Posicion del elemento sobre el que se arrastra
+
     posXHorizontal = $(e.target).position().left;
     posYHorizontal = $(e.target).position().top;
 
     var dataStyle = document.getElementById(data).style;
-    var dataClass = document.getElementById(data).getAttribute('class');
+    // var dataClass = document.getElementById(data).getAttribute('class');
 
-    dataStyle.position="absolute";
+    dataStyle.position = "absolute";
     dataStyle.backgroundColor = 'lightgreen';
-    dataStyle.left=posXHorizontal+"px";
-    dataStyle.top=posYHorizontal - 50+"px";
+    dataStyle.left = posXHorizontal + "px";
+    dataStyle.top = posYHorizontal - 50 + "px";
     e.target.style.border = '';
 
-    if (dataClass == 'verticalBattleship') {
+    document.getElementById(data).setAttribute('data-firstCell', e.target.id);
 
-        dataStyle.left=posXHorizontal - 75+"px";
-        dataStyle.top=posYHorizontal - 25+"px";
+    createShipLoc(data, infoShips, e.target.id);
 
-    } else if (dataClass == 'verticalDestroyer' ||
-        dataClass == 'verticalSubmarine' ) {
-        dataStyle.left=posXHorizontal - 50+"px";
-        dataStyle.top=posYHorizontal - 25+"px";
+    if(warningOverlapShip(infoShips) === true) {
+        alert('There is a ship overlap');
     }
 
-    console.log("DROP");
-    console.log(e.target.id);
-    console.log(data);
-    console.log(document.getElementById(data).getAttribute('class'));
+    if(detectOutGrid(infoShips) === true) {
+        alert('There is a ship out of grid');
+    }
 
-    var shipLoc = e.target.id;
-    var shipLocLetter = shipLoc.substring(0, 1);
-    var shipLocNumber = shipLoc.substring(1);
-    var shipLocNumberInt = parseInt(shipLocNumber);
+}
 
-    var shipLocLetterAsci = shipLocLetter.charCodeAt(0);
+function detectOutGrid(shipArray) {
 
     for (var i=0; i<infoShips.length; i++) {
+        for (var j=0; j<infoShips[i].shipLoc.length; j++){
+            var shipLocLetter = infoShips[i].shipLoc[j].substring(0, 1);
+            var shipLocLetterAsci = shipLocLetter.charCodeAt(0);
+            var shipLocNumber = infoShips[i].shipLoc[j].substring(1);
 
-        if (data === infoShips[i].shipType) {
+            if (shipLocLetterAsci > 74 || shipLocNumber > 10) {
+
+                return true;
+            }
+        }
+    }
+}
+
+
+Array.prototype.unique=function(a){
+
+    return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
+});
+
+function warningOverlapShip(shipArray) {
+
+    var allLocations = [];
+
+    for (var i=0; i<shipArray.length; i++) {
+
+        for (var j=0; j<shipArray[i].shipLoc.length; j++) {
+
+            allLocations.push(shipArray[i].shipLoc[j]);
+
+        }
+    }
+
+    var allLocationsSize = allLocations.length;
+    var locationsWithoutRepeted = allLocations.unique();
+    var locationsWithoutRepetedSize = locationsWithoutRepeted.length;
+
+    console.log(allLocations);
+    console.log(locationsWithoutRepeted);
+
+
+    if (locationsWithoutRepetedSize < allLocationsSize) {
+
+        return true;
+
+    } else {
+
+        return false;
+    }
+}
+
+function createDragElements(idShip) {
+    document.getElementById(idShip).addEventListener('dragstart', dragStart, false);
+    document.getElementById(idShip).addEventListener('dragend', dragEnd, false);
+}
+
+createDragElements('aircraft');
+createDragElements('battleship');
+createDragElements('destroyer');
+createDragElements('submarine');
+createDragElements('patrolboat');
+
+function createShipLoc(idShip, shipsArray, firstCell) {
+
+    var dataClass = document.getElementById(idShip).getAttribute('class');
+
+    for (var i=0; i<shipsArray.length; i++) {
+
+        if (idShip === shipsArray[i].shipType) {
+
+            if (dataClass == 'aircraft') {
+
+                createHorizontalShipLocArray(5, shipsArray[i].shipLoc, firstCell);
+
+            }
 
             if (dataClass == 'battleship') {
 
-                createHorizontalShipLocArray(4, infoShips[i].shipLoc, e.target.id);
+                createHorizontalShipLocArray(4, shipsArray[i].shipLoc, firstCell);
+
             }
 
             if (dataClass == 'destroyer' || dataClass == 'submarine') {
 
-                createHorizontalShipLocArray(3, infoShips[i].shipLoc, e.target.id);
+                createHorizontalShipLocArray(3, shipsArray[i].shipLoc, firstCell);
+
+            }
+
+            if (dataClass == 'patrolboat') {
+
+                createHorizontalShipLocArray(2, shipsArray[i].shipLoc, firstCell);
+
+            }
+
+            if (dataClass == 'verticalAircraft') {
+
+                createVerticalShipLocArray(5, shipsArray[i].shipLoc, firstCell);
 
             }
 
             if (dataClass == 'verticalBattleship') {
 
-                createVerticalShipLocArray(4, infoShips[i].shipLoc, e.target.id);
+                createVerticalShipLocArray(4, shipsArray[i].shipLoc, firstCell);
+
             }
 
             if (dataClass == 'verticalDestroyer' || dataClass == 'verticalSubmarine') {
 
-                createVerticalShipLocArray(3, infoShips[i].shipLoc, e.target.id);
+                createVerticalShipLocArray(3, shipsArray[i].shipLoc, firstCell);
+
+            }
+            if (dataClass == 'verticalPatrolboat') {
+
+                createVerticalShipLocArray(2, shipsArray[i].shipLoc, firstCell);
+
             }
         }
     }
@@ -170,7 +293,6 @@ function createHorizontalShipLocArray(numberOfRepetitions, shipLocArray, firstCe
 
         return shipLocArray;
     }
-
 }
 
 function createVerticalShipLocArray(numberOfRepetitions, shipLocArray, firstCell) {
@@ -190,7 +312,6 @@ function createVerticalShipLocArray(numberOfRepetitions, shipLocArray, firstCell
         return shipLocArray;
 
     }else {
-
         shipLocArray.length = 0;
 
         for (var i=0; i<numberOfRepetitions; i++) {
@@ -202,32 +323,63 @@ function createVerticalShipLocArray(numberOfRepetitions, shipLocArray, firstCell
     }
 }
 
-function changeShipPosition (idShip, cssClassHorizontal, cssClassVertical) {
+function changeShipPosition (idShip, verticalAttribute, shipsArray) {
 
-    $(idShip).click(function(){
+    var ship = document.getElementById(idShip);
 
-        if (this.getAttribute('class') === cssClassVertical) {
+    ship.addEventListener('click', function(){
 
-            this.setAttribute('class', cssClassHorizontal);
+        var firstCell = ship.getAttribute('data-firstCell');
+        var shipPosition = ship.getAttribute('class');
 
-        } else {
+        if (shipPosition != verticalAttribute) {
 
-            this.setAttribute('class', cssClassVertical);
+            ship.setAttribute('class', verticalAttribute);
+
+            if (firstCell != 0) {
+
+                createShipLoc(idShip, shipsArray, firstCell);
+
+                if(warningOverlapShip(infoShips) === true) {
+                    alert('There is a ship overlap');
+                }
+
+                if(detectOutGrid(infoShips) === true) {
+                    alert('There is a ship out of grid');
+                }
+
+            }
+
         }
+
+        if (shipPosition != idShip) {
+
+            ship.setAttribute('class', idShip);
+
+            if (firstCell != 0) {
+
+                createShipLoc(idShip, shipsArray, firstCell);
+
+                if(warningOverlapShip(infoShips) === true) {
+                    alert('There is a ship overlap');
+                }
+
+                if(detectOutGrid(infoShips) === true) {
+                    alert('There is a ship out of grid');
+                }
+
+            }
+
+        }
+
     });
 }
 
-changeShipPosition('#battleship', 'battleship', 'verticalBattleship');
-changeShipPosition('#destroyer', 'destroyer', 'verticalDestroyer');
-changeShipPosition('#submarine', 'submarine', 'verticalSubmarine');
-
-
-
-
-
-
-
-
+changeShipPosition('aircraft', 'verticalAircraft', infoShips);
+changeShipPosition('battleship', 'verticalBattleship', infoShips);
+changeShipPosition('destroyer', 'verticalDestroyer', infoShips);
+changeShipPosition('submarine', 'verticalSubmarine', infoShips);
+changeShipPosition('patrolboat', 'verticalPatrolboat', infoShips);
 
 
 /*funciones para devolver el api correspondiente en función del gp seleccionado*/
@@ -276,17 +428,18 @@ function printGrid(elementTHead, elementTBody){
             for (var k = 0; k < rowsTitle.length; k++) {
                 var idCells = rowsTitle[j] + columnsTitle[k+1];
 
-                row += '<td id=' + idCells + " " + 'class="column"' + " " +  'ondrop="drop(event)"' + " " + 'ondragover="dragOver(event)"' + " " + 'ondragenter="dragEnter(event)"' + " " + 'ondragleave="dragLeave(event)"' + '>' + emptyCell + '</td>';
+                row += '<td id=' + idCells + " " + 'class="column"' + " " + 'ondrop=' + "drop(event)" + " " + 'ondragleave=' + "dragLeave(event)" + " " + 'ondragenter=' + "dragEnter(event)" + " " + 'ondragover=' + "dragOver(event)" + '>' + emptyCell + '</td>';
+
             }
             row += "</tr>";
         }
-
 
         $(elementTBody).html(row);
 
     }
 
     printGamePlayerGrid1.append(tableHead);
+
 }
 //Función para printar los salvos del player
 
