@@ -3,12 +3,77 @@
 $.getJSON(relatedUrl("gp"), function(json) {
     var data = json;
     console.log(data);
-    printGrid("shipTHead1", "#shipTBody1");
-    printGrid("salvoTHead2", "#salvoTBody2");
+    printShipsGrid("shipTHead1", "#shipTBody1");
+    printSalvoGrid("salvoTHead2", "#salvoTBody2");
     printShips(data);
     printSalvos(data);
     usersTitle(data);
 });
+
+//Función para crear salvos
+
+function createSalvo(salvoCreated){
+
+    var gpId = getParameterByName("gp");
+
+    $.post({
+        url: "/games/players/" + gpId + "/salvos",
+        data: JSON.stringify(salvoCreated),
+        dataType: "JSON",
+        contentType: "application/json"
+    }).done(function(){
+        location.reload();
+        alert("salvo created SUCCESFULLY");
+    }).fail(function(response){
+        alert(response.responseJSON.error);
+    })
+}
+
+$('#createSalvo').click(function() {
+
+    if (infoSalvo.salvoLocation.length < 5){
+
+        alert('The number of shots is too low. You must have 5 shots.');
+
+    } else if (infoSalvo.salvoLocation.length > 5) {
+
+        alert('The number of shots is too high. You must have 5 shots.');
+
+    } else {
+
+        createSalvo(infoSalvo);
+
+    }
+});
+
+var infoSalvo = {"salvoLocation": []};
+
+function salvoClick(e) {
+
+    var idCell = e.target.getAttribute('id');
+
+    if (e.target.getAttribute('data-salvo')) {
+
+        removeItemFromArr(infoSalvo.salvoLocation, idCell);
+        document.getElementById(idCell).style.backgroundColor = "";
+
+    } else {
+
+        e.target.setAttribute('data-salvo', 'true');
+        infoSalvo.salvoLocation.push(idCell);
+
+        document.getElementById(idCell).style.backgroundColor = "red";
+    }
+
+}
+
+function removeItemFromArr ( arr, item ) {
+    var i = arr.indexOf( item );
+    arr.splice( i, 1 );
+}
+
+
+
 
 //Funcion para que el usuario cree barcos desde el frontend
 
@@ -47,7 +112,9 @@ $('#createShips').click(function(){
     } else if (shipsInGrid === true) {
 
         alert("There are ships out grid");
+
     } else {
+
         createShips(infoShips);
 
     }
@@ -391,7 +458,7 @@ function relatedUrl(locationData) {
 
 /*creacion del grid*/
 
-function printGrid(elementTHead, elementTBody){
+function printShipsGrid(elementTHead, elementTBody){
 
     var columnsTitle = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
     var rowsTitle = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -434,6 +501,50 @@ function printGrid(elementTHead, elementTBody){
     printGamePlayerGrid1.append(tableHead);
 
 }
+
+function printSalvoGrid(elementTHead, elementTBody){
+
+    var columnsTitle = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+    var rowsTitle = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    var printGamePlayerGrid1 = document.getElementById(elementTHead);
+
+    var tableHead = document.createElement('tr');
+
+    for(var i = 0; i < columnsTitle.length; i++){
+
+        var columnsTitle1 = columnsTitle[i];
+
+        var rowTitle2 = document.createElement('th');
+
+        rowTitle2.setAttribute('scope', 'col');
+
+        rowTitle2.append(columnsTitle1);
+        tableHead.append(rowTitle2);
+
+        var row = "";
+
+        for(var j = 0; j<rowsTitle.length; j++) {
+            var rowsTitle1 = rowsTitle[j];
+            var emptyCell = "";
+
+            row += "<tr>" + '<td class="letters">' + rowsTitle1 + '</td>';
+
+            for (var k = 0; k < rowsTitle.length; k++) {
+                var idCells = rowsTitle[j] + columnsTitle[k+1];
+
+                row += '<td id=' + 'salvo' + idCells + " " + 'class="column"' + " " + 'onclick=' + "salvoClick(event)" + '>' + emptyCell + '</td>';
+
+            }
+            row += "</tr>";
+        }
+
+        $(elementTBody).html(row);
+
+    }
+
+    printGamePlayerGrid1.append(tableHead);
+
+}
 //Función para printar los salvos del player
 
 function printSalvos (data) {
@@ -461,7 +572,7 @@ function printSalvos (data) {
                     $(".table2 td").each(function(){
                         var cellId = $(this).attr('id');
                         if(cellId === valueTurnPosition){
-                            $(this).css('background-color', 'mediumturquoise');
+                            $(this).css('background-color', 'yellow');
                             $(this).html(turnsNumber);
                         }
                     })

@@ -261,6 +261,14 @@ public class SalvoController {
             return new ResponseEntity<>(makeMap("error", "You already have ships placed"), HttpStatus.FORBIDDEN);
         }
 
+        if (ships.size() < 5) {
+            return new ResponseEntity<>(makeMap("error", "Low number of ships"), HttpStatus.FORBIDDEN);
+        }
+
+        if (ships.size() > 5) {
+            return new ResponseEntity<>(makeMap("error", "High number of ships"), HttpStatus.FORBIDDEN);
+        }
+
         for (Ship ship : ships) {
 
             gpExists.addShip(ship);
@@ -294,6 +302,14 @@ public class SalvoController {
 
         if (gpExists.getPlayer().getUserName() != playerLogged.getUserName()) {
             return new ResponseEntity<>(makeMap("error", "This game player isn't yours"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (salvo.getSalvoLocation().size() < 5) {
+            return new ResponseEntity<>(makeMap("error", "Low number of shots"), HttpStatus.UNAUTHORIZED);
+        }
+
+        if (salvo.getSalvoLocation().size() > 5) {
+            return new ResponseEntity<>(makeMap("error", "High number of shots"), HttpStatus.UNAUTHORIZED);
         }
 
         int turn = gpExists.getSalvos().size();
