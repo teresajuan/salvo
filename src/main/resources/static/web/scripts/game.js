@@ -4,7 +4,7 @@ $.getJSON(relatedUrl("gp"), function(json) {
     var data = json;
     console.log(data);
     printGrid("shipTHead1", "#shipTBody1");
-    // printGrid("salvoTHead2", "#salvoTBody2");
+    printGrid("salvoTHead2", "#salvoTBody2");
     printShips(data);
     printSalvos(data);
     usersTitle(data);
@@ -34,18 +34,7 @@ $('#createShips').click(function(){
     var totalLocations = warningOverlapShip(infoShips);
     var shipsInGrid = detectOutGrid(infoShips);
 
-    var allLocations = [];
-
-    for (var i=0; i<infoShips.length; i++) {
-
-        for (var j=0; j<infoShips[i].shipLoc.length; j++) {
-
-            allLocations.push(infoShips[i].shipLoc[j]);
-
-        }
-
-    }
-    console.log(allLocations);
+    var allLocations = getAllLocations(infoShips);
 
     if (allLocations.length < 17){
 
@@ -60,6 +49,7 @@ $('#createShips').click(function(){
         alert("There are ships out grid");
     } else {
         createShips(infoShips);
+
     }
 
 });
@@ -121,7 +111,6 @@ function drop(e) {
     posYHorizontal = $(e.target).position().top;
 
     var dataStyle = document.getElementById(data).style;
-    // var dataClass = document.getElementById(data).getAttribute('class');
 
     dataStyle.position = "absolute";
     dataStyle.backgroundColor = 'lightgreen';
@@ -134,7 +123,9 @@ function drop(e) {
     createShipLoc(data, infoShips, e.target.id);
 
     if(warningOverlapShip(infoShips) === true) {
+
         alert('There is a ship overlap');
+
     }
 
     if(detectOutGrid(infoShips) === true) {
@@ -145,11 +136,11 @@ function drop(e) {
 
 function detectOutGrid(shipArray) {
 
-    for (var i=0; i<infoShips.length; i++) {
-        for (var j=0; j<infoShips[i].shipLoc.length; j++){
-            var shipLocLetter = infoShips[i].shipLoc[j].substring(0, 1);
+    for (var i=0; i<shipArray.length; i++) {
+        for (var j=0; j<shipArray[i].shipLoc.length; j++){
+            var shipLocLetter = shipArray[i].shipLoc[j].substring(0, 1);
             var shipLocLetterAsci = shipLocLetter.charCodeAt(0);
-            var shipLocNumber = infoShips[i].shipLoc[j].substring(1);
+            var shipLocNumber = shipArray[i].shipLoc[j].substring(1);
 
             if (shipLocLetterAsci > 74 || shipLocNumber > 10) {
 
@@ -165,26 +156,28 @@ Array.prototype.unique=function(a){
     return function(){return this.filter(a)}}(function(a,b,c){return c.indexOf(a,b+1)<0
 });
 
-function warningOverlapShip(shipArray) {
+function getAllLocations(shipsArray) {
 
     var allLocations = [];
 
-    for (var i=0; i<shipArray.length; i++) {
+    for (var i=0; i<shipsArray.length; i++) {
 
-        for (var j=0; j<shipArray[i].shipLoc.length; j++) {
+        for (var j=0; j<shipsArray[i].shipLoc.length; j++) {
 
-            allLocations.push(shipArray[i].shipLoc[j]);
+            allLocations.push(shipsArray[i].shipLoc[j]);
 
         }
     }
 
+    return allLocations;
+}
+
+function warningOverlapShip(shipArray) {
+
+    var allLocations = getAllLocations(shipArray);
     var allLocationsSize = allLocations.length;
     var locationsWithoutRepeted = allLocations.unique();
     var locationsWithoutRepetedSize = locationsWithoutRepeted.length;
-
-    console.log(allLocations);
-    console.log(locationsWithoutRepeted);
-
 
     if (locationsWithoutRepetedSize < allLocationsSize) {
 
