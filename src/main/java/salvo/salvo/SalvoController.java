@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,12 +68,12 @@ public class SalvoController {
             eachGame.put("id", listGames.get(j).getId());
             eachGame.put("created", listGames.get(j).getCreationDate());
             eachGame.put("gamePlayers", listGames.get(j).getGamePlayers()
-                    .stream()
-                    .map(gp -> makeGamePlayerDTO(gp))
-                    .collect(Collectors.toList()));
-
+                                                                        .stream()
+                                                                        .map(gp -> makeGamePlayerDTO(gp))
+                                                                        .collect(Collectors.toList()));
 
             gameList.add(eachGame);
+
         }
         return gameList;
     }
@@ -181,15 +182,171 @@ public class SalvoController {
                 .collect(Collectors.toList()));
         eachGameView.put("ships", listGamePlayers.getShips().stream()
                 .map(ship -> makeShipDTO(ship))
-                .collect(Collectors.toList())
-        );
+                .collect(Collectors.toList()));
         eachGameView.put("salvoes", listGamePlayers.getGame().getGamePlayers().stream()
                 .map(gp -> makeSalvoPlayerDTO(gp))
                 .collect(Collectors.toList()));
 
+        if (listGamePlayers.getGame().getGamePlayers().size() == 2) {
+
+            eachGameView.put("pruebas", makeOpponentDTO(listGamePlayers));
+
+        }
+
         return eachGameView;
 
     }
+
+    public Map<String, Object> makeOpponentDTO(GamePlayer gamePlayer) {
+        Map<String, Object> dto = new HashMap<>();
+
+        dto.put("id", gpOpponent(gamePlayer).getId());
+        dto.put("historial",  makeHistorialDTO(gamePlayer));
+        dto.put("hits", getHits(gamePlayer));
+
+        return dto;
+    }
+
+    public ArrayList<Map<String, Object>> makeHistorialDTO(GamePlayer gamePlayer) {
+
+        ArrayList<Map<String, Object>> historial = new ArrayList<>();
+
+        Set<Ship> shipLocs = gpOpponent(gamePlayer).getShips();
+
+        for (Ship ship : shipLocs) {
+
+            Map<String, Object> dto = new HashMap<>();
+
+            dto.put(ship.getShipType(), countHitsByShip(ship, gamePlayer));
+            dto.put("sunk", decideSunk(ship, gamePlayer));
+
+            historial.add(dto);
+        }
+
+        return historial;
+    }
+
+    public Boolean decideSunk(Ship ship, GamePlayer gamePlayer) {
+
+        ArrayList<ArrayList<String>> hits = getHits(gamePlayer);
+        List<String> shipLoc = ship.getShipLoc();
+
+        ArrayList<String> allHits = new ArrayList<>();
+
+        for (int i=0; i<hits.size(); i++) {
+
+            for (int j=0; j<hits.get(i).size(); j++) {
+                
+                allHits.add(hits.get(i).get(j));
+            }
+        }
+
+        return
+            shipLoc.stream()
+                    .allMatch(s -> allHits.contains(s));
+    }
+
+    public Long countHitsByShip(Ship ship, GamePlayer gamePlayer) {
+
+        ArrayList<ArrayList<String>> hits = getHits(gamePlayer);
+        List<String> shipLoc = ship.getShipLoc();
+
+        Long hitsCounted = 0L;
+
+        ArrayList<String> allHits = new ArrayList<>();
+
+        for (int i=0; i<hits.size(); i++) {
+
+            for (int j=0; j<hits.get(i).size(); j++) {
+                allHits.add(hits.get(i).get(j));
+            }
+        }
+
+        hitsCounted = shipLoc.stream()
+                                .filter(s -> allHits.contains(s))
+                                .count();
+
+        return hitsCounted;
+    }
+
+    public ArrayList<String> getOpponentShipLocations(GamePlayer gamePlayer) {
+
+        ArrayList<String> opponentShipLocs = new ArrayList<>();
+
+        Set<Ship> locs = gamePlayer.getShips();
+
+        for (Ship ship : locs) {
+
+            List<String> shipLoc = ship.getShipLoc();
+
+            for (String locations : shipLoc) {
+                opponentShipLocs.add(locations);
+            }
+        }
+        return opponentShipLocs;
+    }
+
+    public ArrayList<ArrayList<String>> getHits(GamePlayer gamePlayer) {
+
+        ArrayList<ArrayList<String>> hits = new ArrayList<>();
+
+        ArrayList<String> opponentShipsLocs = getOpponentShipLocations(gpOpponent(gamePlayer));
+        Set<Salvo> locs = gamePlayer.getSalvos();
+
+        for (Salvo salvo : locs) {
+
+            ArrayList<String> hit = new ArrayList<>();
+            List<String> salvoLoc = salvo.getSalvoLocation();
+
+            for (int j=0; j<opponentShipsLocs.size(); j++) {
+
+                for (int i = 0; i < salvoLoc.size(); i++) {
+
+                    if (opponentShipsLocs.get(j).equals(salvoLoc.get(i).substring(5))) {
+                        hit.add(salvoLoc.get(i).substring(5));
+                    }
+                }
+            }
+
+            hits.add(hit);
+        }
+
+        return hits;
+    }
+
+    public GamePlayer gpOpponent(GamePlayer gamePlayer){
+
+        GamePlayer gpOpponent = gamePlayer.getGame().getGamePlayers().stream()
+                                                                    .filter(gp -> gp.getId() != gamePlayer.getId())
+                                                                    .findFirst()
+                                                                    .orElse(null);
+        return gpOpponent;
+
+    }
+
+//    public Map<String, Object> gameView(Long gamePlayer_Id) {
+//
+//        GamePlayer listGamePlayers = repoGamePlayer.findOne(gamePlayer_Id);
+//
+//        Map<String, Object> eachGameView = new HashMap<>();
+//
+//        eachGameView.put("id", listGamePlayers.getGame().getId());
+//        eachGameView.put("creation", listGamePlayers.getGame().getCreationDate());
+//        eachGameView.put("gamePlayer", listGamePlayers.getGame().getGamePlayers().stream()
+//                .map(gamePlayer -> makeGamePlayerDTO(gamePlayer))
+//                .collect(Collectors.toList()));
+//        eachGameView.put("ships", listGamePlayers.getShips().stream()
+//                .map(ship -> makeShipDTO(ship))
+//                .collect(Collectors.toList())
+//        );
+//        eachGameView.put("salvoes", listGamePlayers.getGame().getGamePlayers().stream()
+//                .map(gp -> makeSalvoPlayerDTO(gp))
+//                .collect(Collectors.toList()));
+//
+//        return eachGameView;
+//
+//    }
+
 
     public Map<String, Object> makeShipDTO(Ship ship) {
         Map<String, Object> dto = new HashMap<>();
@@ -202,8 +359,9 @@ public class SalvoController {
     public Map<Long, Object> makeSalvoPlayerDTO(GamePlayer gamePlayer) {
         Map<Long, Object> dto = new HashMap<>();
 
-        dto.put(gamePlayer.getPlayer().getId(), gamePlayer.getSalvos().stream().map(salvo -> makeSalvoDTO(salvo)).collect(Collectors.toList()));
-
+        dto.put(gamePlayer.getPlayer().getId(), gamePlayer.getSalvos().stream()
+                                                                    .map(salvo -> makeSalvoDTO(salvo))
+                                                                    .collect(Collectors.toList()));
         return dto;
     }
 

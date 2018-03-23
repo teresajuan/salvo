@@ -8,6 +8,7 @@ $.getJSON(relatedUrl("gp"), function(json) {
     printShips(data);
     printSalvos(data);
     usersTitle(data);
+
 });
 
 //Función para crear salvos
@@ -67,13 +68,10 @@ function salvoClick(e) {
 
 }
 
-function removeItemFromArr ( arr, item ) {
-    var i = arr.indexOf( item );
-    arr.splice( i, 1 );
+function removeItemFromArr(arr, item) {
+    var i = arr.indexOf(item);
+    arr.splice(i, 1);
 }
-
-
-
 
 //Funcion para que el usuario cree barcos desde el frontend
 
@@ -86,9 +84,11 @@ function createShips(shipsCreated){
         data: JSON.stringify(shipsCreated),
         dataType: "JSON",
         contentType: "application/json"
+
     }).done(function(){
-        location.reload();
         alert("ships created SUCCESFULLY");
+        location.reload();
+
     }).fail(function(response){
         alert(response.responseJSON.error);
     })
@@ -567,10 +567,12 @@ function printSalvos (data) {
                 var valueTurn = turns[turnsNumber];
 
                 for (var k=0; k<valueTurn.length; k++) {
+
                     var valueTurnPosition = valueTurn[k];
 
                     $(".table2 td").each(function(){
                         var cellId = $(this).attr('id');
+
                         if(cellId === valueTurnPosition){
                             $(this).css('background-color', 'yellow');
                             $(this).html(turnsNumber);
@@ -608,7 +610,7 @@ function printShips (data) {
     for (var m = 0; m < data.gamePlayer.length, m<data.salvoes.length; m++) {
 
         var gpId = data.gamePlayer[m].id;
-        var idUser = data.gamePlayer[m].player.id;
+        // var idUser = data.gamePlayer[m].player.id;
         var gpIdUrl = getParameterByName('gp');
         var salvos = data.salvoes[m];
         var salvosPlayers = Object.keys(salvos);
@@ -631,8 +633,9 @@ function printShips (data) {
                     })
                         .each(function(){
                         var cellId = $(this).attr('id');
+                        var salvoId = valueTurnPosition.substring(5);
 
-                        if(cellId === valueTurnPosition) {
+                        if(cellId === salvoId) {
 
                             $(this).css('background-color', 'red');
                             $(this).html(turnsNumber);

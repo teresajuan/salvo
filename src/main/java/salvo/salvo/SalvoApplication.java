@@ -213,29 +213,29 @@ public class SalvoApplication {
 			//create salvoLocations
 
 			List<String> salvoLoc1 = new ArrayList<>();
-			salvoLoc1.add(0, "B5");
-			salvoLoc1.add(1, "C5");
-			salvoLoc1.add(2, "F1");
-			List<String> salvoLoc2 = new ArrayList<>(Arrays.asList("B4", "B5", "B6"));
-			List<String> salvoLoc3 = new ArrayList<>(Arrays.asList("F2", "D5"));
-			List<String> salvoLoc4 = new ArrayList<>(Arrays.asList("E1", "H3", "A2"));
-			List<String> salvoLoc5 = new ArrayList<>(Arrays.asList("A2", "A4", "G6"));
-			List<String> salvoLoc6 = new ArrayList<>(Arrays.asList("B5", "D5", "C7"));
-			List<String> salvoLoc7 = new ArrayList<>(Arrays.asList("A3", "H6"));
-			List<String> salvoLoc8 = new ArrayList<>(Arrays.asList("C5", "C6"));
-			List<String> salvoLoc9 = new ArrayList<>(Arrays.asList("G6", "H6", "A4"));
-			List<String> salvoLoc10 = new ArrayList<>(Arrays.asList("H1", "H2", "H3"));
-			List<String> salvoLoc11 = new ArrayList<>(Arrays.asList("A2", "A3", "D8"));
-			List<String> salvoLoc12 = new ArrayList<>(Arrays.asList("E1", "F2", "G3"));
-			List<String> salvoLoc13 = new ArrayList<>(Arrays.asList("A3", "A4", "F7"));
-			List<String> salvoLoc14 = new ArrayList<>(Arrays.asList("B5", "C6", "H1"));
-			List<String> salvoLoc15 = new ArrayList<>(Arrays.asList("A2", "G6", "H6"));
-			List<String> salvoLoc16 = new ArrayList<>(Arrays.asList("C5", "C7", "D5"));
-			List<String> salvoLoc17 = new ArrayList<>(Arrays.asList("A1", "A2", "A3"));
-			List<String> salvoLoc18 = new ArrayList<>(Arrays.asList("B5", "B6", "C7"));
-			List<String> salvoLoc19 = new ArrayList<>(Arrays.asList("G6", "G7", "G8"));
-			List<String> salvoLoc20 = new ArrayList<>(Arrays.asList("C6", "D6", "E6"));
-			List<String> salvoLoc21 = new ArrayList<>(Arrays.asList("H1", "H8"));
+			salvoLoc1.add(0, "salvoB5");
+			salvoLoc1.add(1, "salvoC5");
+			salvoLoc1.add(2, "salvoF1");
+			List<String> salvoLoc2 = new ArrayList<>(Arrays.asList("salvoB4", "salvoB5", "salvoB6"));
+			List<String> salvoLoc3 = new ArrayList<>(Arrays.asList("salvoF2", "salvoD5"));
+			List<String> salvoLoc4 = new ArrayList<>(Arrays.asList("salvoE1", "salvoH3", "salvoA2"));
+			List<String> salvoLoc5 = new ArrayList<>(Arrays.asList("salvoA2", "salvoA4", "salvoG6"));
+			List<String> salvoLoc6 = new ArrayList<>(Arrays.asList("salvoB5", "salvoD5", "salvoC7"));
+			List<String> salvoLoc7 = new ArrayList<>(Arrays.asList("salvoA3", "salvoH6"));
+			List<String> salvoLoc8 = new ArrayList<>(Arrays.asList("salvoC5", "salvoC6"));
+			List<String> salvoLoc9 = new ArrayList<>(Arrays.asList("salvoG6", "salvoH6", "salvoA4"));
+			List<String> salvoLoc10 = new ArrayList<>(Arrays.asList("salvoH1", "salvoH2", "salvoH3"));
+			List<String> salvoLoc11 = new ArrayList<>(Arrays.asList("salvoA2", "salvoA3", "salvoD8"));
+			List<String> salvoLoc12 = new ArrayList<>(Arrays.asList("salvoE1", "salvoF2", "salvoG3"));
+			List<String> salvoLoc13 = new ArrayList<>(Arrays.asList("salvoA3", "salvoA4", "salvoF7"));
+			List<String> salvoLoc14 = new ArrayList<>(Arrays.asList("salvoB5", "salvoC6", "salvoH1"));
+			List<String> salvoLoc15 = new ArrayList<>(Arrays.asList("salvoA2", "salvoG6", "salvoH6"));
+			List<String> salvoLoc16 = new ArrayList<>(Arrays.asList("salvoC5", "salvoC7", "salvoD5"));
+			List<String> salvoLoc17 = new ArrayList<>(Arrays.asList("salvoA1", "salvoA2", "salvoA3"));
+			List<String> salvoLoc18 = new ArrayList<>(Arrays.asList("salvoB5", "salvoB6", "salvoC7"));
+			List<String> salvoLoc19 = new ArrayList<>(Arrays.asList("salvoG6", "salvoG7", "salvoG8"));
+			List<String> salvoLoc20 = new ArrayList<>(Arrays.asList("salvoC6", "salvoD6", "salvoE6"));
+			List<String> salvoLoc21 = new ArrayList<>(Arrays.asList("salvoH1", "salvoH8"));
 
 			//create salvos and add to gameplayer
 

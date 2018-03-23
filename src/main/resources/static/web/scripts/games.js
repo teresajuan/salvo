@@ -22,7 +22,6 @@ $.getJSON("http://localhost:8080/api/games")
 
             }
         })
-
     });
 
 function createGamesList(data) {
@@ -302,10 +301,10 @@ function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
 
 function loginInterface(name){
     //Para mostrar y ocultar botones y demás contenidos
-    $('#logout').show();
+    $('#logout, #newGame').show();
     $('#login, #signin, #labelUsername, #username, #labelPassword, #password').hide();
 
-    var username = document.getElementById("username");
+    // var username = document.getElementById("username");
     var user = $("#currentUser").html("Welcome, " + JSON.stringify(name));
 
     user.css('display', 'inline-block');
@@ -338,7 +337,7 @@ function login(){
 //Funciónn para logoutarse
 
 function logoutInterface(){
-    $('#logout, #currentUser, [data-id]').hide();
+    $('#logout, #currentUser, [data-id], #newGame').hide();
     $('#login, #signin, #labelUsername, #username, #labelPassword, #password').show();
 }
 
