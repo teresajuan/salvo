@@ -189,7 +189,8 @@ public class SalvoController {
 
         if (listGamePlayers.getGame().getGamePlayers().size() == 2) {
 
-            eachGameView.put("pruebas", makeOpponentDTO(listGamePlayers));
+            eachGameView.put("hitsSink", makeOpponentDTO(listGamePlayers));
+            eachGameView.put("hitsSinkOnMe", makeOpponentDTO(gpOpponent(listGamePlayers)));
 
         }
 
@@ -198,6 +199,7 @@ public class SalvoController {
     }
 
     public Map<String, Object> makeOpponentDTO(GamePlayer gamePlayer) {
+
         Map<String, Object> dto = new HashMap<>();
 
         dto.put("id", gpOpponent(gamePlayer).getId());
@@ -209,15 +211,17 @@ public class SalvoController {
 
     public ArrayList<Map<String, Object>> makeHistorialDTO(GamePlayer gamePlayer) {
 
-        ArrayList<Map<String, Object>> historial = new ArrayList<>();
-
+        ArrayList<ArrayList<String>> hits = getHits(gamePlayer);
         Set<Ship> shipLocs = gpOpponent(gamePlayer).getShips();
+
+        ArrayList<Map<String, Object>> historial = new ArrayList<>();
 
         for (Ship ship : shipLocs) {
 
             Map<String, Object> dto = new HashMap<>();
 
-            dto.put(ship.getShipType(), countHitsByShip(ship, gamePlayer));
+            dto.put("ship", ship.getShipType());
+            dto.put("hitsCounted", countHitsByShip(ship, gamePlayer));
             dto.put("sunk", decideSunk(ship, gamePlayer));
 
             historial.add(dto);
@@ -236,7 +240,7 @@ public class SalvoController {
         for (int i=0; i<hits.size(); i++) {
 
             for (int j=0; j<hits.get(i).size(); j++) {
-                
+
                 allHits.add(hits.get(i).get(j));
             }
         }
@@ -260,11 +264,11 @@ public class SalvoController {
             for (int j=0; j<hits.get(i).size(); j++) {
                 allHits.add(hits.get(i).get(j));
             }
-        }
 
-        hitsCounted = shipLoc.stream()
+            hitsCounted = shipLoc.stream()
                                 .filter(s -> allHits.contains(s))
                                 .count();
+        }
 
         return hitsCounted;
     }

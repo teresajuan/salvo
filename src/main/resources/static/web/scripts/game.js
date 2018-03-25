@@ -8,6 +8,7 @@ $.getJSON(relatedUrl("gp"), function(json) {
     printShips(data);
     printSalvos(data);
     usersTitle(data);
+    createHitsTable(data);
 
 });
 
@@ -547,7 +548,7 @@ function printSalvoGrid(elementTHead, elementTBody){
 }
 //Función para printar los salvos del player
 
-function printSalvos (data) {
+function printSalvos(data) {
     for (var i = 0; i < data.gamePlayer.length, i<data.salvoes.length; i++) {
 
         var gpId = data.gamePlayer[i].id;
@@ -586,7 +587,7 @@ function printSalvos (data) {
 
 //función para printar los barcos y los salvo hits del oponente
 
-function printShips (data) {
+function printShips(data) {
     var ships = data.ships;
 
     for (var i = 0; i<ships.length; i++) {
@@ -671,6 +672,85 @@ function usersTitle(data) {
 
         $('#userOpponent').html("WAITING FOR OPPONENT ").css('color', 'red');
     }
+
+}
+
+function createHitsTable(data) {
+
+    var printHitsTable = document.getElementById('hitTBody3');
+
+    var hits = data.hitsSink.hits;
+    var myHits = data.hitsSink.historial;
+    var oppHits = data.hitsSinkOnMe.historial;
+
+    var row = document.createElement('tr');
+    var turnCell = document.createElement('td');
+    var myHitsCell = document.createElement('td');
+    var myLeftCell = document.createElement('td');
+    var oppHitsCell = document.createElement('td');
+    var oppLeftCell = document.createElement('td');
+
+    turnCell.append(hits.length);
+    row.appendChild(turnCell);
+
+    var noSunkNumber = [];
+
+    for (var j=0; j<myHits.length; j++) {
+
+        var myHitsAll = myHits[j];
+        var myHitsShipType = myHitsAll.ship;
+        var myHitsCounted = myHitsAll.hitsCounted;
+        var myHitsSunk = myHitsAll.sunk;
+
+        var space1 = document.createElement('br');
+        var space2 = document.createElement('br');
+
+        if (myHitsSunk === false) {
+
+            myHitsCell.append(myHitsShipType, space1, myHitsCounted, space2);
+            noSunkNumber.push(myHitsSunk);
+
+        } else {
+
+            myHitsCell.append(myHitsShipType, space1, "Sunk!!", space2);
+
+        }
+
+        row.appendChild(myHitsCell);
+    }
+
+    myLeftCell.append(noSunkNumber.length);
+    row.appendChild(myLeftCell);
+
+    var noOppSunkNumber = [];
+
+    for (var k=0; k<oppHits.length; k++) {
+
+        var oppHitsAll = oppHits[k];
+        var oppHitsShipType = oppHitsAll.ship;
+        var oppHitsCounted = oppHitsAll.hitsCounted
+        var oppHitsSunk = oppHitsAll.sunk;
+
+        var space3 = document.createElement('br');
+        var space4 = document.createElement('br');
+
+        if (oppHitsSunk === false) {
+
+            oppHitsCell.append(oppHitsShipType, space3, oppHitsCounted, space4);
+            noOppSunkNumber.push(oppHitsSunk);
+
+        } else {
+
+            oppHitsCell.append(oppHitsShipType, space3, "Sunk!!", space4);
+        }
+
+        row.appendChild(oppHitsCell);
+    }
+
+    oppLeftCell.append(noOppSunkNumber.length);
+    row.appendChild(oppLeftCell);
+
+    printHitsTable.appendChild(row);
 
 }
 
