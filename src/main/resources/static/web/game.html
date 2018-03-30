@@ -8,16 +8,20 @@
 </head>
 <body>
     <div id="container">
-        <h1>Your game info</h1>
-        <h2>
-            <p id="userPlayer"></p>
-            <p class="vs"> vs </p>
-            <p id="userOpponent"></p>
-        </h2>
 
-        <div class="table3">
-            <table id="hitsTable">
-                <thead id="hitTHead3">
+        <h1>Your game info</h1>
+        <div class="tables">
+            <h2>
+                <p id="userPlayer"></p>
+                <p class="vs"> vs </p>
+                <p id="userOpponent"></p>
+            </h2>
+
+            <div id="winLoose"></div>
+
+            <div class="table3">
+                <table id="hitsTable">
+                    <thead id="hitTHead3">
                     <tr>
                         <th rowspan="2">Turn</th>
                         <th colspan="2">Hits on OPPONENT</th>
@@ -29,38 +33,43 @@
                         <th>Hits</th>
                         <th>Left</th>
                     </tr>
-                </thead>
-                <tbody id="hitTBody3"></tbody>
-            </table>
+                    </thead>
+                    <tbody id="hitTBody3"></tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="tables">
-            <div class="table1">
-                <button id="createShips" type="button">Create Ships</button>
-                <h3>Ship locations</h3>
-                <table id="shipsTable">
-                    <thead id="shipTHead1"></thead>
-                    <tbody id="shipTBody1"></tbody>
-                </table>
-            </div>
+        <div id="game">
+            <div class="tables">
 
-            <div id="ships">
+                <div class="table1">
+                    <button id="createShips" type="button">Create Ships</button>
+                    <h3>Ship locations</h3>
+                    <table id="shipsTable">
+                        <thead id="shipTHead1"></thead>
+                        <tbody id="shipTBody1"></tbody>
+                    </table>
+                </div>
 
-                <div id="aircraft" class="aircraft" data-firstCell="" draggable="true"><header>AIRCRAFT</header></div>
-                <div id="battleship" class="battleship" data-firstCell="" draggable="true"><header>BATTLESHIP</header></div>
-                <div id="destroyer" class= "destroyer" data-firstCell="" draggable="true"><header>DESTROYER</header></div>
-                <div id="submarine" class="submarine" data-firstCell="" draggable="true"><header>SUBMARINE</header></div>
-                <div id="patrolboat" class="patrolboat" data-firstCell="" draggable="true"><header>PATROL BOAT</header></div>
+                <div id="ships">
 
-            </div>
+                    <div id="aircraft" class="aircraft" data-firstCell="" draggable="true"><header>AIRCRAFT</header></div>
+                    <div id="battleship" class="battleship" data-firstCell="" draggable="true"><header>BATTLESHIP</header></div>
+                    <div id="destroyer" class= "destroyer" data-firstCell="" draggable="true"><header>DESTROYER</header></div>
+                    <div id="submarine" class="submarine" data-firstCell="" draggable="true"><header>SUBMARINE</header></div>
+                    <div id="patrolboat" class="patrolboat" data-firstCell="" draggable="true"><header>PATROL BOAT</header></div>
 
-            <div class="table2">
-                <button id="createSalvo" type="button">Fired Salvo</button>
-                <h3 class="titleTable2">Salvo locations</h3>
-                <table id="salvosTable">
-                    <thead id="salvoTHead2"></thead>
-                    <tbody id="salvoTBody2"></tbody>
-                </table>
+                </div>
+
+                <div class="table2">
+                    <button id="createSalvo" type="button">Fired Salvo</button>
+                    <h3 class="titleTable2">Salvo locations</h3>
+                    <table id="salvosTable">
+                        <thead id="salvoTHead2"></thead>
+                        <tbody id="salvoTBody2"></tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>

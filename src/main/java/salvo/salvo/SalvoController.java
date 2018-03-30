@@ -165,10 +165,10 @@ public class SalvoController {
         if(playerLog.getUserName() != listGamePlayers.getPlayer().getUserName()) {
             return new ResponseEntity<>(makeMap("error", "this is not your game"), HttpStatus.UNAUTHORIZED);
         }
+
         return new ResponseEntity<>(gameView(gamePlayer_Id), HttpStatus.OK);
     }
 
-//    @RequestMapping(path="/api/game_view/{gamePlayer_Id}", method = RequestMethod.GET)
     public Map<String, Object> gameView(Long gamePlayer_Id) {
 
         GamePlayer listGamePlayers = repoGamePlayer.findOne(gamePlayer_Id);
@@ -186,6 +186,7 @@ public class SalvoController {
         eachGameView.put("salvoes", listGamePlayers.getGame().getGamePlayers().stream()
                 .map(gp -> makeSalvoPlayerDTO(gp))
                 .collect(Collectors.toList()));
+        eachGameView.put("state", stateDTO(listGamePlayers));
 
         if (listGamePlayers.getGame().getGamePlayers().size() == 2) {
 
@@ -195,7 +196,91 @@ public class SalvoController {
         }
 
         return eachGameView;
+    }
 
+    public String stateDTO (GamePlayer gamePlayer) {
+
+        Set<Ship> ships = gamePlayer.getShips();
+
+        if (ships.size() == 0) {
+            return "1-start";
+
+        } else if (gamePlayer.getGame().getGamePlayers().size() < 2){
+            return "2-waiting for opp";
+
+        } else if (gpOpponent(gamePlayer).getShips().size() == 0){
+            return "3-waiting opp place ships";
+
+        } else if (gamePlayer.getId() < gpOpponent(gamePlayer).getId() &&
+                   gpOpponent(gamePlayer).getShips().size() == 5 &&
+                   gamePlayer.getSalvos().size() == 0) {
+            return "4-you can start to add salvo";
+
+        } else if (gamePlayer.getSalvos().size() < gpOpponent(gamePlayer).getSalvos().size()) {
+
+            return "5-it is your turn to add salvo";
+
+        } else if (gamePlayer.getSalvos().size() > gpOpponent(gamePlayer).getSalvos().size()) {
+
+            return "6-waiting for opp add salvo";
+
+        } else if (gamePlayer.getSalvos().size() == gpOpponent(gamePlayer).getSalvos().size()) {
+
+            ArrayList<ArrayList<String>> hits = getHits(gamePlayer);
+
+            if (allHits(gamePlayer).size() < 17 &&
+                    allHits(gpOpponent(gamePlayer)).size() < 17 &&
+                    gamePlayer.getId() < gpOpponent(gamePlayer).getId()) {
+
+                return "5-it is your turn to add salvo";
+
+            }
+            if (allHits(gamePlayer).size() < 17 &&
+                    allHits(gpOpponent(gamePlayer)).size() < 17 &&
+                    gamePlayer.getId() > gpOpponent(gamePlayer).getId()) {
+
+                return "6-waiting for opp add salvo";
+
+            }
+            if (allHits(gamePlayer).size() == 17 &&
+                    allHits(gpOpponent(gamePlayer)).size() < 17) {
+                return "you win";
+
+            }
+            if (allHits(gamePlayer).size() < 17 &&
+                    allHits(gpOpponent(gamePlayer)).size() == 17) {
+                return "you lose";
+
+            }
+            if (allHits(gamePlayer).size() == 17 &&
+                    allHits(gpOpponent(gamePlayer)).size() == 17) {
+                return "you tie";
+
+            }
+            if (hits.size() == 10 &&
+                    (allHits(gamePlayer).size() < 17 ||
+                            allHits(gpOpponent(gamePlayer)).size() < 17)) {
+                return "you lose";
+            }
+
+        }
+            return "";
+    }
+
+    public ArrayList<String> allHits(GamePlayer gamePlayer) {
+        ArrayList<ArrayList<String>> hits = getHits(gamePlayer);
+
+        ArrayList<String> allHits = new ArrayList<>();
+
+        for (int i=0; i<hits.size(); i++) {
+
+            for (int j=0; j<hits.get(i).size(); j++) {
+
+                allHits.add(hits.get(i).get(j));
+            }
+        }
+
+        return allHits;
     }
 
     public Map<String, Object> makeOpponentDTO(GamePlayer gamePlayer) {
@@ -220,6 +305,7 @@ public class SalvoController {
 
             Map<String, Object> dto = new HashMap<>();
 
+            dto.put("turn", hits.size());
             dto.put("ship", ship.getShipType());
             dto.put("hitsCounted", countHitsByShip(ship, gamePlayer));
             dto.put("sunk", decideSunk(ship, gamePlayer));
@@ -232,22 +318,11 @@ public class SalvoController {
 
     public Boolean decideSunk(Ship ship, GamePlayer gamePlayer) {
 
-        ArrayList<ArrayList<String>> hits = getHits(gamePlayer);
         List<String> shipLoc = ship.getShipLoc();
-
-        ArrayList<String> allHits = new ArrayList<>();
-
-        for (int i=0; i<hits.size(); i++) {
-
-            for (int j=0; j<hits.get(i).size(); j++) {
-
-                allHits.add(hits.get(i).get(j));
-            }
-        }
 
         return
             shipLoc.stream()
-                    .allMatch(s -> allHits.contains(s));
+                    .allMatch(s -> allHits(gamePlayer).contains(s));
     }
 
     public Long countHitsByShip(Ship ship, GamePlayer gamePlayer) {

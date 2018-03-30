@@ -9,6 +9,7 @@ $.getJSON(relatedUrl("gp"), function(json) {
     printSalvos(data);
     usersTitle(data);
     createHitsTable(data);
+    winOrLose(data);
 
 });
 
@@ -48,30 +49,22 @@ $('#createSalvo').click(function() {
     }
 });
 
-var infoSalvo = {"salvoLocation": []};
-
 function salvoClick(e) {
 
     var idCell = e.target.getAttribute('id');
+    console.log(e.target);
 
-    if (e.target.getAttribute('data-salvo')) {
+    if (e.target.getAttribute('data-salvo') == "true") {
 
-        removeItemFromArr(infoSalvo.salvoLocation, idCell);
+        e.target.setAttribute('data-salvo', 'false');
         document.getElementById(idCell).style.backgroundColor = "";
 
     } else {
 
         e.target.setAttribute('data-salvo', 'true');
-        infoSalvo.salvoLocation.push(idCell);
-
         document.getElementById(idCell).style.backgroundColor = "red";
     }
 
-}
-
-function removeItemFromArr(arr, item) {
-    var i = arr.indexOf(item);
-    arr.splice(i, 1);
 }
 
 //Funcion para que el usuario cree barcos desde el frontend
@@ -574,13 +567,35 @@ function printSalvos(data) {
                     $(".table2 td").each(function(){
                         var cellId = $(this).attr('id');
 
-                        if(cellId === valueTurnPosition){
+                        if (cellId === valueTurnPosition){
                             $(this).css('background-color', 'yellow');
                             $(this).html(turnsNumber);
                         }
                     })
                 }
             }
+        }
+    }
+
+    var hits = data.hitsSink.hits;
+
+    for (var k=0; k<hits.length; k++) {
+
+        var hitsLoc = hits[k];
+
+        for (var l=0; l<hitsLoc.length; l++) {
+
+            var hitsLocPosition = hitsLoc[l];
+
+            $(".table2 td").each(function(){
+
+                var cellHitId = $(this).attr('id');
+
+                if (cellHitId === "salvo"+hitsLocPosition){
+                    $(this).css('background-color', 'red');
+                    $(this).html("hit");
+                }
+            })
         }
     }
 }
@@ -753,6 +768,48 @@ function createHitsTable(data) {
     printHitsTable.appendChild(row);
 
 }
+
+function winOrLose(data) {
+
+    var printMessage = document.getElementById('winLoose');
+    var state = data.state;
+
+    if (state == "you win") {
+
+        var winMessage = document.createElement('h2');
+
+        winMessage.textContent = 'GAME OVER: CONGRATULATIONS YOU WIN';
+        printMessage.appendChild(winMessage);
+        document.getElementById('game').setAttribute('class', 'gameOver');
+
+
+    } else if (state == "you lose"){
+
+        var looseMessage = document.createElement('h2');
+
+        looseMessage.textContent = 'GAME OVER: OOOHHHH!!!! YOU LOSE';
+        printMessage.appendChild(looseMessage);
+        document.getElementById('game').setAttribute('class', 'gameOver');
+
+    } else if (state == "you tie"){
+
+        var tieMessage = document.createElement('h2');
+
+        tieMessage.textContent = 'GAME OVER: YOU TIE';
+        printMessage.appendChild(tieMessage);
+        document.getElementById('game').setAttribute('class', 'gameOver');
+
+    } else {
+
+        var currentMessage = document.createElement('h2');
+
+        currentMessage.textContent = 'GAME IN COURSE';
+        printMessage.appendChild(currentMessage);
+    }
+}
+
+
+
 
 
 
