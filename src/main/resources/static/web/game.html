@@ -8,42 +8,28 @@
 </head>
 <body>
     <div id="container">
-
-        <h1>Your game info</h1>
-        <div class="tables">
-            <h2>
+        <h1 id="gameTitle">Your game:
+            <span id="users">
                 <p id="userPlayer"></p>
                 <p class="vs"> vs </p>
                 <p id="userOpponent"></p>
-            </h2>
+            </span>
+        </h1>
+        <div id="state"></div>
+        <div class="tables">
 
-            <div id="winLoose"></div>
+            <div id="winLoose" class="hide"></div>
 
-            <div class="table3">
-                <table id="hitsTable">
-                    <thead id="hitTHead3">
-                    <tr>
-                        <th rowspan="2">Turn</th>
-                        <th colspan="2">Hits on OPPONENT</th>
-                        <th colspan="2">Hits on YOU</th>
-                    </tr>
-                    <tr>
-                        <th>Hits</th>
-                        <th>Left</th>
-                        <th>Hits</th>
-                        <th>Left</th>
-                    </tr>
-                    </thead>
-                    <tbody id="hitTBody3"></tbody>
-                </table>
-            </div>
         </div>
 
         <div id="game">
-            <div class="tables">
 
+            <div class="tablesButtons">
+                <button id="createShips" class="show" type="button">Create Ships</button>
+                <button id="createSalvo" class="show" type="button">Fired Salvo</button>
+            </div>
+            <div class="tables">
                 <div class="table1">
-                    <button id="createShips" type="button">Create Ships</button>
                     <h3>Ship locations</h3>
                     <table id="shipsTable">
                         <thead id="shipTHead1"></thead>
@@ -51,25 +37,44 @@
                     </table>
                 </div>
 
-                <div id="ships">
+                <div id="shipsList" class="show">
+                    <div id="ships">
 
-                    <div id="aircraft" class="aircraft" data-firstCell="" draggable="true"><header>AIRCRAFT</header></div>
-                    <div id="battleship" class="battleship" data-firstCell="" draggable="true"><header>BATTLESHIP</header></div>
-                    <div id="destroyer" class= "destroyer" data-firstCell="" draggable="true"><header>DESTROYER</header></div>
-                    <div id="submarine" class="submarine" data-firstCell="" draggable="true"><header>SUBMARINE</header></div>
-                    <div id="patrolboat" class="patrolboat" data-firstCell="" draggable="true"><header>PATROL BOAT</header></div>
+                        <div id="aircraft" class="aircraft" data-firstCell="" draggable="true"><header>AIRCRAFT</header></div>
+                        <div id="battleship" class="battleship" data-firstCell="" draggable="true"><header>BATTLESHIP</header></div>
+                        <div id="destroyer" class= "destroyer" data-firstCell="" draggable="true"><header>DESTROYER</header></div>
+                        <div id="submarine" class="submarine" data-firstCell="" draggable="true"><header>SUBMARINE</header></div>
+                        <div id="patrolboat" class="patrolboat" data-firstCell="" draggable="true"><header>PATROL BOAT</header></div>
 
+                    </div>
                 </div>
-
                 <div class="table2">
-                    <button id="createSalvo" type="button">Fired Salvo</button>
-                    <h3 class="titleTable2">Salvo locations</h3>
-                    <table id="salvosTable">
-                        <thead id="salvoTHead2"></thead>
-                        <tbody id="salvoTBody2"></tbody>
+                    <div id="tableSalvo" class="hide">
+                        <h3 class="titleTable2">Salvo locations</h3>
+                        <table id="salvosTable">
+                            <thead id="salvoTHead2"></thead>
+                            <tbody id="salvoTBody2"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="table3">
+                    <table id="hitsTable" class="hide">
+                        <thead id="hitTHead3">
+                        <tr>
+                            <th rowspan="2">Turn</th>
+                            <th colspan="2">Hits on OPPONENT</th>
+                            <th colspan="2">Hits on YOU</th>
+                        </tr>
+                        <tr>
+                            <th>Hits</th>
+                            <th>Left</th>
+                            <th>Hits</th>
+                            <th>Left</th>
+                        </tr>
+                        </thead>
+                        <tbody id="hitTBody3"></tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>

@@ -1,6 +1,4 @@
 
-
-
 $.getJSON("http://localhost:8080/api/games")
     .done(function(json) {
         var data = json;
@@ -93,9 +91,13 @@ function createGamesTable(data) {
         var cell4 = document.createElement('td');
 
         var goToGame = document.createElement('a');
+        var flecha = document.createElement('img');
         var joinToGame = document.createElement('a');
 
-        goToGame.setAttribute('class', 'btn btn-primary');
+        goToGame.setAttribute('class', 'btn');
+        flecha.setAttribute('class', 'btn btnGo');
+        flecha.setAttribute('alt', 'flecha');
+        flecha.setAttribute('src', 'styles/images/Flecha-derecha2.png');
         joinToGame.setAttribute('class', 'btn btn-secondary eachGame');
         joinToGame.setAttribute('data-id', idEachGame);
 
@@ -114,13 +116,13 @@ function createGamesTable(data) {
             var userLogged = data.player.name;
 
             if (userLogged == player1) {
-                goToGame.append('Go to your game');
+                goToGame.append(flecha);
                 cell3.append(goToGame);
                 goToGame.setAttribute('href', '/web/game.html?gp=' + gpId1 + '');
 
 
             }else if(userLogged == player2) {
-                goToGame.append('Go to your game');
+                goToGame.append(flecha);
                 cell4.append(goToGame);
                 goToGame.setAttribute('href', '/web/game.html?gp=' + gpId2 + '');
 
@@ -130,13 +132,13 @@ function createGamesTable(data) {
         } else {
             var player1 = eachGame.gamePlayers[0].player.email;
             var gpId1 = eachGame.gamePlayers[0].id;
-            cell3.append(player1);
 
+            cell3.append(player1);
 
             var userLogged = data.player.name;
 
             if (userLogged == player1) {
-                goToGame.append('Go to your game');
+                goToGame.append(flecha);
                 cell3.append(goToGame);
                 goToGame.setAttribute('href', '/web/game.html?gp=' + gpId1 + '');
             } else {
@@ -301,10 +303,20 @@ function ordenMayorAMenor(arrayAOrdenar, paramToOrder, paramToOrder2){
 
 function loginInterface(name){
     //Para mostrar y ocultar botones y demás contenidos
-    $('#logout, #newGame').show();
-    $('#login, #signin, #labelUsername, #username, #labelPassword, #password').hide();
+    // $('#logout, #newGame').show();
+    // $('#login, #signin, #labelUsername, #username, #labelPassword, #password').hide();
 
-    // var username = document.getElementById("username");
+    document.getElementById('login').setAttribute('class', 'hide');
+    document.getElementById('signin').setAttribute('class', 'hide');
+    document.getElementById('signinMessage').setAttribute('class', 'hide');
+    document.getElementById('labelUsername').setAttribute('class', 'hide');
+    document.getElementById('username').setAttribute('class', 'hide');
+    document.getElementById('labelPassword').setAttribute('class', 'hide');
+    document.getElementById('password').setAttribute('class', 'hide');
+
+    document.getElementById('logout').setAttribute('class', 'show');
+    document.getElementById('newGame').setAttribute('class', 'show');
+
     var user = $("#currentUser").html("Welcome, " + JSON.stringify(name));
 
     user.css('display', 'inline-block');
@@ -334,11 +346,21 @@ function login(){
     })
 }
 
-//Funciónn para logoutarse
+//Función para logoutarse
 
 function logoutInterface(){
-    $('#logout, #currentUser, [data-id], #newGame').hide();
-    $('#login, #signin, #labelUsername, #username, #labelPassword, #password').show();
+
+    $('[data-id]').hide();
+    document.getElementById('logout').setAttribute('class', 'hide');
+    document.getElementById('currentUser').setAttribute('class', 'hide');
+    document.getElementById('newGame').setAttribute('class', 'hide');
+
+    document.getElementById('login').setAttribute('class', 'show');
+    document.getElementById('signin').setAttribute('class', 'show');
+    document.getElementById('labelUsername').setAttribute('class', 'show');
+    document.getElementById('username').setAttribute('class', 'show');
+    document.getElementById('labelPassword').setAttribute('class', 'show');
+    document.getElementById('password').setAttribute('class', 'show');
 }
 
 function logout(){

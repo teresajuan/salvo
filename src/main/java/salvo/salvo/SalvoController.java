@@ -23,6 +23,8 @@ public class SalvoController {
     private PlayerRepository repoPlayers;
     @Autowired
     private GamePlayerRepository repoGamePlayer;
+    @Autowired
+    private ScoreRepository repoScore;
 
 
     @RequestMapping(path="/api/games")
@@ -244,27 +246,77 @@ public class SalvoController {
             }
             if (allHits(gamePlayer).size() == 17 &&
                     allHits(gpOpponent(gamePlayer)).size() < 17) {
+
+                if (gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) {
+
+                    Date fd1 = new Date();
+                    Score winScore = new Score(1.0, fd1);
+
+                    addScore(winScore, gamePlayer);
+                }
+
                 return "you win";
 
             }
             if (allHits(gamePlayer).size() < 17 &&
                     allHits(gpOpponent(gamePlayer)).size() == 17) {
+
+                if (gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) {
+
+                    Date fd1 = new Date();
+                    Score loseScore = new Score(0.0, fd1);
+
+                    addScore(loseScore, gamePlayer);
+                }
+
                 return "you lose";
 
             }
             if (allHits(gamePlayer).size() == 17 &&
                     allHits(gpOpponent(gamePlayer)).size() == 17) {
+
+                if (gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) {
+
+                    Date fd1 = new Date();
+                    Score tieScore = new Score(0.0, fd1);
+
+                    addScore(tieScore, gamePlayer);
+                }
+
                 return "you tie";
 
             }
             if (hits.size() == 10 &&
                     (allHits(gamePlayer).size() < 17 ||
                             allHits(gpOpponent(gamePlayer)).size() < 17)) {
+
+                if (gamePlayer.getPlayer().getScore(gamePlayer.getGame()) == null) {
+
+                    Date fd1 = new Date();
+                    Score loseScore = new Score(0.0, fd1);
+
+                    addScore(loseScore, gamePlayer);
+                }
+
                 return "you lose";
             }
 
         }
-            return "";
+        return "";
+    }
+
+    public void addScore(Score score, GamePlayer gamePlayer) {
+
+        Player player = gamePlayer.getPlayer();
+        Game game = gamePlayer.getGame();
+
+        player.addScore(score);
+        game.addScores(score);
+
+        repoPlayers.save(player);
+        repoGames.save(game);
+        repoScore.save(score);
+
     }
 
     public ArrayList<String> allHits(GamePlayer gamePlayer) {
@@ -547,6 +599,14 @@ public class SalvoController {
 
         if (salvo.getSalvoLocation().size() > 5) {
             return new ResponseEntity<>(makeMap("error", "High number of shots"), HttpStatus.UNAUTHORIZED);
+        }
+
+        for (String salvoLoc : salvo.getSalvoLocation()) {
+
+            if (gpExists.getSalvos().contains(salvoLoc)) {
+                return new ResponseEntity<>(makeMap("error", "You already have a shot placed in this cell"), HttpStatus.UNAUTHORIZED);
+            }
+
         }
 
         int turn = gpExists.getSalvos().size();

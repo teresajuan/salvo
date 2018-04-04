@@ -3,6 +3,7 @@
 $.getJSON(relatedUrl("gp"), function(json) {
     var data = json;
     console.log(data);
+    document.getElementById('state').innerText = data.state;
     printShipsGrid("shipTHead1", "#shipTBody1");
     printSalvoGrid("salvoTHead2", "#salvoTBody2");
     printShips(data);
@@ -10,8 +11,76 @@ $.getJSON(relatedUrl("gp"), function(json) {
     usersTitle(data);
     createHitsTable(data);
     winOrLose(data);
-
+    startState(data);
+    waitOppState(data);
+    waitOppShipsState(data);
+    putFirstSalvoState(data);
+    salvoTurnState(data);
+    waitOppSalvoState(data);
 });
+
+function startState(data) {
+
+    if (data.state == '1-start') {
+        document.getElementById('state').innerText = 'You can place your ships';
+        document.getElementById('createSalvo').setAttribute('class', 'hide');
+    }
+}
+
+function waitOppState(data) {
+
+    if (data.state == '2-waiting for opp') {
+        document.getElementById('state').innerText = 'You must wait for an opponent';
+        document.getElementById('shipsList').setAttribute('class', 'hide');
+        document.getElementById('createShips').setAttribute('class', 'hide');
+        document.getElementById('createSalvo').setAttribute('class', 'hide');
+    }
+}
+
+function waitOppShipsState(data) {
+
+    if (data.state == '3-waiting opp place ships') {
+        document.getElementById('state').innerText = 'You must wait for opponent ships';
+        document.getElementById('shipsList').setAttribute('class', 'hide');
+        document.getElementById('createShips').setAttribute('class', 'hide');
+    }
+}
+
+function putFirstSalvoState(data) {
+
+    if (data.state == '4-you can start to add salvo') {
+        document.getElementById('state').innerText = 'You can start to add salvo';
+        document.getElementById('shipsList').setAttribute('class', 'hide');
+        document.getElementById('createShips').setAttribute('class', 'hide');
+        document.getElementById('tableSalvo').setAttribute('class', 'show');
+        document.getElementById('hitsTable').setAttribute('class', 'show');
+    }
+}
+
+function salvoTurnState(data) {
+
+    if (data.state == '5-it is your turn to add salvo') {
+        document.getElementById('state').innerText = 'You must wait to opponent salvo';
+        document.getElementById('shipsList').setAttribute('class', 'hide');
+        document.getElementById('createShips').setAttribute('class', 'hide');
+        document.getElementById('tableSalvo').setAttribute('class', 'show');
+        document.getElementById('hitsTable').setAttribute('class', 'show');
+    }
+}
+
+function waitOppSalvoState(data) {
+
+    if (data.state == '6-waiting for opp add salvo') {
+        document.getElementById('state').innerText = 'You must wait to opponent salvo';
+        document.getElementById('shipsList').setAttribute('class', 'hide');
+        document.getElementById('createShips').setAttribute('class', 'hide');
+        document.getElementById('createSalvo').setAttribute('class', 'hide');
+        document.getElementById('tableSalvo').setAttribute('class', 'show');
+        document.getElementById('hitsTable').setAttribute('class', 'show');
+    }
+}
+
+
 
 //Función para crear salvos
 
@@ -49,22 +118,29 @@ $('#createSalvo').click(function() {
     }
 });
 
+var infoSalvo = {"salvoLocation": []};
+
 function salvoClick(e) {
 
     var idCell = e.target.getAttribute('id');
-    console.log(e.target);
+    console.log(idCell);
 
     if (e.target.getAttribute('data-salvo') == "true") {
 
         e.target.setAttribute('data-salvo', 'false');
         document.getElementById(idCell).style.backgroundColor = "";
 
+    } else if (e.target.getAttribute('data-salvo2') == "created") {
+
+        alert('You already have a shot in this cell');
+
     } else {
 
         e.target.setAttribute('data-salvo', 'true');
         document.getElementById(idCell).style.backgroundColor = "red";
-    }
+        infoSalvo.salvoLocation.push(idCell);
 
+    }
 }
 
 //Funcion para que el usuario cree barcos desde el frontend
@@ -108,7 +184,6 @@ $('#createShips').click(function(){
         alert("There are ships out grid");
 
     } else {
-
         createShips(infoShips);
 
     }
@@ -569,6 +644,7 @@ function printSalvos(data) {
 
                         if (cellId === valueTurnPosition){
                             $(this).css('background-color', 'yellow');
+                            document.getElementById(cellId).setAttribute('data-salvo2', 'created');
                             $(this).html(turnsNumber);
                         }
                     })
@@ -577,25 +653,28 @@ function printSalvos(data) {
         }
     }
 
-    var hits = data.hitsSink.hits;
+    if (data.gamePlayer.length === 2) {
 
-    for (var k=0; k<hits.length; k++) {
+        var hits = data.hitsSink.hits;
 
-        var hitsLoc = hits[k];
+        for (var k=0; k<hits.length; k++) {
 
-        for (var l=0; l<hitsLoc.length; l++) {
+            var hitsLoc = hits[k];
 
-            var hitsLocPosition = hitsLoc[l];
+            for (var l=0; l<hitsLoc.length; l++) {
 
-            $(".table2 td").each(function(){
+                var hitsLocPosition = hitsLoc[l];
 
-                var cellHitId = $(this).attr('id');
+                $(".table2 td").each(function(){
 
-                if (cellHitId === "salvo"+hitsLocPosition){
-                    $(this).css('background-color', 'red');
-                    $(this).html("hit");
-                }
-            })
+                    var cellHitId = $(this).attr('id');
+
+                    if (cellHitId === "salvo"+hitsLocPosition){
+                        $(this).css('background-color', 'red');
+                        $(this).html("hit");
+                    }
+                })
+            }
         }
     }
 }
@@ -685,88 +764,91 @@ function usersTitle(data) {
 
     if (data.gamePlayer.length === 1) {
 
-        $('#userOpponent').html("WAITING FOR OPPONENT ").css('color', 'red');
+        $('#userPlayer').html(emailUser);
+        $('#userOpponent').html("WAITING FOR OPPONENT!!").css('color', 'red');
     }
 
 }
 
 function createHitsTable(data) {
 
-    var printHitsTable = document.getElementById('hitTBody3');
+    if (data.gamePlayer.length === 2) {
 
-    var hits = data.hitsSink.hits;
-    var myHits = data.hitsSink.historial;
-    var oppHits = data.hitsSinkOnMe.historial;
+        var printHitsTable = document.getElementById('hitTBody3');
 
-    var row = document.createElement('tr');
-    var turnCell = document.createElement('td');
-    var myHitsCell = document.createElement('td');
-    var myLeftCell = document.createElement('td');
-    var oppHitsCell = document.createElement('td');
-    var oppLeftCell = document.createElement('td');
+        var hits = data.hitsSink.hits;
+        var myHits = data.hitsSink.historial;
+        var oppHits = data.hitsSinkOnMe.historial;
 
-    turnCell.append(hits.length);
-    row.appendChild(turnCell);
+        var row = document.createElement('tr');
+        var turnCell = document.createElement('td');
+        var myHitsCell = document.createElement('td');
+        var myLeftCell = document.createElement('td');
+        var oppHitsCell = document.createElement('td');
+        var oppLeftCell = document.createElement('td');
 
-    var noSunkNumber = [];
+        turnCell.append(hits.length);
+        row.appendChild(turnCell);
 
-    for (var j=0; j<myHits.length; j++) {
+        var noSunkNumber = [];
 
-        var myHitsAll = myHits[j];
-        var myHitsShipType = myHitsAll.ship;
-        var myHitsCounted = myHitsAll.hitsCounted;
-        var myHitsSunk = myHitsAll.sunk;
+        for (var j=0; j<myHits.length; j++) {
 
-        var space1 = document.createElement('br');
-        var space2 = document.createElement('br');
+            var myHitsAll = myHits[j];
+            var myHitsShipType = myHitsAll.ship;
+            var myHitsCounted = myHitsAll.hitsCounted;
+            var myHitsSunk = myHitsAll.sunk;
 
-        if (myHitsSunk === false) {
+            var space1 = document.createElement('br');
+            var space2 = document.createElement('br');
 
-            myHitsCell.append(myHitsShipType, space1, myHitsCounted, space2);
-            noSunkNumber.push(myHitsSunk);
+            if (myHitsSunk === false) {
 
-        } else {
+                myHitsCell.append(myHitsShipType, space1, myHitsCounted, space2);
+                noSunkNumber.push(myHitsSunk);
 
-            myHitsCell.append(myHitsShipType, space1, "Sunk!!", space2);
+            } else {
 
+                myHitsCell.append(myHitsShipType, space1, "Sunk!!", space2);
+
+            }
+
+            row.appendChild(myHitsCell);
         }
 
-        row.appendChild(myHitsCell);
-    }
+        myLeftCell.append(noSunkNumber.length);
+        row.appendChild(myLeftCell);
 
-    myLeftCell.append(noSunkNumber.length);
-    row.appendChild(myLeftCell);
+        var noOppSunkNumber = [];
 
-    var noOppSunkNumber = [];
+        for (var k=0; k<oppHits.length; k++) {
 
-    for (var k=0; k<oppHits.length; k++) {
+            var oppHitsAll = oppHits[k];
+            var oppHitsShipType = oppHitsAll.ship;
+            var oppHitsCounted = oppHitsAll.hitsCounted
+            var oppHitsSunk = oppHitsAll.sunk;
 
-        var oppHitsAll = oppHits[k];
-        var oppHitsShipType = oppHitsAll.ship;
-        var oppHitsCounted = oppHitsAll.hitsCounted
-        var oppHitsSunk = oppHitsAll.sunk;
+            var space3 = document.createElement('br');
+            var space4 = document.createElement('br');
 
-        var space3 = document.createElement('br');
-        var space4 = document.createElement('br');
+            if (oppHitsSunk === false) {
 
-        if (oppHitsSunk === false) {
+                oppHitsCell.append(oppHitsShipType, space3, oppHitsCounted, space4);
+                noOppSunkNumber.push(oppHitsSunk);
 
-            oppHitsCell.append(oppHitsShipType, space3, oppHitsCounted, space4);
-            noOppSunkNumber.push(oppHitsSunk);
+            } else {
 
-        } else {
+                oppHitsCell.append(oppHitsShipType, space3, "Sunk!!", space4);
+            }
 
-            oppHitsCell.append(oppHitsShipType, space3, "Sunk!!", space4);
+            row.appendChild(oppHitsCell);
         }
 
-        row.appendChild(oppHitsCell);
+        oppLeftCell.append(noOppSunkNumber.length);
+        row.appendChild(oppLeftCell);
+
+        printHitsTable.appendChild(row);
     }
-
-    oppLeftCell.append(noOppSunkNumber.length);
-    row.appendChild(oppLeftCell);
-
-    printHitsTable.appendChild(row);
-
 }
 
 function winOrLose(data) {
@@ -774,34 +856,53 @@ function winOrLose(data) {
     var printMessage = document.getElementById('winLoose');
     var state = data.state;
 
+    document.getElementById('state').innerText= '';
+
     if (state == "you win") {
 
         var winMessage = document.createElement('h2');
 
+        winMessage.setAttribute('class', 'winLose');
+
+        document.getElementById('winLoose').setAttribute('class', 'show');
+
         winMessage.textContent = 'GAME OVER: CONGRATULATIONS YOU WIN';
         printMessage.appendChild(winMessage);
         document.getElementById('game').setAttribute('class', 'gameOver');
+        document.getElementById('hitsTable').setAttribute('class', 'show');
 
 
     } else if (state == "you lose"){
 
         var looseMessage = document.createElement('h2');
 
+        looseMessage.setAttribute('class', 'winLose');
+
+        document.getElementById('winLoose').setAttribute('class', 'show');
+
         looseMessage.textContent = 'GAME OVER: OOOHHHH!!!! YOU LOSE';
         printMessage.appendChild(looseMessage);
         document.getElementById('game').setAttribute('class', 'gameOver');
+        document.getElementById('hitsTable').setAttribute('class', 'show');
 
     } else if (state == "you tie"){
 
         var tieMessage = document.createElement('h2');
 
+        tieMessage.setAttribute('class', 'winLose');
+
+        document.getElementById('winLoose').setAttribute('class', 'show');
+
         tieMessage.textContent = 'GAME OVER: YOU TIE';
         printMessage.appendChild(tieMessage);
         document.getElementById('game').setAttribute('class', 'gameOver');
+        document.getElementById('hitsTable').setAttribute('class', 'show');
 
     } else {
 
         var currentMessage = document.createElement('h2');
+
+        currentMessage.setAttribute('class', 'winLose');
 
         currentMessage.textContent = 'GAME IN COURSE';
         printMessage.appendChild(currentMessage);

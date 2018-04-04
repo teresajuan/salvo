@@ -11,48 +11,55 @@
 
 </head>
 <body>
+    <div id="containerGames">
+        <h1>Battleship Game</h1>
+        <div id="register">
+            <p id="currentUser" class="show"></p>
+            <label id="labelUsername" class="show">Name: <input id="username" class="show" type="email" name="username" placeholder="username@domain.com"></label>
+            <label id="labelPassword" class="show">Password: <input id="password" class="show" type="password" name="password"></label>
+            <button id="login" class="show" type="button">Log in</button>
+            <button id="newGame" class="hide" type="button">Create New Game</button>
+            <button id="logout" class="hide" type="button">Log out</button>
+            <div id="signinMessage">
+                <p>To play is needed to be registered. </p>
+                <p>Please, register NOW!!</p>
+                <button id="signin" class="show" type="button">Sign in</button>
+            </div>
+        </div>
 
-    <div>
-        <p id="currentUser"></p>
-        <label id="labelUsername">Name: <input id="username" type="email" name="username" placeholder="username@domain.com"></label>
-        <label id="labelPassword">Password: <input id="password" type="password" name="password"></label>
-        <button id="login" type="button">Log in</button>
-        <button id="logout" type="button">Log out</button>
-        <button id="signin" type="button">Sign in</button>
-        <button id="newGame" type="button">Create New Game</button>
+        <div id="tablesHome">
+            <div class="tablesHome2">
+                <h2>Leaderboard</h2>
+                <table id="leaderBoard">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Total</th>
+                            <th>Won</th>
+                            <th>Lost</th>
+                            <th>Tied</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableLeader"></tbody>
+                </table>
+            </div>
+            <div class="tablesHome2">
+                <h2>Games</h2>
+                <table id="tableGames">
+                    <thead>
+                    <tr>
+                        <th>Game</th>
+                        <th>Created Date</th>
+                        <th>Player1</th>
+                        <th>Player2</th>
+                    </tr>
+                    </thead>
+                    <tbody id="bodyTableGames"></tbody>
+                </table>
+            </div>
+        </div>
 
     </div>
-
-    <h1>Leaderboard</h1>
-
-    <table id="leaderBoard">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Total</th>
-                <th>Won</th>
-                <th>Lost</th>
-                <th>Tied</th>
-            </tr>
-        </thead>
-        <tbody id="tableLeader"></tbody>
-    </table>
-
-    <h1>Games</h1>
-    <table id="tableGames">
-        <thead>
-        <tr>
-            <th>Game</th>
-            <th>Created Date</th>
-            <th>Player1</th>
-            <th>Player2</th>
-        </tr>
-        </thead>
-        <tbody id="bodyTableGames"></tbody>
-    </table>
-
-    <ol id="gamesList">
-    </ol>
 
 
 
