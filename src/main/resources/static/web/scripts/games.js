@@ -110,8 +110,15 @@ function createGamesTable(data) {
             var gpId1 = eachGame.gamePlayers[0].id;
             var gpId2 = eachGame.gamePlayers[1].id;
 
-            cell3.append(player1);
-            cell4.append(player2);
+            if (gpId1 < gpId2) {
+
+                cell3.append(player1);
+                cell4.append(player2);
+
+            } else {
+                cell3.append(player2);
+                cell4.append(player1);
+            }
 
             var userLogged = data.player.name;
 
@@ -120,7 +127,6 @@ function createGamesTable(data) {
                 cell3.append(goToGame);
                 goToGame.setAttribute('href', '/web/game.html?gp=' + gpId1 + '');
 
-
             }else if(userLogged == player2) {
                 goToGame.append(flecha);
                 cell4.append(goToGame);
@@ -128,8 +134,8 @@ function createGamesTable(data) {
 
             }
 
-
         } else {
+
             var player1 = eachGame.gamePlayers[0].player.email;
             var gpId1 = eachGame.gamePlayers[0].id;
 
@@ -159,6 +165,7 @@ function createGamesTable(data) {
 // Crear la tabla leaderboard
 
 function createTableLeaderBoard(data) {
+
     var printTableLeader = document.getElementById('tableLeader');
 
     var tableData = ordenMayorAMenor(playersScoreInfo(data), "totalScore", "lost");

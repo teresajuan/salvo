@@ -19,9 +19,17 @@ $.getJSON(relatedUrl("gp"), function(json) {
     waitOppSalvoState(data);
 });
 
+function reloadContent(OldStatus) {
+    $.getJSON(relatedUrl("gp"), function (data) {
+        if (OldStatus != data.state){
+            window.location.reload();
+        }
+    });
+}
+
 function startState(data) {
 
-    if (data.state == '1-start') {
+    if (data.state === '1-start') {
         document.getElementById('state').innerText = 'You can place your ships';
         document.getElementById('createSalvo').setAttribute('class', 'hide');
     }
@@ -29,26 +37,33 @@ function startState(data) {
 
 function waitOppState(data) {
 
-    if (data.state == '2-waiting for opp') {
+    if (data.state === '2-waiting for opp') {
         document.getElementById('state').innerText = 'You must wait for an opponent';
         document.getElementById('shipsList').setAttribute('class', 'hide');
         document.getElementById('createShips').setAttribute('class', 'hide');
         document.getElementById('createSalvo').setAttribute('class', 'hide');
+        setInterval(function () {
+            reloadContent("2-waiting for opp");
+        }, 7500);
     }
 }
 
 function waitOppShipsState(data) {
 
-    if (data.state == '3-waiting opp place ships') {
+    if (data.state === '3-waiting opp place ships') {
         document.getElementById('state').innerText = 'You must wait for opponent ships';
         document.getElementById('shipsList').setAttribute('class', 'hide');
         document.getElementById('createShips').setAttribute('class', 'hide');
+        document.getElementById('createSalvo').setAttribute('class', 'hide');
+        setInterval(function () {
+            reloadContent("3-waiting opp place ships");
+        }, 7500);
     }
 }
 
 function putFirstSalvoState(data) {
 
-    if (data.state == '4-you can start to add salvo') {
+    if (data.state === '4-you can start to add salvo') {
         document.getElementById('state').innerText = 'You can start to add salvo';
         document.getElementById('shipsList').setAttribute('class', 'hide');
         document.getElementById('createShips').setAttribute('class', 'hide');
@@ -59,24 +74,30 @@ function putFirstSalvoState(data) {
 
 function salvoTurnState(data) {
 
-    if (data.state == '5-it is your turn to add salvo') {
-        document.getElementById('state').innerText = 'You must wait to opponent salvo';
+    if (data.state === '5-it is your turn to add salvo') {
+        document.getElementById('state').innerText = 'It is your turn to add salvo';
         document.getElementById('shipsList').setAttribute('class', 'hide');
         document.getElementById('createShips').setAttribute('class', 'hide');
         document.getElementById('tableSalvo').setAttribute('class', 'show');
         document.getElementById('hitsTable').setAttribute('class', 'show');
+        setInterval(function () {
+            reloadContent("5-it is your turn to add salvo");
+        }, 7500);
     }
 }
 
 function waitOppSalvoState(data) {
 
-    if (data.state == '6-waiting for opp add salvo') {
+    if (data.state === '6-waiting for opp add salvo') {
         document.getElementById('state').innerText = 'You must wait to opponent salvo';
         document.getElementById('shipsList').setAttribute('class', 'hide');
         document.getElementById('createShips').setAttribute('class', 'hide');
         document.getElementById('createSalvo').setAttribute('class', 'hide');
         document.getElementById('tableSalvo').setAttribute('class', 'show');
         document.getElementById('hitsTable').setAttribute('class', 'show');
+        setInterval(function () {
+            reloadContent("6-waiting for opp add salvo");
+        }, 7500);
     }
 }
 
@@ -125,12 +146,15 @@ function salvoClick(e) {
     var idCell = e.target.getAttribute('id');
     console.log(idCell);
 
-    if (e.target.getAttribute('data-salvo') == "true") {
+    if (e.target.getAttribute('data-salvo') === "true") {
 
         e.target.setAttribute('data-salvo', 'false');
         document.getElementById(idCell).style.backgroundColor = "";
+        infoSalvo.salvoLocation.pop();
 
-    } else if (e.target.getAttribute('data-salvo2') == "created") {
+        console.log(infoSalvo);
+
+    } else if (e.target.getAttribute('data-salvo2') === "created") {
 
         alert('You already have a shot in this cell');
 
@@ -250,9 +274,20 @@ function drop(e) {
 
     dataStyle.position = "absolute";
     dataStyle.backgroundColor = 'lightgreen';
-    dataStyle.left = posXHorizontal + "px";
+    // dataStyle.left = posXHorizontal + 25 + "px";
     dataStyle.top = posYHorizontal - 50 + "px";
     e.target.style.border = '';
+
+    if (e.target === 'aircraft') {
+        dataStyle.left = posXHorizontal + 15 + "px";
+    } else if (e.target === 'battleship') {
+        dataStyle.left = posXHorizontal + 10 + "px";
+    } else if (e.target === 'destroyer' ||
+        e.target === 'submarine') {
+        dataStyle.left = posXHorizontal + 5 + "px";
+    } else if (e.target === 'patrolboat') {
+        dataStyle.left = posXHorizontal + "px";
+    }
 
     document.getElementById(data).setAttribute('data-firstCell', e.target.id);
 

@@ -142,7 +142,7 @@ p {
 
 .tablesButtons {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     width: 72%;
 }
 
@@ -268,8 +268,8 @@ h3 {
 }
 
 #ships {
-    margin-left: 25px;
-    margin-top: 55px;
+    /*margin-left: 25px;*/
+    /*margin-top: 55px;*/
     display: flex;
     flex-direction: column;
 }
@@ -326,6 +326,14 @@ h3 {
     width: 100px;
     height: 40px;
     font-weight: bold;
+}
+
+#createShips {
+    margin-right: 65px;
+}
+
+#createSalvo {
+    margin-left: 1050px;
 }
 
 #createShips:hover, #createSalvo:hover {
